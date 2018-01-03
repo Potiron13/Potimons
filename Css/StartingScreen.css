@@ -1,0 +1,10 @@
+.container-table {
+    margin-top: 300px;
+    display: table;
+    color: rgb(0,0,0);
+    font-size: 30px;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
+}

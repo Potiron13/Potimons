@@ -1,0 +1,107 @@
+body {
+    margin:0;
+    padding:0;
+    background: url(../Images/plaine.png) no-repeat center fixed;
+    background-size: cover;
+    z-index: -1;
+}
+
+#topRow {
+    font-family: "Times New Roman", Times, serif;
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+#bottomRow {
+    font-family: "Times New Roman", Times, serif;
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.hp {
+    margin-top: 200 px;
+}
+
+.Potiron {
+    background: url(../Images/CombatPotironStandar.png) no-repeat center fixed;
+    height: 400px;
+    background-position: left;
+}
+
+.Momo {
+    background: url(../Images/CombatMomoStandar.png) no-repeat center fixed;
+    height: 400px;
+    background-position: center;
+}
+
+.colonneIdle {
+    animation:idle;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.ratIdle {
+    height: 400px;
+    background-position: center;
+    z-index: 1;
+}
+
+.coupEnnemiRat {
+    height: 400px;
+    background-position: center;
+    z-index: 1;
+    animation:coup 0.5s linear infinite;
+}
+
+.selector {
+    background: url(../Images/Selector.png) no-repeat;
+    background-size: contain;
+    height: 40px;
+    background-position: center;
+}
+
+.griffe {
+    animation:griffe 0.5s linear infinite;
+}
+
+.PotironCasting {
+    background: url(../Images/CombatPotironCasting.png) no-repeat center fixed;
+    height: 400px;
+    background-position: left;
+    animation:casting 0.5s linear infinite;
+}
+
+.MomoCasting {
+    background: url(../Images/CombatMomoCasting.png) no-repeat center fixed;
+    height: 400px;
+    background-position: center;
+    animation:casting 0.5s linear infinite;
+}
+
+
+@keyframes idle {
+    50% { -webkit-transform: rotateZ(10deg); transform:rotateZ(10deg); }
+    50% { -webkit-transform: rotateZ(-10deg); transform:rotateZ(-10deg); }
+}
+
+@keyframes comete {
+    0%  { -webkit-transform: translate(10px); }
+   100% { -webkit-transform: translate(1000px, 200px);}
+}
+
+@keyframes fireBall {
+    0%  { -webkit-transform: translate(10px, 200px); }
+   100% { -webkit-transform: translate(1000px, 200px);}
+}
+@keyframes griffe {
+    100% { -webkit-transform: rotate(45deg); transform:rotate(45deg); }
+}
+
+@keyframes coup {
+    100% { -webkit-transform: rotate(-45deg); transform:rotate(-45deg); }
+}
+
+@keyframes casting {
+    50% { -webkit-transform: rotateZ(10deg); transform:rotateZ(10deg); }
+    50% { -webkit-transform: rotateZ(-10deg); transform:rotateZ(-10deg); }
+}
