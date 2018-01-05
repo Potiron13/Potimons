@@ -94,6 +94,23 @@
     min-height: 50px;
 }
 
+#rowReserveFusion {
+    min-height: 50px;
+}
+
+#rowFusion {
+    min-height: 50px;
+}
+
 #rowEquipeActuel {
     min-height: 50px;
+}
+
+.clearMargin {
+    margin: 0px;
+
+}
+
+.clearPadding {
+    padding: 0px;
 }

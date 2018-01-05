@@ -20,6 +20,34 @@ function displayButtons (label, btnClass, functionOnClick, parent){
     return $('#'+elementButton.id);
 }
 
+function displayProgressBar(currentValue, valueMax, colClass, parent) {
+    var hpPourcentage = Math.round((currentValue/valueMax)*100);
+    var container = document.createElement('div');
+    var colorClass;
+    if (hpPourcentage == 100) {
+        colorClass = 'progress-bar-success';
+    }else if ( 66 < hpPourcentage < 100) {
+        colorClass = 'progress-bar-info'
+    }else if (33 < hpPourcentage < 66) {
+        colorClass = 'progress-bar-warning'
+    }else if (hpPourcentage < 33) {
+        colorClass = 'progress-bar-danger'
+    }
+    container.className = 'progress ' + 'col-sm-4' + ' clearPadding';
+    parent.append(container);
+    var progressBar = document.createElement('div');
+    progressBar.className = 'progress-bar ' + colorClass + ' clearMargin';
+    progressBar.setAttribute('role', 'progressbar');
+    progressBar.setAttribute('aria-valuenow', hpPourcentage);
+    progressBar.setAttribute('aria-valuemin', 0);
+    progressBar.setAttribute('aria-valuemax', 100);
+    progressBar.setAttribute('style', 'width:' + hpPourcentage + '%');
+    progressBar.setAttribute('style', 'width:' + hpPourcentage + '%');
+    progressBar.setAttribute('style', 'width:' + hpPourcentage + '%');
+    progressBar.innerHTML = currentValue + '/' + valueMax;
+    container.append(progressBar);
+}
+
 function createModal(id, titre) {
     var modalMenu = displayElementOnParent('div', id, "modal fade", "", $('body'));
     modalMenu.attr('role', 'dialog');
@@ -65,18 +93,18 @@ function displayMenuViewModels(idModal, viewModels, parent, colClass) {
     $.each(viewModels, function(index) {
         var rowLabel = displayElementOnParent('div', 'Label' + viewModels[index].id + idModal, 'row', '', parent);
         var rowValue = displayElementOnParent('div', 'Value' + viewModels[index].id + idModal , 'row', '', parent);
-        $.each(viewModels[index], function(label, value) {
-            if (label != 'id') {
-                if (index == 0) {
-                    displayElementOnParent('div', label + 'Label', colClass, label, rowLabel);
-                }
-                displayElementOnParent('div', label + 'Value', colClass, value, rowValue);
+            if (index == 0) {
+                displayElementOnParent('div', 'nom' + 'Label', colClass, 'Nom', rowLabel);
+                displayElementOnParent('div', 'niveau' + 'Label', colClass, 'Niveau', rowLabel);
+                displayElementOnParent('div', 'hp' + 'Label', colClass, 'Hp', rowLabel);
             }
-        });
-        displayButtons ('Competences', 'BUTTON', function () {displaySkills(viewModels[index].id)}, rowValue)
-        displayButtons ('Equipement', 'BUTTON', function () {displayEquipement(viewModels[index].id)}, rowValue)
+        displayElementOnParent('div', 'nom' + 'Value', colClass, viewModels[index].Nom, rowValue);
+        displayElementOnParent('div', 'niveau' + 'Value', colClass, viewModels[index].Niveau, rowValue);
+        displayProgressBar(viewModels[index].CurrentHp, viewModels[index].Hp, colClass, rowValue);
+        displayButtons ('Competences', 'BUTTON', function () {displaySkills(viewModels[index].id)}, rowValue);
     });
     displayButtons ('Reserve', 'BUTTON', function () {displayReserve()}, parent)
+    displayButtons ('Fusion', 'BUTTON', function () {displayFusion()}, parent)
 }
 
 function displaySkillsViewModels(idModal, viewModels, parent, colClass) {
@@ -102,34 +130,84 @@ function displayEquipementViewModels(idModal, viewModels, parent, colClass) {
     });
 }
 
+function displayFusionResultMonstersViewModels(idModal, viewModel, parent) {
+    var rowLabel = displayElementOnParent('div', 'Label' + viewModel.id + idModal, 'row', '', parent);
+    var rowValue = displayElementOnParent('div', 'Value' + viewModel.id + idModal , 'row', '', parent);
+    $.each(viewModel, function(label, value) {
+        if (label != 'src') {
+            displayElementOnParent('div', label + 'Label', 'col-sm-2', label, rowLabel);
+            displayElementOnParent('div', label + 'Value', 'col-sm-2', value, rowValue);
+        }else {
+            var colImg = displayElementOnParent('div', label + 'Value', 'col-sm-2', '', rowValue);
+            var playerImg = document.createElement('img');
+            playerImg.src = value;
+            colImg.append(playerImg);
+        }
+    });
+}
+
+function displayEvolutionViewModels(idModal, viewModel, parent) {
+    var rowLabel = displayElementOnParent('div', 'Label' + viewModel.id + idModal, 'row', '', parent);
+    var rowValue = displayElementOnParent('div', 'Value' + viewModel.id + idModal , 'row', '', parent);
+    $.each(viewModel, function(label, value) {
+        if (label != 'src') {
+            displayElementOnParent('div', label + 'Label', 'col-sm-2', label, rowLabel);
+            displayElementOnParent('div', label + 'Value', 'col-sm-2', value, rowValue);
+        }else {
+            var colImg = displayElementOnParent('div', label + 'Value', 'col-sm-2', '', rowValue);
+            var playerImg = document.createElement('img');
+            playerImg.src = value;
+            colImg.append(playerImg);
+        }
+    });
+}
+
 function displayReserveViewModels(idModal, viewModelsEquipe, viewModelsReserve, parent) {
     var equipeRow = displayElementOnParent('div', 'rowEquipeActuel', 'row', '', parent);
     equipeRow.attr('listdata', 'Equipe');
-    equipeRow.attr('ondrop', 'drop(event, this)');
-    equipeRow.attr('ondragover', 'allowDrop(event, this)');
-    var equipeTitleRow = displayElementOnParent('div', 'rowEquipeTitreActuel', 'row', 'Equipe Actuel', parent);
+    equipeRow.attr('ondrop', 'dropReserve(event, this)');
+    equipeRow.attr('ondragover', 'allowDropReserve(event, this)');
+    var equipeTitleRow = displayElementOnParent('div', 'rowTitreEquipeActuel', 'row', 'Equipe Actuel', parent);
     var separationRow = displayElementOnParent('div', 'rowReserveSeparation', 'row seperation', '', parent);
     var reserveRow = displayElementOnParent('div', 'rowReserve', 'row', '', parent);
     reserveRow.attr('listdata', 'Reserve');
-    reserveRow.attr('ondrop', 'drop(event, this)');
-    reserveRow.attr('ondragover', 'allowDrop(event, this)');
-    var reserveTitleRow = displayElementOnParent('div', 'rowReserveTitreActuel', 'row', 'Reserve', parent);
+    reserveRow.attr('ondrop', 'dropReserve(event, this)');
+    reserveRow.attr('ondragover', 'allowDropReserve(event, this)');
+    var reserveTitleRow = displayElementOnParent('div', 'rowTitreReserve', 'row', 'Reserve', parent);
     var playerViewModel;
     for (var i = 0; i < 3; i++) {
         if (viewModelsEquipe[i]) {
             playerViewModel = viewModelsEquipe[i];
+            populateReserveCol(playerViewModel.id, equipeRow, playerViewModel, 'col-sm-4');
         }
-        populateReserveCol(playerViewModel.id, equipeRow, playerViewModel, 'col-sm-4')
     }
     $.each(viewModelsReserve, function(index) {
-        populateReserveCol(viewModelsReserve[index].id, reserveRow, viewModelsReserve[index], 'col-sm-4')
+        populateReserveCol(viewModelsReserve[index].id, reserveRow, viewModelsReserve[index], 'col-sm-4');
+    })
+}
+
+function displayFusionMonstersViewModels(idModal, viewModelsReserve, parent) {
+    var fusionRow = displayElementOnParent('div', 'rowFusion', 'row', '', parent);
+    fusionRow.attr('listdata', 'Fusion');
+    fusionRow.attr('ondrop', 'dropFusion(event, this)');
+    fusionRow.attr('ondragover', 'allowDropFusion(event, this)');
+    var fusionTitleRow = displayElementOnParent('div', 'rowFusionTitre', 'row', 'Monstres a fusionner', parent);
+    var separationRow = displayElementOnParent('div', 'rowReserveSeparation', 'row seperation', '', parent);
+    var reserveRow = displayElementOnParent('div', 'rowReserveFusion', 'row', '', parent);
+    reserveRow.attr('listdata', 'Reserve');
+    reserveRow.attr('ondrop', 'dropFusion(event, this)');
+    reserveRow.attr('ondragover', 'allowDropFusion(event, this)');
+    var reserveTitleRow = displayElementOnParent('div', 'rowReserveTitre', 'row', 'Reserve', parent);
+    var btnFusionner = displayButtons('Fusionner', 'btn btn-danger col-sm-4', fuseTwoMonsters, parent).hide();
+    $.each(viewModelsReserve, function(index) {
+        populateReserveFusionCol(viewModelsReserve[index].id, reserveRow, viewModelsReserve[index], 'col-sm-4');
     })
 }
 
 function populateReserveCol(idPlayer, parentRow, playerViewModel, colClass) {
     var colPlayer = displayElementOnParent('div', idPlayer + 'Reserve', colClass + ' reserveCol', '', parentRow);
     colPlayer.attr('draggable', 'true');
-    colPlayer.attr('ondragstart', 'drag(event)');
+    colPlayer.attr('ondragstart', 'dragReserve(event)');
     var rowPlayerLabel = displayElementOnParent('div', 'row' + 'Label' + idPlayer, 'row', '', colPlayer);
     var rowPlayerValue = displayElementOnParent('div', 'row' + 'Value' + idPlayer, 'row', '', colPlayer);
     $.each(playerViewModel, function(label, value) {
@@ -140,8 +218,37 @@ function populateReserveCol(idPlayer, parentRow, playerViewModel, colClass) {
     });
 }
 
+function populateReserveFusionCol(idPlayer, parentRow, playerViewModel, colClass) {
+    var colPlayer = displayElementOnParent('div', idPlayer + 'ReserveFusion', colClass + ' reserveCol', '', parentRow);
+    colPlayer.attr('draggable', 'true');
+    colPlayer.attr('ondragstart', 'dragFusion(event)');
+    var rowPlayerLabel = displayElementOnParent('div', 'rowFusion' + 'Label' + idPlayer, 'row', '', colPlayer);
+    var rowPlayerValue = displayElementOnParent('div', 'rowFusion' + 'Value' + idPlayer, 'row', '', colPlayer);
+    $.each(playerViewModel, function(label, value) {
+        if (label != 'id') {
+            var colLabelPlayer = displayElementOnParent('div', 'colFusion' + 'Label' + label + idPlayer, colClass, label, rowPlayerLabel);
+            var colValuePlayer = displayElementOnParent('div', 'colFusion' + 'Value' + label + idPlayer, colClass, value, rowPlayerValue);
+        }
+    });
+}
+
 function displayReserve(){
     $('#modalMenuReserve').modal();
+}
+
+function displayFusionResult(){
+    $('#modalMenuResultFusion').modal();
+}
+
+function displayEvoltionResult(){
+    $('#modalEvolution').modal();
+}
+
+function displayFusion(){
+    Fusion = [];
+    ReserveFusion = Reserve.slice();
+    initialiserFusionTwoMonstersMenu();
+    $('#modalMenuFusionTwoMonsters').modal();
 }
 
 function displaySkills(id) {
@@ -157,7 +264,7 @@ function displayPlayerList(listPlayer, parent) {
         var colonnePlayer = displayElementOnParent('div', "colonne" + listPlayer[index].id, 'col-sm-' + 12/listPlayer.length, '', parent);
         var colImage = displayElementOnParent('div', listPlayer[index].id, "col-sm-12 colonneIdle text-center", "", colonnePlayer);
         var playerImg = document.createElement('img');
-        playerImg.src = listPlayer[index].src;
+        playerImg.src =  listPlayer[index].gentil ? listPlayer[index].srcDos : listPlayer[index].src;
         colImage.append(playerImg);
     });
 }

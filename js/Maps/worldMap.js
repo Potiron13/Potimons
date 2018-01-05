@@ -2,10 +2,12 @@ var potironPos = {X : 0, Y : 0}
 var compteur;
 var Equipe = [];
 var Reserve = [];
+var Fusion = [];
+var ReserveFusion = [];
 var carte;
 
 function initialiserWorldMap(Equipe) {
-    carte = new Carte(3, ['Rat', 'Potipuce'], 1, 3);
+    carte = new Carte(3, ['Potitata', 'Potipuce'], 1, 3);
     var potironWalking = new GamingElement('potironWolrdMap', 'potironWalkingDown');
     var cristalSauvegarde = new GamingElement('cristalSauvegarde', 'savePoint');
     var listGamingElements = [potironWalking, cristalSauvegarde];
@@ -19,8 +21,8 @@ function initialiserWorldMap(Equipe) {
     initialiserMainMenu(Equipe);
     initialiserSaveMenu();
     initialiserSkillsMenu();
-    initialiserEquipementMenu(Equipe);
     initialiserReserveMenu();
+    initialiserFusionTwoMonstersMenu();
     initialiserEventWorldMap();
     displayListGamingElement(listGamingElements);
 }
@@ -32,7 +34,7 @@ function alimenterListeEnnemie(carte) {
     for (var i = 0; i < nombreEnnemieAuCombat; i++) {
         var level = entierAleatoire(carte.levelMin, carte.levelMax);
         var indexEnnemieGenere = entierAleatoire(0, carte.listNomEnnemiePossible.length - 1);
-        var ennemie = instancierEnnemie(carte.listNomEnnemiePossible[indexEnnemieGenere], i, level);
+        var ennemie = instancierPlayer(carte.listNomEnnemiePossible[indexEnnemieGenere], level, false);
         listPlayer.push(ennemie);
         listEnnemies.push(ennemie);
         listEnnemiesTotal.push(ennemie);

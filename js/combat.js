@@ -56,8 +56,8 @@ function attaque(source, cible, skill) {
     if (source.gentil == true) {
         cible = selectedEnnemie;
     }
-    if (skill.type == "magie") {
-        animation(source.id, skill.name, skill.duration);
+    animation(source.id, skill.name, skill.duration);
+    if (skill.startingPosY) {
         var imgMagie = document.createElement('img');
         imgMagie.src = skill.src;
         imgMagie.id = skill.name + "Img"
@@ -68,8 +68,6 @@ function attaque(source, cible, skill) {
         var ciblePos = $('#' + cible.id).offset();
         var sourcePos = $('#' + source.id).offset();
         animateMagie(imgMagie, sourcePos.left, skill.startingPosY, ciblePos.left, 150, skill.duration);
-    }else {
-        animation(source.id, skill.name, skill.duration);
     }
     var intervalAttaqueDelay = setTimeout(function() {
         if (skill.type == "magie") {
@@ -98,17 +96,18 @@ function attaque(source, cible, skill) {
 function ajouterEnnemieEquipe(ennemie) {
     var reformatedSkills = [];
     ennemie.gentil = true;
-    ennemie.src = ennemie.src.replace('.png', 'Dos.png');
     $.each(ennemie.skills, function(index) {
         reformatedSkills.push(ennemie.skills[index].skill);
-    })
+    });
     ennemie.skills = reformatedSkills;
-    if (Equipe.length <= 2) {
-        Equipe.push(ennemie);
-    }else if(Reserve.length <= 10) {
-        Reserve.push(ennemie);
+    if (Reserve.length < 9) {
+        if (Equipe.length <= 2 ) {
+            Equipe.push(ennemie);
+        }else {
+            Reserve.push(ennemie);
+        }
     }else {
-        alert('La réserve est pleine, le monstre est relaché.');
+        alert('La reserve est pleine, le monstre est relache.');
     }
 }
 

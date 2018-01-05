@@ -17,3 +17,7 @@ function guidGenerator() {
     };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
+
+function max(int1, int2) {
+    return (int1 > int2) ? int1 : int2;
+}

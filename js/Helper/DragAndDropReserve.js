@@ -1,4 +1,4 @@
-function allowDrop(ev, el) {
+function allowDropReserve(ev, el) {
     if (el.id == 'rowEquipeActuel' && Equipe.length <= 2) {
         ev.preventDefault();
     }else if (el.id == 'rowReserve' && Equipe.length > 1) {
@@ -6,12 +6,12 @@ function allowDrop(ev, el) {
     }
 }
 
-function drag(ev) {
+function dragReserve(ev) {
     var data = JSON.stringify({'id' : ev.target.id, 'parent' : ev.target.parentElement.getAttribute('listdata')});
     ev.dataTransfer.setData("data", data);
 }
 
-function drop(ev, el) {
+function dropReserve(ev, el) {
     ev.preventDefault();
     var data = JSON.parse(ev.dataTransfer.getData("data"));
     var playerId = data.id.replace('Reserve', '');

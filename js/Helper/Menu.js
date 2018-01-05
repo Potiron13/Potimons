@@ -8,7 +8,17 @@ function getSavesViewModels() {
 }
 
 function initialiserReserveMenu() {
+    if ($('#modalMenuReserve').length) {
+        $('#modalMenuReserve').empty();
+    }
     var modalBody = creerReserveMenu('modalMenuReserve',  mapReserveViewModel(Equipe),  mapReserveViewModel(Reserve), 'Modifier Equipe')
+}
+
+function initialiserFusionTwoMonstersMenu() {
+    if ($('#modalMenuFusionTwoMonsters').length) {
+        $('#modalMenuFusionTwoMonsters').empty();
+    }
+    var modalBody = creerFusionTwoMonstersMenu('modalMenuFusionTwoMonsters',  mapReserveViewModel(Reserve), 'Fusionner deux monstres')
 }
 
 function initialiserSaveMenu() {
@@ -21,6 +31,20 @@ function initialiserMainMenu(Equipe) {
         $('#modalMenuStats').empty();
     }
     var modalBody = creerMenu('modalMenuStats', mapPlayerViewModel(Equipe), 'Statistiques' );
+}
+
+function initialiserFusionResultMenu(monster) {
+    if ($('#modalMenuResultFusion').length) {
+        $('#modalMenuResultFusion').empty();
+    }
+    var modalBody = creerFusionResultMenu('modalMenuResultFusion', new FusionViewModel(monster), 'Resultat de la fusion' );
+}
+
+function initialiserEvolutionMenu(monster) {
+    if ($('#modalEvolution').length) {
+        $('#modalEvolution').empty();
+    }
+    var modalBody = creerEvolutionMenu('modalEvolution', new EvolutionViewModel(monster), 'Resultat de l\'évolution' );
 }
 
 function initialiserSkillsMenu() {
@@ -43,6 +67,24 @@ function initialiserEquipementMenu(Equipe) {
 function creerReserveMenu(idModal, viewModelsEquipe, viewModelsReserve, titre) {
     var modalBody = createModal(idModal, titre);
     displayReserveViewModels(idModal, viewModelsEquipe, viewModelsReserve, modalBody);
+    return modalBody;
+}
+
+function creerFusionTwoMonstersMenu(idModal, viewModelsReserve, titre) {
+    var modalBody = createModal(idModal, titre);
+    displayFusionMonstersViewModels(idModal, viewModelsReserve, modalBody);
+    return modalBody;
+}
+
+function creerFusionResultMenu(idModal, viewModel, titre) {
+    var modalBody = createModal(idModal, titre);
+    displayFusionResultMonstersViewModels(idModal, viewModel, modalBody);
+    return modalBody;
+}
+
+function creerEvolutionMenu(idModal, viewModel, titre) {
+    var modalBody = createModal(idModal, titre);
+    displayEvolutionViewModels(idModal, viewModel, modalBody);
     return modalBody;
 }
 
