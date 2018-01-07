@@ -20,6 +20,24 @@ class Player {
     }
 }
 
+class PlayerMonsterData {
+    constructor(name, hpLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills) {
+        this.name = name;
+        this.hpLevelOne = hpLevelOne;
+        this.forceLevelOne = forceLevelOne;
+        this.magieLevelOne = magieLevelOne;
+        this.hp = hp;
+        this.force = force;
+        this.magie = magie;
+        this.experienceNextLevel = experienceNextLevel
+        this.experienceDonnee = experienceDonnee
+        this.catClass = catClass;
+        this.evolution = evolution;
+        this.evolutionLevel = evolutionLevel
+        this.futureSkills = futureSkills;
+    }
+}
+
 class EquipementList {
     constructor(arme, armure, collier) {
         this.arme = arme;
@@ -46,7 +64,7 @@ class ViewModelPlayer {
 class ViewModelInfoPlayer {
     constructor (player) {
         this.Nom = player.name;
-        this.Hp = player.hp + '/' + player.currentHp;
+        this.Hp = player.currentHp + '/' + player.hp;
     }
 }
 
@@ -60,85 +78,95 @@ function mapPlayerViewModel (Equipe) {
 }
 
 
-function instancierPlayer(nom, level, gentil) {
+function instancierPlayer(name, level, gentil) {
     result = {};
-    var src = 'Images/' + nom + '.png';
-    var experienceNextLevel = level*10;
-    var experience = 0;
+    var src = 'Images/' + name + '.png';
+    var skills = [];
+    var gentil = gentil;
+    /*var evolution;
+    var evolutionLevel;
     var hp;
     var force;
     var magie;
-    var gentil = gentil;
-    var experienceDonnee;
-    var skills = [];
-    var catClass;
-    var evolution;
-    var evolutionLevel;            
     switch (nom) {
-        case 'Potitata':
-            hp = 10 + 2*level;
-            force = 2 + level;
-            magie = 1 + level;
-            experienceDonnee = 3 + level;
-            skills = gentil ? [fetchSkill('griffe')] : [new EnnemieSkill('griffe', 1)];
+        case strPotitata:
+            hp = 10;
+            force = 5;
+            magie = 1;
             catClass = 'normal';
-            evolution = 'Potitatac';
+            evolution = strPotitatac;
             evolutionLevel = 5;
             break;
-        case 'Potitatac':
-            hp = 10 + 3*level;
-            force = 5 + level;
-            magie = 2 + level;
+        case strPotitatac:
+            hp = 20;
+            force = 10;
+            magie = 2;
             experienceDonnee = 5 + level;
-            skills = gentil ? fetchSkills(['griffe', 'morsure']) : [new EnnemieSkill('griffe', 0.6), new EnnemieSkill('morsure', 0.4)];
             catClass = 'normal';
             break;
-        case 'Potipuce':
-            hp = 20 + level*2;
-            force = 4 + level;
-            magie = 6 + level*2;
-            experienceDonnee = 6 + level*2;
-            skills =  gentil ? fetchSkills(['griffe', 'aquaBall']) : [new EnnemieSkill('griffe', 0.7), new EnnemieSkill('aquaBall', 0.3)];
+        case strPotipuce:
+            hp = 12;
+            force = 5;
+            magie = 5;
             catClass = 'eau';
             break;
+        case strPotidoudou:
+            hp = 12;
+            force = 6;
+            magie = 7;
+            catClass = 'terre';
+            break;
         default:
-        console.log('cant find in list nom mth instancierEnnemie');
+        console.log('cant find in list nom mth instancierPlayer');
+    }*/
+    var playerData = getPlayerDataFromMonsterList(name);
+    result = new Player(name + guidGenerator(), name, 0, 0, 0, playerData.hpLevelOne, playerData.hpLevelOne, playerData.forceLevelOne, playerData.magieLevelOne, gentil, 0, src, skills, playerData.catClass, playerData.evolution, playerData.evolutionLevel);
+    for (var i = 0; i < level; i++) {
+        result = incrementerLevel(result);
     }
-    result = new Player(nom + guidGenerator(), nom, level, experience, experienceNextLevel, hp, hp, force, magie, gentil, experienceDonnee, src, skills, catClass, evolution, evolutionLevel);
 
     return result;
 }
 
 
 function incrementerLevel(player) {
-    var experienceNextLevel;
+    playerData = getPlayerDataFromMonsterList(player.name);
+    var futureSkills;
+    /*var experienceNextLevel;
     var hp;
     var force;
     var magie;
-    var griffe = fetchSkill('griffe');
-    var fireBall = fetchSkill('fireBall')
-    var futureSkills;
     switch (player.name) {
-    case "Potiron":
-        futureSkills = [new FutureSkill(griffe, 2), new FutureSkill(fireBall, 5)];
+    case strPotiron:
+        futureSkills = [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 5)];
         experienceNextLevel = player.experienceNextLevel + player.level*10;
         hp = player.hp + player.level*5;
         force = player.force + 5;
         magie = player.magie + 5;
         break;
-    case "Potitata":
+    case strPotitata:
+        futureSkills = [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 5)];
         experienceNextLevel = player.experienceNextLevel + player.level*3;
         hp = player.hp + player.level*2;
         force = player.force + 2;
         magie = player.magie + 1;
         break;
-    case "Potitatac":
+    case strPotitatac:
+        futureSkills = [new FutureSkill(strGriffe, 1), new FutureSkill(strMorsure, 5)];
         experienceNextLevel = player.experienceNextLevel + player.level*3;
         hp = player.hp + player.level*3;
         force = player.force + 4;
         magie = player.magie + 1;
         break;
-    case "Potipuce":
+    case strPotipuce:
+        futureSkills = [new FutureSkill(strGriffe, 1), new FutureSkill(strAquaBall, 5)];
+        experienceNextLevel = player.experienceNextLevel + player.level*5;
+        hp = player.hp + player.level*3;
+        force = player.force + 2;
+        magie = player.magie + 3;
+        break;
+    case strPotidoudou:
+        futureSkills = [new FutureSkill(strCharge, 1), new FutureSkill(strChanter, 3), new FutureSkill(strHypercut, 5)];
         experienceNextLevel = player.experienceNextLevel + player.level*5;
         hp = player.hp + player.level*3;
         force = player.force + 2;
@@ -146,16 +174,18 @@ function incrementerLevel(player) {
         break;
     default:
         alert("Hero non trouvé lors du level up");
-    }
+    }*/
     player.level += 1;
     player.experience = 0;
-    player.experienceNextLevel += experienceNextLevel;
-    player.currentHp = hp;
-    player.hp = hp;
-    player.force = force;
-    player.magie = magie;
+    player.experienceNextLevel += player.level*playerData.experienceNextLevel;
+    player.experienceDonnee += player.level*playerData.experienceDonnee;
+    player.hp += playerData.hp;
+    player.currentHp = player.hp;
+    player.force += playerData.force;
+    player.magie += playerData.magie;
+    futureSkills = playerData.futureSkills;
     $.each(futureSkills, function(index){
-        if (player.skills.filter(x=>x.name == futureSkills[index].skill.name).length == 0) {
+        if (player.skills.filter(x=>x.id == futureSkills[index].skill.id).length == 0) {
             if (futureSkills[index].requiredLevel <= player.level) {
                 player.skills.push(futureSkills[index].skill);
             }
@@ -184,4 +214,8 @@ function evolution(player) {
     displayEvoltionResult();
 
     return player
+}
+
+function getPlayerDataFromMonsterList(name) {
+    return monsterList.find(x=>x.name == name);
 }

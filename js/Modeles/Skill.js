@@ -11,8 +11,8 @@ class Skill {
 }
 
 class FutureSkill {
-    constructor(skill, requiredLevel) {
-        this.skill = skill;
+    constructor(id, requiredLevel) {
+        this.skill = fetchSkill(id);
         this.requiredLevel = requiredLevel;
     }
 }
@@ -32,12 +32,14 @@ class ViewModelSkill {
     }
 }
 
-AllSkills = [new Skill('griffe', 'griffe', 1, 'corpsACorps', 500),
-            new Skill('morsure', 'morsure', 2, 'corpsACorps', 500),
-            new Skill('fireBall', 'fireBall', 2, 'magie', 1000, 100),
-            new Skill('aquaBall', 'aquaBall', 2, 'magie', 1000, 100),
-            new Skill('charge', 'charge', 10, 'corpsACorps', 250),
-            new Skill('capture', 'capture', 0, 'dressage', 1000)];
+AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', 500),
+            new Skill(strMorsure, strMorsure, 2, 'corpsACorps', 500),
+            new Skill(strFireBall, strFireBall, 2, 'magie', 1000, 100),
+            new Skill(strAquaBall, strAquaBall, 2, 'magie', 1000, 100),
+            new Skill(strCharge, strCharge, 10, 'corpsACorps', 250),
+            new Skill(strChanter, strChanter, 2, 'corpsACorps', 5000),
+            new Skill(strHypercut, strHypercut, 3, 'corpsACorps', 5000),
+            new Skill(strCapture, strCapture, 0, 'dressage', 1000)];
 
 function mapSkillViewModel (skills) {
     var result = [];

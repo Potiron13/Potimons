@@ -6,7 +6,7 @@ function fuseTwoMonsters() {
         monsters.push(new MonsterFusion(monsterList[index], (monsterList.length - index)/sum))
     });
     var monsterFusionChoisi = monstreChoisi(monsters);
-    var player = instancierPlayer(monsterFusionChoisi.name, entierAleatoire(monsterFusionChoisi.level, max(Fusion[0].level, Fusion[1].level)), true);    
+    var player = instancierPlayer(monsterFusionChoisi.name, entierAleatoire(monsterFusionChoisi.level, max(Fusion[0].level, Fusion[1].level)), true);
     ReserveFusion.push(player);
     Reserve = ReserveFusion;
     Fusion = [];

@@ -6,9 +6,14 @@ class ViewModelInfoEnnemie {
 }
 
 function skillChoisi(skills) {
-  var i, sum=0, r=Math.random();
-  for (i in skills) {
-    sum += skills[i].chance;
-    if (r <= sum) return skills[i].skill;
-  }
+    var ennemieSkills = [];
+    var sum = (skills.length + 1)*(skills.length/2);
+    $.each(skills, function(index) {
+        ennemieSkills.push(new EnnemieSkill(skills[index].id, (skills.length - index)/sum))
+    });    
+    var i, sum=0, r=Math.random();
+    for (i in ennemieSkills) {
+        sum += ennemieSkills[i].chance;
+        if (r <= sum) return ennemieSkills[i].skill;
+    }
 }

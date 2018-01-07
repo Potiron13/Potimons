@@ -7,7 +7,7 @@ var ReserveFusion = [];
 var carte;
 
 function initialiserWorldMap(Equipe) {
-    carte = new Carte(3, ['Potitata', 'Potipuce'], 1, 3);
+    carte = new Carte(3, [strPotipuce, strPotipuce, strPotidoudou], 1, 3);
     var potironWalking = new GamingElement('potironWolrdMap', 'potironWalkingDown');
     var cristalSauvegarde = new GamingElement('cristalSauvegarde', 'savePoint');
     var listGamingElements = [potironWalking, cristalSauvegarde];

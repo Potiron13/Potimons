@@ -94,12 +94,7 @@ function attaque(source, cible, skill) {
 }
 
 function ajouterEnnemieEquipe(ennemie) {
-    var reformatedSkills = [];
     ennemie.gentil = true;
-    $.each(ennemie.skills, function(index) {
-        reformatedSkills.push(ennemie.skills[index].skill);
-    });
-    ennemie.skills = reformatedSkills;
     if (Reserve.length < 9) {
         if (Equipe.length <= 2 ) {
             Equipe.push(ennemie);
