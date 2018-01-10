@@ -80,45 +80,9 @@ function mapPlayerViewModel (Equipe) {
 
 function instancierPlayer(name, level, gentil) {
     result = {};
-    var src = 'Images/' + name + '.png';
+    var src = 'Images/Monsters/' + name + '.png';
     var skills = [];
     var gentil = gentil;
-    /*var evolution;
-    var evolutionLevel;
-    var hp;
-    var force;
-    var magie;
-    switch (nom) {
-        case strPotitata:
-            hp = 10;
-            force = 5;
-            magie = 1;
-            catClass = 'normal';
-            evolution = strPotitatac;
-            evolutionLevel = 5;
-            break;
-        case strPotitatac:
-            hp = 20;
-            force = 10;
-            magie = 2;
-            experienceDonnee = 5 + level;
-            catClass = 'normal';
-            break;
-        case strPotipuce:
-            hp = 12;
-            force = 5;
-            magie = 5;
-            catClass = 'eau';
-            break;
-        case strPotidoudou:
-            hp = 12;
-            force = 6;
-            magie = 7;
-            catClass = 'terre';
-            break;
-        default:
-        console.log('cant find in list nom mth instancierPlayer');
-    }*/
     var playerData = getPlayerDataFromMonsterList(name);
     result = new Player(name + guidGenerator(), name, 0, 0, 0, playerData.hpLevelOne, playerData.hpLevelOne, playerData.forceLevelOne, playerData.magieLevelOne, gentil, 0, src, skills, playerData.catClass, playerData.evolution, playerData.evolutionLevel);
     for (var i = 0; i < level; i++) {
@@ -132,49 +96,6 @@ function instancierPlayer(name, level, gentil) {
 function incrementerLevel(player) {
     playerData = getPlayerDataFromMonsterList(player.name);
     var futureSkills;
-    /*var experienceNextLevel;
-    var hp;
-    var force;
-    var magie;
-    switch (player.name) {
-    case strPotiron:
-        futureSkills = [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 5)];
-        experienceNextLevel = player.experienceNextLevel + player.level*10;
-        hp = player.hp + player.level*5;
-        force = player.force + 5;
-        magie = player.magie + 5;
-        break;
-    case strPotitata:
-        futureSkills = [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 5)];
-        experienceNextLevel = player.experienceNextLevel + player.level*3;
-        hp = player.hp + player.level*2;
-        force = player.force + 2;
-        magie = player.magie + 1;
-        break;
-    case strPotitatac:
-        futureSkills = [new FutureSkill(strGriffe, 1), new FutureSkill(strMorsure, 5)];
-        experienceNextLevel = player.experienceNextLevel + player.level*3;
-        hp = player.hp + player.level*3;
-        force = player.force + 4;
-        magie = player.magie + 1;
-        break;
-    case strPotipuce:
-        futureSkills = [new FutureSkill(strGriffe, 1), new FutureSkill(strAquaBall, 5)];
-        experienceNextLevel = player.experienceNextLevel + player.level*5;
-        hp = player.hp + player.level*3;
-        force = player.force + 2;
-        magie = player.magie + 3;
-        break;
-    case strPotidoudou:
-        futureSkills = [new FutureSkill(strCharge, 1), new FutureSkill(strChanter, 3), new FutureSkill(strHypercut, 5)];
-        experienceNextLevel = player.experienceNextLevel + player.level*5;
-        hp = player.hp + player.level*3;
-        force = player.force + 2;
-        magie = player.magie + 3;
-        break;
-    default:
-        alert("Hero non trouvé lors du level up");
-    }*/
     player.level += 1;
     player.experience = 0;
     player.experienceNextLevel += player.level*playerData.experienceNextLevel;

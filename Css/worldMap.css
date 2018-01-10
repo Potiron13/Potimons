@@ -20,6 +20,21 @@
     background: url(../Images/VueDessusPotironDroite.png) no-repeat center;
 }
 
+.potironWalkingNE {
+    background: url(../Images/VueDessusPotironNE.png) no-repeat center;
+}
+
+.potironWalkingNW {
+    background: url(../Images/VueDessusPotironNW.png) no-repeat center;
+}
+
+.potironWalkingSE {
+    background: url(../Images/VueDessusPotironSE.png) no-repeat center;
+}
+
+.potironWalkingSW {
+    background: url(../Images/VueDessusPotironSW.png) no-repeat center;
+}
 
 .modal{
   border: solid 1px #424542;
@@ -113,4 +128,27 @@
 
 .clearPadding {
     padding: 0px;
+}
+
+.btnMainMenu {
+    position: absolute;
+    top:0;
+    right: 0;
+    height: 5em;
+    width: 15em;
+}
+
+.setHeight {
+    height: 5em;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
 }

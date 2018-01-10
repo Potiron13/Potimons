@@ -5,8 +5,8 @@ $('document').ready(function(){
     var newGameContainer = displayElementOnParent('div', 'newGameContainer', 'container container-table', '', $('body'));
     var startingGameRow = displayElementOnParent('div', 'newGameRow', 'vertical-center-row', '', newGameContainer);
     initialiserLoadMenu();
-    displayButtons ('NEWGAME', 'btn col-md-4 col-md-offset-4', newGame, startingGameRow);
-    displayButtons ('Continue', 'btn col-md-4 col-md-offset-4', openLoadMenu, startingGameRow)
+    displayButtons ('btnNewGame', 'NEWGAME', 'btn col-sm-4 col-sm-offset-4', newGame, startingGameRow);
+    displayButtons ('btnContinue', 'Continue', 'btn col-sm-4 col-sm-offset-4', openLoadMenu, startingGameRow)
 
 });
 
@@ -15,7 +15,7 @@ function newGame() {
     var startingArmor = {'id' : 'ArmurDeCarton', 'name': 'ArmurDeCarton', 'defence':5};
     var startingCollar = {'id' : 'CollierSimple', 'name': 'CollierSimple', 'attaque':1, 'defence':2};
     var equipementList = new EquipementList(startingSword, startingArmor, startingCollar);
-    potiron = new Player('Potiron', 'Potiron', 1, 0, 10, 50, 50, 5, 5, true, 0, 'Images/CombatPotironStandar.png', fetchSkills(['charge', 'capture']), 'GrosChat');
+    potiron = instancierPlayer('potiron', 5, true)
     saveId = '1';
     Equipe = [potiron];
     initialiserWorldMap(Equipe);

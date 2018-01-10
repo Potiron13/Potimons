@@ -22,6 +22,9 @@ function initialiserFusionTwoMonstersMenu() {
 }
 
 function initialiserSaveMenu() {
+    if ($('#modalMenuSave').length) {
+        $('#modalMenuSave').empty();
+    }
     var savesViewModels = getSavesViewModels();
     var modalBody = creerMenuDeSauvegarde('modalMenuSave', savesViewModels, 'Sauvegarder');
 }
@@ -58,6 +61,16 @@ function initialiserSkillsMenu() {
     });
 }
 
+function initialiserDetailsMenu() {
+    var modalId;
+    $.each(Equipe, function(index) {
+        modalId = 'modalDetails' + Equipe[index].id
+        if ($('#' + modalId).length) {
+            $('#' + modalId).empty();
+        }
+        var modalDetails = creerMenuDetails(modalId, new ViewModelDetails(Equipe[index]), 'Details');
+    });
+}
 function initialiserEquipementMenu(Equipe) {
     $.each(Equipe, function(index) {
         var modalEquipement = creerMenuEquipement('modalEquipement' + Equipe[index].id, Equipe[index].equipement, 'Equipement');
@@ -82,6 +95,12 @@ function creerFusionResultMenu(idModal, viewModel, titre) {
     return modalBody;
 }
 
+function creerMenuDetails(idModal, viewModel, titre) {
+    var modalBody = createModal(idModal, titre);
+    displayDetailsViewModels(idModal, viewModel, modalBody);
+    return modalBody;
+}
+
 function creerEvolutionMenu(idModal, viewModel, titre) {
     var modalBody = createModal(idModal, titre);
     displayEvolutionViewModels(idModal, viewModel, modalBody);
@@ -99,7 +118,7 @@ function creerMenuDeSauvegarde(idModal, saves, titre) {
     var savingId;
     displaySaves(saves, modalBody, savingId, idModal);
     savingId = saves.length + 1;
-    displayButtons ('Nouveau', 'BUTTON', function() {
+    displayButtons ('btnNouveau', 'Nouveau', 'BUTTON', function() {
         sauvegarder(localStorage.length + 1);
     }, modalBody);
 
@@ -133,12 +152,12 @@ function displaySaves(saves, modalBody, savingId, idModal){
 
 function creerMenu(idModal, viewModels, titre) {
     var modalBody = createModal(idModal, titre);
-    displayMenuViewModels(idModal, viewModels, modalBody, 'col-sm-1');
+    displayMenuViewModels(idModal, viewModels, modalBody, 'col-sm-2');
     return modalBody;
 }
 
 function creerMenuSkills(idModal, viewModels, titre) {
     var modalBody = createModal(idModal, titre);
-    displaySkillsViewModels(idModal, viewModels, modalBody, 'col-sm-1');
+    displaySkillsViewModels(idModal, viewModels, modalBody, 'col-sm-2');
     return modalBody;
 }

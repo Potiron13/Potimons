@@ -1,10 +1,10 @@
 // POTIMON
-const strPotiron = 'Potiron';
-const strPotitata = 'Potitata';
-const strPotitatac = 'Potitatac';
-const strPotipuce = 'Potipuce';
-const strPotimeche = 'Potimeche';
-const strPotidoudou = 'Potidou';
+const strPotiron = 'potiron';
+const strPotitata = 'potitata';
+const strPotitatac = 'potitatac';
+const strPotipuce = 'potipuce';
+const strPotimeche = 'potimeche';
+const strPotidoudou = 'potidou';
 
 
 // SKILLS

@@ -3,7 +3,6 @@ class ViewModelReserve {
         this.id = player.id;
         this.Nom = player.name;
         this.Niveau = player.level;
-        this.HpMax = player.hp;
     }
 }
 

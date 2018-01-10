@@ -1,5 +1,5 @@
 body {
-    margin:0;
+    margin-left: 20px;;
     padding:0;
     background: url(../Images/plaine.png) no-repeat center fixed;
     background-size: cover;
@@ -7,31 +7,15 @@ body {
 }
 
 #topRow {
-    font-family: "Times New Roman", Times, serif;
-    margin-left: 20px;
-    font-size: 20px;
+    height: 33%;
+}
+
+#mainRow {
+    
 }
 
 #bottomRow {
-    font-family: "Times New Roman", Times, serif;
-    margin-left: 20px;
-    font-size: 20px;
-}
-
-.hp {
-    margin-top: 200 px;
-}
-
-.Potiron {
-    background: url(../Images/CombatPotironStandar.png) no-repeat center fixed;
-    height: 400px;
-    background-position: left;
-}
-
-.Momo {
-    background: url(../Images/CombatMomoStandar.png) no-repeat center fixed;
-    height: 400px;
-    background-position: center;
+    margin-top: 10em;
 }
 
 .colonneIdle {
@@ -40,44 +24,31 @@ body {
     animation-iteration-count: infinite;
 }
 
-.ratIdle {
-    height: 400px;
-    background-position: center;
-    z-index: 1;
-}
-
-.coupEnnemiRat {
-    height: 400px;
-    background-position: center;
-    z-index: 1;
-    animation:coup 0.5s linear infinite;
-}
-
 .selector {
     background: url(../Images/Selector.png) no-repeat;
     background-size: contain;
-    height: 40px;
+    height: 5em;
     background-position: center;
+}
+
+.noSelector {
+    height : 5em;
+}
+
+.combatInfo {
+    padding-top: 5em;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2em;
 }
 
 .griffe {
     animation:griffe 0.5s linear infinite;
 }
 
-.PotironCasting {
-    background: url(../Images/CombatPotironCasting.png) no-repeat center fixed;
-    height: 400px;
-    background-position: left;
-    animation:casting 0.5s linear infinite;
+.btnCombat {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 3em;
 }
-
-.MomoCasting {
-    background: url(../Images/CombatMomoCasting.png) no-repeat center fixed;
-    height: 400px;
-    background-position: center;
-    animation:casting 0.5s linear infinite;
-}
-
 
 @keyframes idle {
     50% { -webkit-transform: rotateZ(10deg); transform:rotateZ(10deg); }

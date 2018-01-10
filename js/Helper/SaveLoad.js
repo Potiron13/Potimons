@@ -9,10 +9,7 @@ function sauvegarder(saveId ) {
     gameData.push({'dataType' : 'gameInfo', 'data' : (new Date()).toLocaleString()});
     gameData.push({'dataType' : 'saveId', 'data' : saveId});
     localStorage.setItem(saveId, JSON.stringify(gameData));
-    $('.modal-backdrop').remove();
-    $('#modalMenuSave').remove();
     initialiserSaveMenu();
-    $('#modalMenuSave').modal();
 
     return saveId
 }

@@ -17,42 +17,37 @@ function combat(carte) {
         var topRow = displayElementOnParent('div', "topRow", "row", "", $("body"));
         var mainRow = displayElementOnParent('div', "mainRow", "row", "", $("body"));
         var bottomRow = displayElementOnParent('div', "bottomRow", "row", "", $("body"));
-        var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-4', "", mainRow);
-        displayPlayerList(Equipe, equipeCol);
-        displayEquipeInfo();
-        displayElementOnParent('div', "espaceMilieu", "col-sm-1", "", mainRow);
-        selectedEnnemie = listEnnemies[0];
-        var colonneEnnemies = displayElementOnParent('div', "colonneEnnemies", "col-sm-7 colonneEnnemies", "", mainRow);
+        displayEnnemieInfo(topRow);
+        var colonneEnnemies = displayElementOnParent('div', "colonneEnnemies", "col-sm-8 colonneEnnemies", "", topRow);
         var rowEnnemies = displayElementOnParent('div', "rowEnnemies", "row", "", colonneEnnemies);
         displayPlayerList(listEnnemies, rowEnnemies);
-        var elementSelector = document.createElement('div');
-        elementSelector.id = "selectorCol"
-        elementSelector.className = 'col-sm-' + 12 + " selector";
-        $('#' + "colonne" + listEnnemies[0].id).prepend(elementSelector);
         selectedEnnemie = listEnnemies[0];
-        var btnCol = displayElementOnParent('div', "buttonCol", "col-sm-6", "", bottomRow);
+        deplacerSelectorPremierEnnemie(listEnnemies);
+        var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-8', "", mainRow);
+        displayPlayerList(Equipe, equipeCol);
+        displayEquipeInfo(mainRow);
+        var equipeBtnRow = displayElementOnParent('div', 'equipeBtnRow', "row", "", bottomRow);
         $.each(Equipe, function(index){
-            var btnRow = displayElementOnParent('div', "buttonRow" + Equipe[index].id, "row", "", btnCol);
+            var btnRow = displayElementOnParent('div', "buttonRow" + Equipe[index].id, "row", "", equipeBtnRow);
             displaySkillsButtons(Equipe[index].skills, Equipe[index], selectedEnnemie, listPlayer, btnRow);
             btnRow.hide();
         });
-        displayEnnemieInfo();
         gererTourParTour(Equipe);
-        document.addEventListener('keydown', deplacerSelector);
+        document.addEventListener('keydown', deplacerSelectorClavier);
+        $.each($('#rowEnnemies').children(), function(index) {
+            this.addEventListener('click', function (){selectedEnnemie = deplacerSelectorClick(this)});
+        });
 }
 
 function animation(id, animationClass, time) {
     $('#' + id).addClass(animationClass);
     setTimeout(function() {
         $('#' + id).removeClass(animationClass);
-       document.getElementById(id).className = "col-sm-12 colonneIdle";
+       document.getElementById(id).className = "col-sm-12 colonneIdle text-center";
     }, time);
 }
 
 function attaque(source, cible, skill) {
-    if (skill.id == 'capture') {
-        ajouterEnnemieEquipe(sortirEnnemieCombat(selectedEnnemie));
-    }
     if (source.gentil == true) {
         cible = selectedEnnemie;
     }
@@ -78,14 +73,16 @@ function attaque(source, cible, skill) {
         }
         if( cible.currentHp > 0 ) {
                 document.getElementById('valueHpInfo' + cible.id).innerHTML = cible.currentHp + '/' + cible.hp;
-        }
-        else {
-                document.getElementById('valueHpInfo' + cible.id).innerHTML = "";
+        }else {
                 if (cible.gentil == false) {
                     sortirEnnemieCombat(selectedEnnemie);
                 }else {
+                    document.getElementById('valueHpInfo' + cible.id).innerHTML = 0 + '/' + cible.hp;
                     listPlayer.splice(listPlayer.findIndex(x => x.id == cible.id), 1);
                 }
+        }
+        if (skill.id == 'capture') {
+            ajouterEnnemieEquipe(sortirEnnemieCombat(selectedEnnemie));
         }
         listPlayer.push(listPlayer.shift());
         gererTourParTour(listPlayer);
@@ -107,6 +104,8 @@ function ajouterEnnemieEquipe(ennemie) {
 }
 
 function sortirEnnemieCombat(ennemie) {
+    document.getElementById(ennemie.id + 'InfoRow').remove();
+    document.getElementById('colonne' + ennemie.id).remove();
     var indexEnnemieDead = listEnnemies.findIndex(x => x.id == ennemie.id);
     var indexPlayerDead = listPlayer.findIndex(x => x.id == ennemie.id);
     listPlayer.splice(indexPlayerDead, 1);
@@ -159,9 +158,9 @@ function victoire() {
     displayElementOnParent('div', "headRow", "row", "", $("body"));
     displayElementOnParent('h1', "colonneVictoire", "col-sm-12", "VICTOIRE !", $('#headRow'));
     displayElementOnParent('div', "colonneExperience", "col-sm-6 hp text-center", "Experience gagnee : " + expertienceGagnee, $('#headRow'));
-    displayButtons ("PASSER", "col-sm-1 btn btn-success", function(){initialiserWorldMap(Equipe)}, $("body"))
+    displayButtons ('btnPasser', "PASSER", "col-sm-1 btn btn-success", function(){initialiserWorldMap(Equipe)}, $("body"))
 
-    document.removeEventListener('keydown', deplacerSelector);
+    document.removeEventListener('keydown', deplacerSelectorClavier);
 }
 
 function incrementerExperience(Equipe, expertienceGagnee) {

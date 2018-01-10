@@ -30,7 +30,9 @@ function dropFusion(ev, el) {
     listPlayerCible.push(listPlayerSource.find(x=>x.id == playerId));
     remove(listPlayerSource, listPlayerSource.find(x=>x.id == playerId));
     if (Fusion.length == 2) {
-        $('#btnFusionner').show();        
+        $('#btnFusionner').show();
+    }else {
+        $('#btnFusionner').hide();
     }
 }
 
