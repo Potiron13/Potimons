@@ -2,9 +2,11 @@ var selectedEnnemie;
 var listPlayer = [];
 var listEnnemies = [];
 var listEnnemiesTotal = [];
+var listCapture = [];
 
 function combat(carte) {
         listPlayer = [];
+        listCapture = [];
         $.each(Equipe, function(index){
             listPlayer.push(Equipe[index]);
         });
@@ -70,7 +72,7 @@ function attaque(source, cible, skill) {
                 }
         }
         if (skill.id == 'capture' && captureReussie(cible)) {
-            ajouterEnnemieEquipe(sortirEnnemieCombat(selectedEnnemie));
+            capturerEnnemie(sortirEnnemieCombat(selectedEnnemie));
         }
         listPlayer.push(listPlayer.shift());
         gererTourParTour(listPlayer);
@@ -87,14 +89,10 @@ function captureReussie(ennemie) {
     return false;
 }
 
-function ajouterEnnemieEquipe(ennemie) {
+function capturerEnnemie(ennemie) {
     ennemie.gentil = true;
     if (Reserve.length < 9) {
-        if (Equipe.length <= 2 ) {
-            Equipe.push(ennemie);
-        }else {
-            Reserve.push(ennemie);
-        }
+        listCapture.push(ennemie);
     }else {
         alert('La reserve est pleine, le monstre est relache.');
     }
@@ -149,6 +147,13 @@ function victoire() {
          expertienceGagnee += listEnnemiesTotal[index].experienceDonnee;
     });
     incrementerExperience(Equipe, expertienceGagnee);
+    $.each(listCapture, function(index) {
+        if (Equipe.length <= 2 ) {
+            Equipe.push(listCapture[index]);
+        }else {
+            Reserve.push(listCapture[index]);
+        }
+    });
     displayElementOnParent('div', "headRow", "row", "", $("body"));
     displayElementOnParent('h1', "colonneVictoire", "col-sm-12", "VICTOIRE !", $('#headRow'));
     displayElementOnParent('div', "colonneExperience", "col-sm-6 hp text-center", "Experience gagnee : " + expertienceGagnee, $('#headRow'));

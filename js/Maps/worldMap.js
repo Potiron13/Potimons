@@ -1,6 +1,7 @@
 var potironPos = {X : 0, Y : 0}
 var compteur;
 var Equipe = [];
+var Items = [];
 var Reserve = [];
 var Fusion = [];
 var ReserveFusion = [];
@@ -25,6 +26,7 @@ function initialiserWorldMap(Equipe) {
     initialiserSkillsMenu();
     initialiserDetailsMenu();
     initialiserReserveMenu();
+    initialiserItemsMenu();
     initialiserFusionTwoMonstersMenu();
     initialiserEventWorldMap();
     var btnMenu = displayButtons('btnOuvrirMainMenu', 'Menu', 'btn btn-primary btnMainMenu', displayMainMenu, $('body'));

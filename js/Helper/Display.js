@@ -104,6 +104,7 @@ function displayMenuViewModels(idModal, viewModels, parent, colClass) {
     });
     displayButtons ('btnReserve', 'Reserve', 'BUTTON', function () {displayReserve()}, parent)
     displayButtons ('btnFusion' ,'Fusion', 'BUTTON', function () {displayFusion()}, parent)
+    displayButtons ('btnItems' ,'Objets', 'BUTTON', function () {displayItems()}, parent)
 }
 
 function displaySkillsViewModels(idModal, viewModels, parent, colClass) {
@@ -392,6 +393,27 @@ function displayFusion(){
     ReserveFusion = Reserve.slice();
     initialiserFusionTwoMonstersMenu();
     $('#modalMenuFusionTwoMonsters').modal();
+}
+
+function displayItemViewModels(idModal, viewModels, parent, colClass){
+    $.each(viewModels, function(index) {
+        var rowLabel = displayElementOnParent('div', 'Label' + viewModels[index].id + idModal, 'row', '', parent);
+        var rowValue = displayElementOnParent('div', 'Value' + viewModels[index].id + idModal , 'row', '', parent);
+        $.each(viewModels[index], function(label, value) {
+            console.log(label);
+            if (label != 'usable' && label != 'effect' && label != 'id') {
+                if (index == 0) {
+                    displayElementOnParent('div', label + 'Label', colClass, label, rowLabel);
+                    console.log('coucou');
+                }
+                displayElementOnParent('div', label + 'Value', colClass, value, rowValue);
+            }
+        });
+    });
+}
+
+function displayItems() {
+    $('#modalMenuItems').modal();
 }
 
 function displaySkills(id) {

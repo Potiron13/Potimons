@@ -11,9 +11,9 @@ $('document').ready(function(){
 });
 
 function newGame() {
-    potiron = instancierPlayer(strPotiron, 5, true)
     saveId = '1';
-    Equipe = [potiron];
+    Items = [new Item('smallPotion', 'Small potion', true, 5, smallPotionHeal)];
+    Equipe = [instancierPlayer(strPotiron, 5, true)];
     initialiserWorldMap(Equipe);
 }
 
@@ -38,6 +38,8 @@ function loadGame(gameId) {
             Equipe.push(intaciatePlayerFromData(data[i]));
         }else if (data[i].dataType == 'reserveInfo') {
             Reserve.push(intaciatePlayerFromData(data[i]));
+        }else if (data[i].dataType == 'itemInfo') {
+            Items.push(data[i]);
         }
     });
     initialiserWorldMap(Equipe);

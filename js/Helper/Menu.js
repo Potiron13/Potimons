@@ -14,6 +14,13 @@ function initialiserReserveMenu() {
     var modalBody = creerReserveMenu('modalMenuReserve',  mapReserveViewModel(Equipe),  mapReserveViewModel(Reserve), 'Modifier Equipe')
 }
 
+function initialiserItemsMenu() {
+    if ($('#modalMenuItems').length) {
+        $('#modalMenuItems').empty();
+    }
+    var modalBody = creerItemMenu('modalMenuItems',  mapItemViewModel(Items), 'Liste des objets')
+}
+
 function initialiserFusionTwoMonstersMenu() {
     if ($('#modalMenuFusionTwoMonsters').length) {
         $('#modalMenuFusionTwoMonsters').empty();
@@ -153,6 +160,12 @@ function displaySaves(saves, modalBody, savingId, idModal){
 function creerMenu(idModal, viewModels, titre) {
     var modalBody = createModal(idModal, titre);
     displayMenuViewModels(idModal, viewModels, modalBody, 'col-sm-2');
+    return modalBody;
+}
+
+function creerItemMenu(idModal, viewModels, titre) {
+    var modalBody = createModal(idModal, titre);
+    displayItemViewModels(idModal, viewModels, modalBody, 'col-sm-2');
     return modalBody;
 }
 
