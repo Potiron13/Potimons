@@ -11,11 +11,7 @@ $('document').ready(function(){
 });
 
 function newGame() {
-    var startingSword = {'id' : 'EpeeDeBois', 'name': 'EpeeDeBois', 'attaque':4};
-    var startingArmor = {'id' : 'ArmurDeCarton', 'name': 'ArmurDeCarton', 'defence':5};
-    var startingCollar = {'id' : 'CollierSimple', 'name': 'CollierSimple', 'attaque':1, 'defence':2};
-    var equipementList = new EquipementList(startingSword, startingArmor, startingCollar);
-    potiron = instancierPlayer('potiron', 5, true)
+    potiron = instancierPlayer(strPotiron, 5, true)
     saveId = '1';
     Equipe = [potiron];
     initialiserWorldMap(Equipe);

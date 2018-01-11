@@ -130,9 +130,9 @@ function isReadyToEvolve(player) {
 }
 
 function evolution(player) {
-    player = instancierPlayer(player.evolution, player.level, true);
+    player = instancierPlayer(player.evolution, player.level, true);    
     initialiserEvolutionMenu(player);
-    displayEvoltionResult();
+    displayEvoltionResult(player.id);
 
     return player
 }

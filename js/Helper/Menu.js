@@ -44,10 +44,10 @@ function initialiserFusionResultMenu(monster) {
 }
 
 function initialiserEvolutionMenu(monster) {
-    if ($('#modalEvolution').length) {
-        $('#modalEvolution').empty();
+    if ($('#modalEvolution' + monster.id).length) {
+        $('#modalEvolution' + monster.id).empty();
     }
-    var modalBody = creerEvolutionMenu('modalEvolution', new EvolutionViewModel(monster), 'Resultat de l\'évolution' );
+    var modalBody = creerEvolutionMenu('modalEvolution' + monster.id, new EvolutionViewModel(monster), 'Resultat de l\'evolution' );
 }
 
 function initialiserSkillsMenu() {

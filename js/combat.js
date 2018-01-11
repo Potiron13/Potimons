@@ -51,21 +51,9 @@ function attaque(source, cible, skill) {
     if (source.gentil == true) {
         cible = selectedEnnemie;
     }
-    animation(source.id, skill.name, skill.duration);
-    if (skill.startingPosY) {
-        var imgMagie = document.createElement('img');
-        imgMagie.src = skill.src;
-        imgMagie.id = skill.name + "Img"
-        imgMagie.style="position:absolute";
-        imgMagie.style.zIndex = "10";
-        imgMagie.style.height = "300px";
-        $("#topRow").append(imgMagie);
-        var ciblePos = $('#' + cible.id).offset();
-        var sourcePos = $('#' + source.id).offset();
-        animateMagie(imgMagie, sourcePos.left, skill.startingPosY, ciblePos.left, 150, skill.duration);
-    }
+    skill.animation(source, cible, skill);
     var intervalAttaqueDelay = setTimeout(function() {
-        if (skill.type == "magie") {
+        if (skill.animationType == strProjectil) {
             $("#" + skill.name + "Img").remove();
             cible.currentHp = cible.currentHp - source.magie*skill.power/2;
         }else {
@@ -81,13 +69,22 @@ function attaque(source, cible, skill) {
                     listPlayer.splice(listPlayer.findIndex(x => x.id == cible.id), 1);
                 }
         }
-        if (skill.id == 'capture') {
+        if (skill.id == 'capture' && captureReussie(cible)) {
             ajouterEnnemieEquipe(sortirEnnemieCombat(selectedEnnemie));
         }
         listPlayer.push(listPlayer.shift());
         gererTourParTour(listPlayer);
         clearInterval(intervalAttaqueDelay);
     }, skill.duration);
+}
+
+function captureReussie(ennemie) {
+    var rand = entierAleatoire(0, (ennemie.currentHp*100)/ennemie.hp)
+    if (rand < 10) {
+        return true;
+    }
+
+    return false;
 }
 
 function ajouterEnnemieEquipe(ennemie) {
@@ -142,19 +139,16 @@ function gererTourParTour(listPlayer){
 }
 
 function victoire() {
-    var expertienceGagnee = 0;
-    $.each(listEnnemiesTotal, function(index) {
-         expertienceGagnee += listEnnemiesTotal[index].experienceDonnee;
-    });
-
-    incrementerExperience(Equipe, expertienceGagnee);
-
     $('div').each(function(i){
         if (this.id != 'potironWolrdMap' && this.id != 'cristalSauvegarde') {
             this.remove();
         }
     })
-
+    var expertienceGagnee = 0;
+    $.each(listEnnemiesTotal, function(index) {
+         expertienceGagnee += listEnnemiesTotal[index].experienceDonnee;
+    });
+    incrementerExperience(Equipe, expertienceGagnee);
     displayElementOnParent('div', "headRow", "row", "", $("body"));
     displayElementOnParent('h1', "colonneVictoire", "col-sm-12", "VICTOIRE !", $('#headRow'));
     displayElementOnParent('div', "colonneExperience", "col-sm-6 hp text-center", "Experience gagnee : " + expertienceGagnee, $('#headRow'));
@@ -170,24 +164,6 @@ function incrementerExperience(Equipe, expertienceGagnee) {
             Equipe[index] = incrementerLevel(Equipe[index]);
         }
     });
-}
-
-function animateMagie(imgMagie, startingPosX, startingPosY, endingPosX, endingPosY, duration) {
-    var posX = startingPosX;
-    var posY = startingPosY;
-    imgMagie.style.top = startingPosY + 'px';
-    var id = setInterval(frame, 1);
-
-    function frame() {
-        if (posX == endingPosX || ( startingPosX != startingPosY && posY == endingPosY )) {
-            clearInterval(id);
-        } else {
-            posX += (endingPosX - startingPosX)/(duration/20);
-            posY += (endingPosY - startingPosY)/(duration/20);
-            imgMagie.style.top = posY + 'px';
-            imgMagie.style.left = posX + 'px';
-        }
-    }
 }
 
 function gameOver() {

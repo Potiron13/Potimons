@@ -15,4 +15,5 @@ function dropOnRow(draggedElement, targetedElement, targetList, mainList, player
     }
     initialiserMainMenu(Equipe);
     initialiserSkillsMenu();
+    initialiserDetailsMenu();
 }

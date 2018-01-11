@@ -74,11 +74,11 @@ function displaySaveFileViewModels(idModal, viewModels, parent, labelBtn, btnFun
             var rowLabelEquipe = displayElementOnParent('div', 'Label' + 'Equipe' + saveId, 'row', '', colEquipe);
             var rowValueEquipe = displayElementOnParent('div', 'Value' + viewModels[index].id + saveId , 'row', '', colEquipe);
             if (index == 0) {
-                displayElementOnParent('div', 'LabelNomPlayer' , 'col-sm-2', 'Nom', rowLabelEquipe);
-                displayElementOnParent('div', 'LabelLevelPlayer', 'col-sm-2', 'Level', rowLabelEquipe);
+                displayElementOnParent('div', 'LabelNomPlayer' , 'col-sm-6', 'Nom', rowLabelEquipe);
+                displayElementOnParent('div', 'LabelLevelPlayer', 'col-sm-6', 'Level', rowLabelEquipe);
             }
-            displayElementOnParent('div', 'ValuePlayer' + viewModels[index].id + 'Nom', 'col-sm-2', viewModels[index].name, rowValueEquipe);
-            displayElementOnParent('div', 'ValuePlayer' + viewModels[index].id + 'Level', 'col-sm-2', viewModels[index].level, rowValueEquipe);
+            displayElementOnParent('div', 'ValuePlayer' + viewModels[index].id + 'Nom', 'col-sm-6', viewModels[index].name, rowValueEquipe);
+            displayElementOnParent('div', 'ValuePlayer' + viewModels[index].id + 'Level', 'col-sm-6', viewModels[index].level, rowValueEquipe);
         }else {
             var rowValueData = displayElementOnParent('div', 'Value' + 'Data' + saveId + viewModels[index].dataType, 'row', '', colData);
             displayElementOnParent('div', viewModels[index].dataType, 'col-sm-6', viewModels[index].value, rowValueData);
@@ -173,10 +173,10 @@ function displayEvolutionViewModels(idModal, viewModel, parent) {
     $.each(viewModel, function(label, value) {
         if (label != 'id') {
             if (label != 'src') {
-                displayElementOnParent('div', label + 'Label', 'col-sm-2', label, rowLabel);
-                displayElementOnParent('div', label + 'Value', 'col-sm-2', value, rowValue);
+                displayElementOnParent('div', label + 'Label' + viewModel.id, 'col-sm-2', label, rowLabel);
+                displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-2', value, rowValue);
             }else {
-                var colImg = displayElementOnParent('div', label + 'Value', 'col-sm-2', '', rowValue);
+                var colImg = displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-2', '', rowValue);
                 var playerImg = document.createElement('img');
                 playerImg.src = value;
                 colImg.append(playerImg);
@@ -383,8 +383,8 @@ function displayFusionResult(){
     $('#modalMenuResultFusion').modal();
 }
 
-function displayEvoltionResult(){
-    $('#modalEvolution').modal();
+function displayEvoltionResult(id){
+    $('#modalEvolution' + id).modal();
 }
 
 function displayFusion(){

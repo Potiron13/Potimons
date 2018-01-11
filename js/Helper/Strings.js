@@ -17,4 +17,6 @@ const strCapture = 'capture';
 const strChanter = 'chanter';
 const strHypercut = 'hypercut';
 
+const strProjectil = 'projectil';
+
 // CAT CLASS
