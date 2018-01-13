@@ -67,6 +67,7 @@ function attaque(source, cible, skill) {
                 if (cible.gentil == false) {
                     sortirEnnemieCombat(selectedEnnemie);
                 }else {
+                    cible.currentHp = 0;
                     document.getElementById('valueHpInfo' + cible.id).innerHTML = 0 + '/' + cible.hp;
                     listPlayer.splice(listPlayer.findIndex(x => x.id == cible.id), 1);
                 }
@@ -82,7 +83,7 @@ function attaque(source, cible, skill) {
 
 function captureReussie(ennemie) {
     var rand = entierAleatoire(0, (ennemie.currentHp*100)/ennemie.hp)
-    if (rand < 10) {
+    if (rand < 20) {
         return true;
     }
 
@@ -136,17 +137,42 @@ function gererTourParTour(listPlayer){
     }
 }
 
+function getExperienceGagnee() {
+    var experienceGagnee = 0;
+    $.each(listEnnemiesTotal, function(index) {
+         experienceGagnee += listEnnemiesTotal[index].experienceDonnee;
+    });
+
+    return experienceGagnee;
+}
+
+function getLootedItems() {
+    var lootedItems = [];
+    $.each(listEnnemiesTotal, function(index) {
+        var loot = fetchMonsterLoot(listEnnemiesTotal[index].name);
+        $.each(loot, function(index) {
+            if (isLootObtain(loot[index])) {
+               lootedItems.push(cloneItem(fetchItem(loot[index].item.id)));
+            }
+        });
+    });
+
+    return lootedItems;
+}
+
 function victoire() {
+    var experienceGagnee = getExperienceGagnee();
     $('div').each(function(i){
         if (this.id != 'potironWolrdMap' && this.id != 'cristalSauvegarde') {
             this.remove();
         }
     })
-    var expertienceGagnee = 0;
-    $.each(listEnnemiesTotal, function(index) {
-         expertienceGagnee += listEnnemiesTotal[index].experienceDonnee;
-    });
-    incrementerExperience(Equipe, expertienceGagnee);
+    var lootedItems = getLootedItems();
+    reformateItems(lootedItems);
+    Items = Items.concat(lootedItems);
+    reformateItems(Items);
+    initialiserVictoireMenu(experienceGagnee, mapVictoireItemViewModel(lootedItems));
+    incrementerExperience(Equipe, experienceGagnee);
     $.each(listCapture, function(index) {
         if (Equipe.length <= 2 ) {
             Equipe.push(listCapture[index]);
@@ -154,12 +180,10 @@ function victoire() {
             Reserve.push(listCapture[index]);
         }
     });
-    displayElementOnParent('div', "headRow", "row", "", $("body"));
-    displayElementOnParent('h1', "colonneVictoire", "col-sm-12", "VICTOIRE !", $('#headRow'));
-    displayElementOnParent('div', "colonneExperience", "col-sm-6 hp text-center", "Experience gagnee : " + expertienceGagnee, $('#headRow'));
-    displayButtons ('btnPasser', "PASSER", "col-sm-1 btn btn-success", function(){initialiserWorldMap(Equipe)}, $("body"))
-
     document.removeEventListener('keydown', deplacerSelectorClavier);
+    $('#modalMenuVictoire').on('hidden.bs.modal', function () {
+        initialiserWorldMap(Equipe);
+    });
 }
 
 function incrementerExperience(Equipe, expertienceGagnee) {

@@ -33,14 +33,14 @@ class ViewModelSkill {
     }
 }
 
-AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', animateGriffe, '', 1000),
+var AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', animateGriffe, '', 1000),
             new Skill(strCharge, strCharge, 1, 'corpsACorps', animateCharge, '', 1000),
             new Skill(strMorsure, strMorsure, 2, 'corpsACorps', 500),
             new Skill(strFireBall, strFireBall, 2, 'magie', animateProjectil, strProjectil, 1000),
             new Skill(strAquaBall, strAquaBall, 2, 'magie', 1000, 100),
             new Skill(strChanter, strChanter, 2, 'corpsACorps', 5000),
             new Skill(strHypercut, strHypercut, 3, 'corpsACorps', 5000),
-            new Skill(strCapture, strCapture, 0, 'dressage', animateProjectil,strProjectil, 1000)];
+            new Skill(strCapture, strCapture, 0, 'dressage', animateProjectil, strProjectil, 1000)];
 
 function mapSkillViewModel (skills) {
     var result = [];

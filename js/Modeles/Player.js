@@ -1,5 +1,5 @@
 class Player {
-    constructor(id, name, level, experience, experienceNextLevel, currentHp, hp, force, magie, gentil, experienceDonnee, src, skills, catClass, evolution, evolutionLevel) {
+    constructor(id, name, level, experience, experienceNextLevel, currentHp, hp, force, magie, gentil, experienceDonnee, src, skills, catClass, evolution, evolutionLevel, loot) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -16,12 +16,12 @@ class Player {
         this.skills = skills;
         this.catClass = catClass;
         this.evolution = evolution;
-        this.evolutionLevel = evolutionLevel
+        this.evolutionLevel = evolutionLevel        
     }
 }
 
 class PlayerMonsterData {
-    constructor(name, hpLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills) {
+    constructor(name, hpLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot) {
         this.name = name;
         this.hpLevelOne = hpLevelOne;
         this.forceLevelOne = forceLevelOne;
@@ -35,6 +35,7 @@ class PlayerMonsterData {
         this.evolution = evolution;
         this.evolutionLevel = evolutionLevel
         this.futureSkills = futureSkills;
+        this.loot = loot;
     }
 }
 
@@ -66,15 +67,6 @@ class ViewModelInfoPlayer {
         this.Nom = player.name;
         this.Hp = player.currentHp + '/' + player.hp;
     }
-}
-
-function mapPlayerViewModel (Equipe) {
-    var result = [];
-    $.each(Equipe, function(index) {
-        result.push(new MainMenuViewModel(Equipe[index]))
-    });
-
-    return result;
 }
 
 
@@ -130,7 +122,7 @@ function isReadyToEvolve(player) {
 }
 
 function evolution(player) {
-    player = instancierPlayer(player.evolution, player.level, true);    
+    player = instancierPlayer(player.evolution, player.level, true);
     initialiserEvolutionMenu(player);
     displayEvoltionResult(player.id);
 

@@ -44,6 +44,26 @@ function displayProgressBar(currentValue, valueMax, parent) {
     progressBar.setAttribute('style', 'width:' + hpPourcentage + '%');
     progressBar.innerHTML = currentValue + '/' + valueMax;
     container.append(progressBar);
+
+    return progressBar;
+}
+
+function updateProgressBar(progressBar, currentValue, valueMax) {
+    var hpPourcentage = Math.round((currentValue/valueMax)*100);
+    var colorClass;
+    if (hpPourcentage == 100) {
+        colorClass = 'progress-bar-success';
+    }else if ( 66 < hpPourcentage < 100) {
+        colorClass = 'progress-bar-info'
+    }else if (33 < hpPourcentage < 66) {
+        colorClass = 'progress-bar-warning'
+    }else if (hpPourcentage < 33) {
+        colorClass = 'progress-bar-danger'
+    }
+    progressBar.className = 'progress-bar ' + colorClass + ' clearMargin';
+    progressBar.setAttribute('aria-valuenow', hpPourcentage);
+    progressBar.setAttribute('style', 'width:' + hpPourcentage + '%');
+    progressBar.innerHTML = currentValue + '/' + valueMax;
 }
 
 function createModal(id, titre) {
@@ -105,6 +125,64 @@ function displayMenuViewModels(idModal, viewModels, parent, colClass) {
     displayButtons ('btnReserve', 'Reserve', 'BUTTON', function () {displayReserve()}, parent)
     displayButtons ('btnFusion' ,'Fusion', 'BUTTON', function () {displayFusion()}, parent)
     displayButtons ('btnItems' ,'Objets', 'BUTTON', function () {displayItems()}, parent)
+}
+
+function displayPotionViewModels(id, effect, idModal, viewModels, parent) {
+    $.each(viewModels, function(index) {
+        var rowLabel = displayElementOnParent('div', 'Label' + viewModels[index].id + idModal, 'row', '', parent);
+        var rowValue = displayElementOnParent('div', 'Value' + viewModels[index].id + idModal , 'row', '', parent);
+            if (index == 0) {
+                displayElementOnParent('div', 'nom' + 'Label', 'col-sm-2', 'Nom', rowLabel);
+                displayElementOnParent('div', 'niveau' + 'Label', 'col-sm-2', 'Niveau', rowLabel);
+                displayElementOnParent('div', 'hp' + 'Label', 'col-sm-4', 'Hp', rowLabel);
+            }
+        displayElementOnParent('div', 'nom' + 'Value', 'col-sm-2', viewModels[index].Nom, rowValue);
+        displayElementOnParent('div', 'niveau' + 'Value', 'col-sm-2', viewModels[index].Niveau, rowValue);
+        var progressBar = displayProgressBar(viewModels[index].CurrentHp, viewModels[index].Hp, rowValue);
+        var btnSoigner = displayButtons ('btnCible' + viewModels[index].id , 'Soigner', 'btn btn-success col-sm-4', function () {effect(id, viewModels[index].id, progressBar)}, rowValue)
+        btnSoigner.css({
+            'margin-left' : '2em'
+        })
+        if (viewModels[index].CurrentHp <= 0 || viewModels[index].CurrentHp == viewModels[index].Hp) {
+            btnSoigner.prop( "disabled", true );
+        }else {
+            btnSoigner.prop( "disabled", false );
+        }
+    });
+}
+
+function displayItemViewModels(idModal, viewModels, parent, colClass){
+    $.each(viewModels, function(index) {
+        var rowLabel = displayElementOnParent('div', 'Label' + viewModels[index].id + idModal, 'row', '', parent);
+        var rowValue = displayElementOnParent('div', 'Value' + viewModels[index].id + idModal , 'row', '', parent);
+        $.each(viewModels[index], function(label, value) {
+            if (label != 'usable' && label != 'effect' && label != 'id') {
+                if (index == 0) {
+                    displayElementOnParent('div', label + 'Label', colClass, label, rowLabel);
+                }
+                displayElementOnParent('div', label + 'Value', colClass, value, rowValue);
+            }
+        });
+        if (viewModels[index].usable) {
+            displayButtons('btn' + viewModels[index].id, 'Utiliser', 'btn btn-secondary', viewModels[index].effect, rowValue)
+        }
+    });
+}
+
+function displayVictoireViewModels(idModal, expertienceGagnee, itemsVictoireViewModels, parent){
+    var experienceRow = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'row', '', parent);
+    var experienceLabelCol = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'col-sm-6', 'Experience gagnee : ' + expertienceGagnee + 'xp', experienceRow);
+    var separationRow = displayElementOnParent('div', 'rowVcitoireSeparation', 'row seperation', '', parent);
+    $.each(itemsVictoireViewModels, function(index) {
+        var rowLabel = displayElementOnParent('div', 'Label' + itemsVictoireViewModels[index].id + idModal, 'row', '', parent);
+        var rowValue = displayElementOnParent('div', 'Value' + itemsVictoireViewModels[index].id + idModal , 'row', '', parent);
+        $.each(itemsVictoireViewModels[index], function(label, value) {
+            if (index == 0) {
+                displayElementOnParent('div', label + 'Label', 'col-sm-6', label, rowLabel);
+            }
+            displayElementOnParent('div', label + 'Value', 'col-sm-6', value, rowValue);
+        });
+    });
 }
 
 function displaySkillsViewModels(idModal, viewModels, parent, colClass) {
@@ -393,23 +471,6 @@ function displayFusion(){
     ReserveFusion = Reserve.slice();
     initialiserFusionTwoMonstersMenu();
     $('#modalMenuFusionTwoMonsters').modal();
-}
-
-function displayItemViewModels(idModal, viewModels, parent, colClass){
-    $.each(viewModels, function(index) {
-        var rowLabel = displayElementOnParent('div', 'Label' + viewModels[index].id + idModal, 'row', '', parent);
-        var rowValue = displayElementOnParent('div', 'Value' + viewModels[index].id + idModal , 'row', '', parent);
-        $.each(viewModels[index], function(label, value) {
-            console.log(label);
-            if (label != 'usable' && label != 'effect' && label != 'id') {
-                if (index == 0) {
-                    displayElementOnParent('div', label + 'Label', colClass, label, rowLabel);
-                    console.log('coucou');
-                }
-                displayElementOnParent('div', label + 'Value', colClass, value, rowValue);
-            }
-        });
-    });
 }
 
 function displayItems() {

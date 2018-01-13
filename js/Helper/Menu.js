@@ -21,6 +21,22 @@ function initialiserItemsMenu() {
     var modalBody = creerItemMenu('modalMenuItems',  mapItemViewModel(Items), 'Liste des objets')
 }
 
+function initialiserVictoireMenu(expertienceGagnee, itemsVictoireViewModels) {
+    if ($('#modalMenuVictoire').length) {
+        $('#modalMenuVictoire').empty();
+    }
+    var modalBody = creerVictoireMenu('modalMenuVictoire',  expertienceGagnee, itemsVictoireViewModels,'Victoire');
+    $('#modalMenuVictoire').modal();
+}
+
+function initialiserPotionMenu(id, effect) {
+    if ($('#modalMenuPotions').length) {
+        $('#modalMenuPotions').empty();
+    }
+    var modalBody = creerPotionMenu(id, effect, 'modalMenuPotions',  mapMainMenuViewModel(Equipe), 'Liste des monstres a soigner');
+    $('#modalMenuPotions').modal();
+}
+
 function initialiserFusionTwoMonstersMenu() {
     if ($('#modalMenuFusionTwoMonsters').length) {
         $('#modalMenuFusionTwoMonsters').empty();
@@ -40,7 +56,7 @@ function initialiserMainMenu(Equipe) {
     if ($('#modalMenuStats').length) {
         $('#modalMenuStats').empty();
     }
-    var modalBody = creerMenu('modalMenuStats', mapPlayerViewModel(Equipe), 'Statistiques' );
+    var modalBody = creerMenu('modalMenuStats', mapMainMenuViewModel(Equipe), 'Statistiques' );
 }
 
 function initialiserFusionResultMenu(monster) {
@@ -90,6 +106,12 @@ function creerReserveMenu(idModal, viewModelsEquipe, viewModelsReserve, titre) {
     return modalBody;
 }
 
+function creerVictoireMenu(idModal,  expertienceGagnee, itemsVictoireViewModels, titre) {
+    var modalBody = createModal(idModal, titre);
+    displayVictoireViewModels(idModal, expertienceGagnee, itemsVictoireViewModels, modalBody);
+    return modalBody;
+}
+
 function creerFusionTwoMonstersMenu(idModal, viewModelsReserve, titre) {
     var modalBody = createModal(idModal, titre);
     displayFusionMonstersViewModels(idModal, viewModelsReserve, modalBody);
@@ -111,6 +133,12 @@ function creerMenuDetails(idModal, viewModel, titre) {
 function creerEvolutionMenu(idModal, viewModel, titre) {
     var modalBody = createModal(idModal, titre);
     displayEvolutionViewModels(idModal, viewModel, modalBody);
+    return modalBody;
+}
+
+function creerPotionMenu(id, effect, idModal, viewModel, titre) {
+    var modalBody = createModal(idModal, titre);
+    displayPotionViewModels(id, effect, idModal, viewModel, modalBody);
     return modalBody;
 }
 

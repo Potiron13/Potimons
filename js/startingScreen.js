@@ -10,9 +10,11 @@ $('document').ready(function(){
 
 });
 
-function newGame() {
+function newGame() {//id, name, usable, quantity, effect
     saveId = '1';
-    Items = [new Item('smallPotion', 'Small potion', true, 5, smallPotionHeal)];
+    var startingPotion = cloneItem(fetchItem('smallPotion'));
+    startingPotion.quantity = 5;
+    Items = [startingPotion];
     Equipe = [instancierPlayer(strPotiron, 5, true)];
     initialiserWorldMap(Equipe);
 }
@@ -26,20 +28,32 @@ function openLoadMenu() {
     $('#loadGameModal').modal();
 }
 
-function intaciatePlayerFromData(playerData) {
-    return new Player(playerData.data.id, playerData.data.name, playerData.data.level, playerData.data.experience, playerData.data.experienceNextLevel, playerData.data.currentHp, playerData.data.hp, playerData.data.force, playerData.data.magie, playerData.data.gentil, playerData.data.experienceDonnee, playerData.data.src, playerData.data.skills,
-         playerData.data.catClass, playerData.data.evolution, playerData.data.evolutionLevel);
+function instanciatePlayerFromData(playerData) {
+    var ids = [];
+    $.each(playerData.data.skills, function(index){
+        ids.push(playerData.data.skills[index].id)
+    });
+    var reformatedSkills = fetchSkills(ids);
+    return new Player(playerData.data.id, playerData.data.name, playerData.data.level, playerData.data.experience,
+         playerData.data.experienceNextLevel, playerData.data.currentHp, playerData.data.hp, playerData.data.force,
+         playerData.data.magie, playerData.data.gentil, playerData.data.experienceDonnee, playerData.data.src,
+         reformatedSkills, playerData.data.catClass, playerData.data.evolution, playerData.data.evolutionLevel);
+}
+
+function instanciateItemFromData(itemData) {
+    console.log(fetchItemByName(itemData.data.name));
+    return new Item(itemData.data.id, itemData.data.name, itemData.data.usable, itemData.data.quantity, fetchItemByName(itemData.data.name).effect);
 }
 
 function loadGame(gameId) {
     var data = loadDataFromLocalStorage(gameId);
     $.each(data, function(i){
         if (data[i].dataType == 'playerInfo') {
-            Equipe.push(intaciatePlayerFromData(data[i]));
+            Equipe.push(instanciatePlayerFromData(data[i]));
         }else if (data[i].dataType == 'reserveInfo') {
-            Reserve.push(intaciatePlayerFromData(data[i]));
+            Reserve.push(instanciatePlayerFromData(data[i]));
         }else if (data[i].dataType == 'itemInfo') {
-            Items.push(data[i]);
+            Items.push(instanciateItemFromData(data[i]));
         }
     });
     initialiserWorldMap(Equipe);

@@ -7,3 +7,12 @@ class MainMenuViewModel {
         this.CurrentHp = player.currentHp;
     }
 }
+
+function mapMainMenuViewModel (Equipe) {
+    var result = [];
+    $.each(Equipe, function(index) {
+        result.push(new MainMenuViewModel(Equipe[index]))
+    });
+
+    return result;
+}
