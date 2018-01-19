@@ -32,19 +32,6 @@ function initialiserWorldMap(Equipe) {
     var btnMenu = displayButtons('btnOuvrirMainMenu', 'Menu', 'btn btn-primary btnMainMenu', displayMainMenu, $('body'));
 }
 
-function alimenterListeEnnemie(carte) {
-    listEnnemies = [];
-    listEnnemiesTotal = [];
-    var nombreEnnemieAuCombat = entierAleatoire(1, carte.nombreMaximumEnnemie);
-    for (var i = 0; i < nombreEnnemieAuCombat; i++) {
-        var level = entierAleatoire(carte.levelMin, carte.levelMax);
-        var indexEnnemieGenere = entierAleatoire(0, carte.listNomEnnemiePossible.length - 1);
-        var ennemie = instancierPlayer(carte.listNomEnnemiePossible[indexEnnemieGenere], level, false);
-        listPlayer.push(ennemie);
-        listEnnemies.push(ennemie);
-        listEnnemiesTotal.push(ennemie);
-    }
-}
 
 function displayListGamingElement(listGamingElements) {
     $.each(listGamingElements, function(index) {
@@ -99,7 +86,7 @@ function deplacement(event) {
     var potironElement = document.getElementById('potironWolrdMap');
     if(event.keyCode == 37) {
         potironElement.className = 'potironWalkingLeft';
-        potironPos.X -= ( potironPos.X > 0 ) ? 1 : 0;
+        potironPos.X -= ( potironPos.X > 0 ) ? 5 : 0;
     }
     else if(event.keyCode == 38) {
         potironElement.className = 'potironWalkingUp';
@@ -216,7 +203,11 @@ function decrementerCompteurCombat(decrement) {
                 $('#cristalSauvegarde').hide();
                 $('#btnOuvrirMainMenu').hide();
                 document.getElementById("potironWolrdMap").style.transform = "";
-                combat(carte);
+                //combat(carte);
+                var viewCombat = new CombatView();
+                var controllerCombat = new CombatController(viewCombat, Equipe, Reserve, Items);
+                controllerCombat.init(carte);
+                controllerCombat.combat();
             } else {
                 document.getElementById("potironWolrdMap").style.transform = "rotate(" + compteurTransition*5 + "deg)";
                 compteurTransition++;

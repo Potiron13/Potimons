@@ -10,12 +10,12 @@ $('document').ready(function(){
 
 });
 
-function newGame() {//id, name, usable, quantity, effect
+function newGame() {
     saveId = '1';
     var startingPotion = cloneItem(fetchItem('smallPotion'));
     startingPotion.quantity = 5;
     Items = [startingPotion];
-    Equipe = [instancierPlayer(strPotiron, 5, true)];
+    Equipe = [instancierPlayer(strPotiron, 5, true), instancierPlayer(strPotipuce, 5, true)];
     initialiserWorldMap(Equipe);
 }
 
@@ -41,8 +41,7 @@ function instanciatePlayerFromData(playerData) {
 }
 
 function instanciateItemFromData(itemData) {
-    console.log(fetchItemByName(itemData.data.name));
-    return new Item(itemData.data.id, itemData.data.name, itemData.data.usable, itemData.data.quantity, fetchItemByName(itemData.data.name).effect);
+    return new Item(itemData.data.id, itemData.data.name, itemData.data.usableInMenu, itemData.data.usableInCombat, itemData.data.quantity, fetchItemByName(itemData.data.name).effectInMenu, fetchItemByName(itemData.data.name).effectInCombat);
 }
 
 function loadGame(gameId) {

@@ -22,7 +22,7 @@ function animateCharge(player, target, skill) {
     var playerElement = $('#' + player.id);
     var targetElement = $('#' + target.id);
     playerElement.animate({
-        left: targetElement.offset().left - playerElement.offset().left + 'px',
+        left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - playerElement.width()/2 + 'px',
         top: targetElement.offset().top - playerElement.offset().top + 'px'
     }, skill.duration);
     playerElement.animate({
@@ -40,29 +40,11 @@ function animateProjectil(player, target, skill) {
     imgMagie.style="position:absolute";
     imgMagie.style.zIndex = "10";
     imgMagie.style.height = "300px";
+    imgMagie.style.width = "300px";
     playerElement.prepend(imgMagie);
     var jqueryImg = $('#' + imgMagie.id);
     jqueryImg.animate({
-        left: targetElement.offset().left - playerElement.offset().left + 'px',
+        left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - jqueryImg.width()/2 + 'px',
         top: targetElement.offset().top - playerElement.offset().top + 'px'
     }, skill.duration);
 }
-/*
-function animateMagie(imgMagie, startingPosX, startingPosY, endingPosX, endingPosY, duration) {
-    var posX = startingPosX;
-    var posY = startingPosY;
-    imgMagie.style.top = startingPosY + 'px';
-    var id = setInterval(frame, 1);
-
-    function frame() {
-        if (posX == endingPosX || ( startingPosX != startingPosY && posY == endingPosY )) {
-            clearInterval(id);
-        } else {
-            posX += (endingPosX - startingPosX)/(duration/20);
-            posY += (endingPosY - startingPosY)/(duration/20);
-            imgMagie.style.top = posY + 'px';
-            imgMagie.style.left = posX + 'px';
-        }
-    }
-}
-*/

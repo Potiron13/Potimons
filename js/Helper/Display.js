@@ -8,6 +8,16 @@ function displayElementOnParent(elementNodeName, elementId, elementClass, elemen
     return $('#'+element.id);
 }
 
+function prependElementOnParent(elementNodeName, elementId, elementClass, elementInnerHTML, parent) {
+    var element = document.createElement(elementNodeName);
+    element.id = elementId;
+    element.className = elementClass;
+    element.innerHTML = elementInnerHTML;
+    parent.prepend(element);
+
+    return $('#'+element.id);
+}
+
 function displayButtons(id, label, btnClass, functionOnClick, parent){
     var elementButton = document.createElement("BUTTON");
     var btnLabel = document.createTextNode(label);
@@ -20,7 +30,7 @@ function displayButtons(id, label, btnClass, functionOnClick, parent){
     return $('#'+elementButton.id);
 }
 
-function displayProgressBar(currentValue, valueMax, parent) {
+function displayProgressBar(id, currentValue, valueMax, parent) {
     var hpPourcentage = Math.round((currentValue/valueMax)*100);
     var container = document.createElement('div');
     var colorClass;
@@ -36,6 +46,7 @@ function displayProgressBar(currentValue, valueMax, parent) {
     container.className = 'progress ' + 'col-sm-4' + ' clearPadding vcenter';
     parent.append(container);
     var progressBar = document.createElement('div');
+    progressBar.id = id;
     progressBar.className = 'progress-bar ' + colorClass + ' clearMargin';
     progressBar.setAttribute('role', 'progressbar');
     progressBar.setAttribute('aria-valuenow', hpPourcentage);
@@ -118,7 +129,7 @@ function displayMenuViewModels(idModal, viewModels, parent, colClass) {
             }
         displayElementOnParent('div', 'nom' + 'Value', colClass, viewModels[index].Nom, rowValue);
         displayElementOnParent('div', 'niveau' + 'Value', colClass, viewModels[index].Niveau, rowValue);
-        displayProgressBar(viewModels[index].CurrentHp, viewModels[index].Hp, rowValue);
+        displayProgressBar(viewModels[index].id + 'menuProgressBar', viewModels[index].CurrentHp, viewModels[index].Hp, rowValue);
         displayButtons ( 'btnSkills' + viewModels[index].id,'Competences', 'BUTTON', function () {displaySkills(viewModels[index].id)}, rowValue);
         displayButtons ('btnDetails' + viewModels[index].id ,'Details', 'BUTTON', function () {displayDetails(viewModels[index].id)}, rowValue)
     });
@@ -138,8 +149,8 @@ function displayPotionViewModels(id, effect, idModal, viewModels, parent) {
             }
         displayElementOnParent('div', 'nom' + 'Value', 'col-sm-2', viewModels[index].Nom, rowValue);
         displayElementOnParent('div', 'niveau' + 'Value', 'col-sm-2', viewModels[index].Niveau, rowValue);
-        var progressBar = displayProgressBar(viewModels[index].CurrentHp, viewModels[index].Hp, rowValue);
-        var btnSoigner = displayButtons ('btnCible' + viewModels[index].id , 'Soigner', 'btn btn-success col-sm-4', function () {effect(id, viewModels[index].id, progressBar)}, rowValue)
+        var progressBar = displayProgressBar(viewModels[index].id + 'potionProgressBar', viewModels[index].CurrentHp, viewModels[index].Hp, rowValue);
+        var btnSoigner = displayButtons ('btnCible' + viewModels[index].id , 'Soigner', 'btn btn-success col-sm-2', function () {effect(id, viewModels[index].id, progressBar)}, rowValue)
         btnSoigner.css({
             'margin-left' : '2em'
         })
@@ -156,15 +167,15 @@ function displayItemViewModels(idModal, viewModels, parent, colClass){
         var rowLabel = displayElementOnParent('div', 'Label' + viewModels[index].id + idModal, 'row', '', parent);
         var rowValue = displayElementOnParent('div', 'Value' + viewModels[index].id + idModal , 'row', '', parent);
         $.each(viewModels[index], function(label, value) {
-            if (label != 'usable' && label != 'effect' && label != 'id') {
+            if (label != 'usableInMenu' && label != 'effectInMenu' && label != 'id') {
                 if (index == 0) {
                     displayElementOnParent('div', label + 'Label', colClass, label, rowLabel);
                 }
                 displayElementOnParent('div', label + 'Value', colClass, value, rowValue);
             }
         });
-        if (viewModels[index].usable) {
-            displayButtons('btn' + viewModels[index].id, 'Utiliser', 'btn btn-secondary', viewModels[index].effect, rowValue)
+        if (viewModels[index].usableInMenu) {
+            displayButtons('btn' + viewModels[index].id, 'Utiliser', 'btn btn-secondary', viewModels[index].effectInMenu, rowValue)
         }
     });
 }
@@ -487,55 +498,4 @@ function displayDetails(id) {
 
 function displayEquipement(id) {
     $('#modalEquipement' + id).modal();
-}
-
-function displayPlayerList(listPlayer, parent) {
-    $.each(listPlayer,function(index){
-        var colonnePlayer = displayElementOnParent('div', "colonne" + listPlayer[index].id, 'col-sm-' + 12/listPlayer.length, '', parent);
-        var colonneSelector = displayElementOnParent('div', "colonneSelector" + listPlayer[index].id, 'col-sm-' + 12/listPlayer.length + ' noSelector', '', colonnePlayer);
-        var colImage = displayElementOnParent('div', listPlayer[index].id, "col-sm-12 colonneIdle text-center", "", colonnePlayer);
-        var playerImg = document.createElement('img');
-        playerImg.src =  listPlayer[index].gentil ? listPlayer[index].srcDos : listPlayer[index].src;
-        colImage.append(playerImg);
-    });
-}
-
-function displaySkillsButtons(skills, player, selectedEnnemie, listPlayer, parent) {
-    $.each(skills, function( index, skill ) {
-        displayButtons( 'btn' + skill.id, skill.name, (skill.type == "magie") ? "col-sm-3 btn btn-danger btnCombat" : "col-sm-3 btn btn-success btnCombat",
-        function() {
-            $("#buttonRow" + player.id).hide();
-            attaque(player, null, skill);
-        }, parent);
-    });
-}
-
-function displayEquipeInfo(parent) {
-    var colInfoEquipe = displayElementOnParent('div', 'colInfoEquipe', 'col-sm-4 combatInfo', '', parent);
-    var labelRow = displayElementOnParent('div', 'labelRowInfo', 'row', '', colInfoEquipe);
-    $.each(Equipe, function(index) {
-        var viewModelInfoPlayer = new ViewModelInfoPlayer(Equipe[index]);
-        var infoRow = displayElementOnParent('div', Equipe[index].id + 'Info' + 'Row', 'row', '', colInfoEquipe);
-        $.each(viewModelInfoPlayer, function(label, value) {
-            if (index == 0) {
-                var labelCol = displayElementOnParent('div', label + 'Info', 'col-sm-6', label, labelRow);
-            }
-            var valueCol = displayElementOnParent('div', 'value'+ label + 'Info' + Equipe[index].id, 'col-sm-6', value, infoRow);
-        })
-    })
-}
-
-function displayEnnemieInfo(parent) {
-    var colInfoEnnemie = displayElementOnParent('div', 'colEnnemieInfo', 'col-sm-4 combatInfo', '', parent);
-    var labelRow = displayElementOnParent('div', 'labelRowEnnemieInfo', 'row', '', colInfoEnnemie);
-    $.each(listEnnemies, function(index) {
-        var viewModelInfoEnnemie = new ViewModelInfoEnnemie(listEnnemies[index], index);
-        var infoRow = displayElementOnParent('div', listEnnemies[index].id + 'Info' + 'Row', 'row', '', colInfoEnnemie);
-        $.each(viewModelInfoEnnemie, function(label, value) {
-            if (index == 0) {
-                var labelCol = displayElementOnParent('div', label + 'Info', 'col-sm-6', label, labelRow);
-            }
-            var valueCol = displayElementOnParent('div', 'value'+ label + 'Info' + listEnnemies[index].id, 'col-sm-6', value, infoRow);
-        })
-    })
 }

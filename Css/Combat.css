@@ -11,11 +11,11 @@ body {
 }
 
 #mainRow {
-    
+
 }
 
 #bottomRow {
-    margin-top: 10em;
+    height: 33%
 }
 
 .colonneIdle {
@@ -48,6 +48,30 @@ body {
 .btnCombat {
     font-family: "Times New Roman", Times, serif;
     font-size: 3em;
+}
+
+.dammageAnimated {
+    position: absolute;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 3em;
+}
+
+.portaitContainerGentil {
+    border: 1em solid green;
+    border-radius: 2em;
+    height: 8em;
+    overflow: hidden;
+}
+
+.portaitContainerEnnemie {
+    border: 1em solid red;
+    border-radius: 2em;
+    height: 8em;
+    overflow: hidden;
+}
+
+.cursorTarget {
+    cursor: crosshair;
 }
 
 @keyframes idle {

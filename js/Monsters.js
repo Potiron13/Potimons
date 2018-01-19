@@ -13,7 +13,7 @@ var monsterList = [
     new PlayerMonsterData(
         strPotitata, 10, 2, 2, 3, 1, 1, 1, 2,'Normal', strPotitatac, 4,
         [new FutureSkill(strGriffe, 1), new FutureSkill(strCharge, 3)],
-        [new Loot('smallPotion', 1)]
+        [new Loot('smallPotion', 0.3)]
     ),
     new PlayerMonsterData(
         strPotitatac, 20, 5, 5, 5, 2, 2, 5, 2,'Normal', null, null,
@@ -22,7 +22,7 @@ var monsterList = [
     new PlayerMonsterData(
         strPotipuce, 15, 5, 5, 5, 2, 2, 5, 2,'Eau', null, null,
         [new FutureSkill(strGriffe, 1), new FutureSkill(strAquaBall, 5)],
-        [new Loot('mediumPotion', 1)]
+        [new Loot('mediumPotion', 0.5)]
     ),
     new PlayerMonsterData(
         strPotidoudou, 12, 5, 5, 7, 2, 2, 7, 2,'Lune', null, null,

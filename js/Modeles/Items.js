@@ -1,10 +1,12 @@
 class Item {
-    constructor(id, name, usable, quantity, effect) {
+    constructor(id, name, usableInMenu, usableInCombat, quantity, effectInMenu, effectInCombat) {
         this.id = id;
         this.name = name;
-        this.usable = usable;
+        this.usableInMenu = usableInMenu;
+        this.usableInCombat = usableInCombat;
         this.quantity = quantity;
-        this.effect = effect;
+        this.effectInMenu = effectInMenu;
+        this.effectInCombat= effectInCombat;
     }
 }
 
@@ -13,8 +15,8 @@ class ViewModelItem {
         this.id = item.id;
         this.Objet = item.name;
         this.Quantite = item.quantity;
-        this.usable = item.usable;
-        this.effect = item.effect;
+        this.usableInMenu = item.usableInMenu;
+        this.effectInMenu = item.effectInMenu;
     }
 }
 
@@ -33,12 +35,12 @@ class ViewModelVictoireItem {
 }
 
 function cloneItem(item) {
-    return new Item(item.id + guidGenerator(), item.name, item.usable, item.quantity, item.effect);
+    return new Item(item.id + guidGenerator(), item.name, item.usableInMenu, item.usableInCombat, item.quantity, item.effectInMenu, item.effectInCombat);
 }
 
 var AllItems = [
-    new Item('smallPotion', 'petite potion', true, 1, function(){initialiserPotionMenu('smallPotion', smallPotionHeal)}),
-    new Item('mediumPotion', 'potion moyenne', true, 1, function(){initialiserPotionMenu('smallPotion', smallPotionHeal)})
+    new Item('smallPotion', 'petite potion', true, true, 1, function(){initialiserPotionMenu('petite potion', smallPotionHeal)}, smallPotionHeal),
+    new Item('mediumPotion', 'potion moyenne', true, true, 1, function(){initialiserPotionMenu('potion moyenne', mediumPotionHeal)}, mediumPotionHeal)
 ]
 
 function mapVictoireItemViewModel(listItem) {
@@ -86,11 +88,15 @@ function mapItemViewModel(listItem) {
     return result;
 }
 
-function smallPotionHeal(itemId, playerId, progressBar) {
-    potionHeal(itemId, playerId, 20, progressBar);
+function smallPotionHeal(itemName, playerId, progressBar) {
+    potionHeal(itemName, playerId, 20, progressBar);
 }
 
-function potionHeal(itemId, playerId, healingAmount, progressBar) {
+function mediumPotionHeal(itemId, playerId, progressBar) {
+    potionHeal(itemName, playerId, 40, progressBar);
+}
+
+function potionHeal(itemName, playerId, healingAmount, progressBar) {
     var playerToHeal = Equipe.find(x => x.id == playerId);
     if (playerToHeal.hp - playerToHeal.currentHp > healingAmount) {
         playerToHeal.currentHp += healingAmount;
@@ -98,7 +104,7 @@ function potionHeal(itemId, playerId, healingAmount, progressBar) {
         playerToHeal.currentHp = playerToHeal.hp;
     }
     updateProgressBar(progressBar, playerToHeal.currentHp, playerToHeal.hp);
-    var potionUsed = Items.find(x=>x.id == itemId);
+    var potionUsed = Items.find(x=>x.name == itemName);
     potionUsed.quantity = potionUsed.quantity - 1;
     initialiserItemsMenu();
     initialiserMainMenu(Equipe);

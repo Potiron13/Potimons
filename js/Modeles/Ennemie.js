@@ -1,7 +1,9 @@
 class ViewModelInfoEnnemie {
-    constructor (ennemie, index) {
+    constructor (ennemie) {
+        this.id = ennemie.id
         this.Nom = ennemie.name;
-        this.Hp = ennemie.currentHp + '/' + ennemie.hp;
+        this.Hp = ennemie.hp;
+        this.CurrentHp = ennemie.currentHp;
     }
 }
 

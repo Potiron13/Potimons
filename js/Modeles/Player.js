@@ -12,11 +12,12 @@ class Player {
         this.gentil = gentil;
         this.experienceDonnee = experienceDonnee;
         this.src = src;
-        this.srcDos = src.replace('.png', 'Dos.png');
+        this.srcDos = src.replace(strPathImgMonstre, strPathImgMonstreDos);
+        this.srcPortrait = src.replace(strPathImgMonstre, strPathImgMonstreProtrait);
         this.skills = skills;
         this.catClass = catClass;
         this.evolution = evolution;
-        this.evolutionLevel = evolutionLevel        
+        this.evolutionLevel = evolutionLevel;
     }
 }
 
@@ -64,8 +65,10 @@ class ViewModelPlayer {
 
 class ViewModelInfoPlayer {
     constructor (player) {
+        this.id = player.id
         this.Nom = player.name;
-        this.Hp = player.currentHp + '/' + player.hp;
+        this.Hp = player.hp;
+        this.CurrentHp = player.currentHp;
     }
 }
 
