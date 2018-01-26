@@ -1,5 +1,5 @@
 class Item {
-    constructor(id, name, usableInMenu, usableInCombat, quantity, effectInMenu, effectInCombat) {
+    constructor(id, name, usableInMenu, usableInCombat, quantity, effectInMenu, effectInCombat, category, amount) {
         this.id = id;
         this.name = name;
         this.usableInMenu = usableInMenu;
@@ -7,6 +7,8 @@ class Item {
         this.quantity = quantity;
         this.effectInMenu = effectInMenu;
         this.effectInCombat= effectInCombat;
+        this.category = category;
+        this.amount = amount
     }
 }
 
@@ -17,6 +19,7 @@ class ViewModelItem {
         this.Quantite = item.quantity;
         this.usableInMenu = item.usableInMenu;
         this.effectInMenu = item.effectInMenu;
+        this.category = item.category;
     }
 }
 
@@ -35,24 +38,14 @@ class ViewModelVictoireItem {
 }
 
 function cloneItem(item) {
-    return new Item(item.id + guidGenerator(), item.name, item.usableInMenu, item.usableInCombat, item.quantity, item.effectInMenu, item.effectInCombat);
+    return new Item(item.id + guidGenerator(), item.name, item.usableInMenu, item.usableInCombat, item.quantity, item.effectInMenu, item.effectInCombat, item.category, item.amount);
 }
 
 var AllItems = [
-    new Item('smallPotion', 'petite potion', true, true, 1, function(){initialiserPotionMenu('petite potion', smallPotionHeal)}, smallPotionHeal),
-    new Item('mediumPotion', 'potion moyenne', true, true, 1, function(){initialiserPotionMenu('potion moyenne', mediumPotionHeal)}, mediumPotionHeal)
+    new Item('smallPotion', 'petite potion', true, true, 1, potionHeal, potionHeal, 'Hp', 20),
+    new Item('mediumPotion', 'potion moyenne', true, true, 1, potionHeal, potionHeal, 'Hp', 40),
+    new Item('smallManaPotion', 'petite potion de mana', true, true, 1, potionMana, potionMana, 'Mana', 20),
 ]
-
-function mapVictoireItemViewModel(listItem) {
-    var result = [];
-    if (listItem) {
-        $.each(listItem, function(index) {
-            result.push(new ViewModelVictoireItem(listItem[index]))
-        });
-    }
-
-    return result;
-}
 
 function fetchItems(itemsId) {
     result = [];
@@ -88,26 +81,40 @@ function mapItemViewModel(listItem) {
     return result;
 }
 
-function smallPotionHeal(itemName, playerId, progressBar) {
-    potionHeal(itemName, playerId, 20, progressBar);
+function mapPotionMenuViewModel(listEquipe) {
+    var result = [];
+    $.each(listEquipe, function(index) {
+        result.push(new MainMenuViewModel(this))
+    });
+
+    return result;
 }
 
-function mediumPotionHeal(itemId, playerId, progressBar) {
-    potionHeal(itemName, playerId, 40, progressBar);
-}
-
-function potionHeal(itemName, playerId, healingAmount, progressBar) {
+function potionHeal(itemName, playerId, progressBar) {
+    var potionUsed = Items.find(x=>x.name == itemName);
+    potionUsed.quantity = potionUsed.quantity - 1;
     var playerToHeal = Equipe.find(x => x.id == playerId);
-    if (playerToHeal.hp - playerToHeal.currentHp > healingAmount) {
-        playerToHeal.currentHp += healingAmount;
+    if (playerToHeal.hp - playerToHeal.currentHp > potionUsed.amount) {
+        playerToHeal.currentHp += potionUsed.amount;
     }else {
         playerToHeal.currentHp = playerToHeal.hp;
     }
     updateProgressBar(progressBar, playerToHeal.currentHp, playerToHeal.hp);
+    if (potionUsed.quantity <= 0) {
+        Items.splice(Items.findIndex(x => x.id == potionUsed.id), 1);
+    }
+}
+
+function potionMana(itemName, playerId, progressBar) {
     var potionUsed = Items.find(x=>x.name == itemName);
     potionUsed.quantity = potionUsed.quantity - 1;
-    initialiserItemsMenu();
-    initialiserMainMenu(Equipe);
+    var playerToHeal = Equipe.find(x => x.id == playerId);
+    if (playerToHeal.mana - playerToHeal.currentMana > potionUsed.amount) {
+        playerToHeal.currentMana += potionUsed.amount;
+    }else {
+        playerToHeal.currentMana = playerToHeal.mana;
+    }
+    updateProgressBar(progressBar, playerToHeal.currentMana, playerToHeal.mana);
 }
 
 function reformateItems(listToFormat) {
@@ -126,4 +133,6 @@ function reformateItems(listToFormat) {
             }
         });
     }
+
+    return listToFormat;
 }

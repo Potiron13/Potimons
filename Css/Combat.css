@@ -1,7 +1,6 @@
 body {
     margin-left: 20px;;
-    padding:0;
-    background: url(../Images/plaine.png) no-repeat center fixed;
+    padding:0;    
     background-size: cover;
     z-index: -1;
 }
@@ -11,11 +10,11 @@ body {
 }
 
 #mainRow {
-
+    height: 33%;
 }
 
 #bottomRow {
-    height: 33%
+    height: 33%;
 }
 
 .colonneIdle {
@@ -25,18 +24,17 @@ body {
 }
 
 .selector {
-    background: url(../Images/Selector.png) no-repeat;
+    background: url(../Images/Ui/Selector.png) no-repeat;
     background-size: contain;
-    height: 5em;
+    height: 3em;
     background-position: center;
 }
 
 .noSelector {
-    height : 5em;
+    height : 3em;
 }
 
 .combatInfo {
-    padding-top: 5em;
     font-family: "Times New Roman", Times, serif;
     font-size: 2em;
 }
@@ -47,7 +45,7 @@ body {
 
 .btnCombat {
     font-family: "Times New Roman", Times, serif;
-    font-size: 3em;
+    font-size: 2em;
 }
 
 .dammageAnimated {
@@ -57,16 +55,16 @@ body {
 }
 
 .portaitContainerGentil {
-    border: 1em solid green;
-    border-radius: 2em;
-    height: 8em;
+    border: 0.5em solid green;
+    border-radius: 1em;
+    height: 5em;
     overflow: hidden;
 }
 
 .portaitContainerEnnemie {
-    border: 1em solid red;
-    border-radius: 2em;
-    height: 8em;
+    border: 0.5em solid red;
+    border-radius: 1em;
+    height: 5em;
     overflow: hidden;
 }
 

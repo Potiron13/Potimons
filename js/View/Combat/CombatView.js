@@ -1,11 +1,11 @@
-var CombatView = function (carte) {
-    this.carte = carte;
+var CombatView = function () {
+
 }
 
 CombatView.prototype = {
 
-    render : function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem) {
-        document.body.style.backgroundImage =  "url(Images/plaine.png)";
+    render : function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName) {
+        document.body.style.backgroundImage =  "url(Images/Maps/" + mapName + ".png)";
         document.body.style.backgroundRepeat = "repeat-n";
         document.body.style.backgroundPosition = "center";
         document.body.style.backgroundAttachment = "fixed";
@@ -61,11 +61,13 @@ CombatView.prototype = {
             var viewModel = viewModelInfoEnnemie[index];
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEnnemie);
             if (index == 0) {
-                var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-6', 'Nom', labelRow);
-                var labelHpCol = displayElementOnParent('div', viewModel.id + 'labelHpColInfo', 'col-sm-6', 'Hp', labelRow);
+                var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
+                var labelHpCol = displayElementOnParent('div', viewModel.id + 'labelHpColInfo', 'col-sm-4', 'Hp', labelRow);
+                var labelManaCol = displayElementOnParent('div', viewModel.id + 'labelManaColInfo', 'col-sm-4', 'Mana', labelRow);
             }
-            var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-6', viewModel.Nom, infoRow);
-            displayProgressBar(viewModel.id + strCombat + strProgressBar, viewModel.CurrentHp, viewModel.Hp, infoRow)
+            var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
+            displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Hp', viewModel.CurrentHp, viewModel.Hp, infoRow)
+            displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, infoRow)
         });
     },
 
@@ -76,16 +78,18 @@ CombatView.prototype = {
             var viewModel = viewModelsInfoPlayer[index];
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEquipe);
             if (index == 0) {
-                var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-6', 'Nom', labelRow);
-                var labelHpCol = displayElementOnParent('div', viewModel.id + 'labelHpColInfo', 'col-sm-6', 'Hp', labelRow);
+                var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
+                var labelHpCol = displayElementOnParent('div', viewModel.id + 'labelHpColInfo', 'col-sm-4', 'Hp', labelRow);
+                var labelManaCol = displayElementOnParent('div', viewModel.id + 'labelManaColInfo', 'col-sm-4', 'Mana', labelRow);
             }
-            var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-6', viewModel.Nom, infoRow);
-            displayProgressBar(viewModel.id + strCombat + strProgressBar, viewModel.CurrentHp, viewModel.Hp, infoRow)
+            var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
+            displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Hp', viewModel.CurrentHp, viewModel.Hp, infoRow)
+            displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, infoRow)
         });
     },
 
-    getProgressBar(player, type) {
-        return document.getElementById(player.id + type + strProgressBar);
+    getProgressBar : function (player, type) {
+        return document.getElementById(player.id + strProgressBar + type);
     },
 
     displayPlayerList : function (listPlayer, parent) {
@@ -95,6 +99,7 @@ CombatView.prototype = {
             var colImage = displayElementOnParent('div', listPlayer[index].id, "col-sm-12 colonneIdle text-center", "", colonnePlayer);
             var playerImg = document.createElement('img');
             playerImg.src =  listPlayer[index].gentil ? listPlayer[index].srcDos : listPlayer[index].src;
+            playerImg.style.height = '12em';
             colImage.append(playerImg);
         });
     },
@@ -144,25 +149,9 @@ CombatView.prototype = {
     displayBtnItems : function(player, id, parent, listItem){
         $.each(listItem, function(index) {
             var item = listItem[index];
-            displayButtons( 'btn' + item.id + player.id, item.name + ' (x' + item.quantity + ')', 'col-sm-3 btn btn-success btnCombat',
+            displayButtons( 'btn' + item.id + player.id, item.name + ' (x' + item.quantity + ')', 'col-sm-4 btn btn-success btnCombat',
             null, parent);
         });
-    },
-
-    updateBtnItems : function(listPlayer, listItem){
-        $.each(listPlayer, function(index){
-            var player = listPlayer[index];
-            $.each(listItem, function(i) {
-                var item = listItem[i];
-                var btn = $('#btn' +  item.id + player.id);
-                btn.html(item.name + ' (x' + item.quantity + ')');
-                if (item.quantity <= 0) {
-                    btn.prop( "disabled", true );
-                }else {
-                    btn.prop( "disabled", false );
-                }
-            });
-        })
     },
 
     displayFuturActions : function(listPlayer, parent) {
@@ -176,7 +165,7 @@ CombatView.prototype = {
         $.each(listPlayer, function(index){
             var player = listPlayer[index];
             var cssClass = player.gentil ? strPortaitContainerGentil : strPortaitContainerEnnemie;
-            var portraitCol = displayElementOnParent('div', player.id + 'portaitColonne', 'col-sm-2 clearMargin clearPadding', '', futurActionsRow);
+            var portraitCol = displayElementOnParent('div', player.id + 'portaitColonne', 'col-sm-1 clearMargin clearPadding', '', futurActionsRow);
             var portaintContainer = displayElementOnParent('div', player.id + 'portaintContainer', cssClass, '', portraitCol);
             var portraitImg =  document.createElement('img');
             portraitImg.style.height = '100%';
@@ -194,15 +183,28 @@ CombatView.prototype = {
         document.body.style.textAlign = "center";
     },
 
-    displayVictory: function(experienceGagnee, victoireItemViewModel) {
+    displayVictory: function(experienceGagnee, itemsVictoireViewModels) {
+        var idModal = strModalMenuVictoire;
         $('div').each(function(i){
-            if (this.id != 'potironWolrdMap' && this.id != 'cristalSauvegarde') {
-                this.remove();
-            }
+            this.remove();
         });
-        initialiserVictoireMenu(experienceGagnee, victoireItemViewModel);
-        $('#modalMenuVictoire').on('hidden.bs.modal', function () {
-            initialiserWorldMap(Equipe);
+        if ($('#' + idModal).length) {
+            $('#' + idModal).empty();
+        }
+        var parent = createModal(idModal, 'Victoire !');
+        var experienceRow = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'row', '', parent);
+        var experienceLabelCol = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'col-sm-6', 'Experience gagnee : ' + experienceGagnee + 'xp', experienceRow);
+        var separationRow = displayElementOnParent('div', 'rowVcitoireSeparation', 'row seperation', '', parent);
+        $.each(itemsVictoireViewModels, function(index) {
+            var rowLabel = displayElementOnParent('div', 'Label' + itemsVictoireViewModels[index].id + idModal, 'row', '', parent);
+            var rowValue = displayElementOnParent('div', 'Value' + itemsVictoireViewModels[index].id + idModal , 'row', '', parent);
+            $.each(itemsVictoireViewModels[index], function(label, value) {
+                if (index == 0) {
+                    displayElementOnParent('div', label + 'Label', 'col-sm-6', label, rowLabel);
+                }
+                displayElementOnParent('div', label + 'Value', 'col-sm-6', value, rowValue);
+            });
         });
+        $('#' + idModal).modal();
     }
 }

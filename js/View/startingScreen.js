@@ -1,15 +1,5 @@
-var saveId;
-
-$('document').ready(function(){
-    document.body.style.backgroundImage =  "url(Images/startingScreen.png)";;
-    var newGameContainer = displayElementOnParent('div', 'newGameContainer', 'container container-table', '', $('body'));
-    var startingGameRow = displayElementOnParent('div', 'newGameRow', 'vertical-center-row', '', newGameContainer);
-    initialiserLoadMenu();
-    displayButtons ('btnNewGame', 'NEWGAME', 'btn col-sm-4 col-sm-offset-4', newGame, startingGameRow);
-    displayButtons ('btnContinue', 'Continue', 'btn col-sm-4 col-sm-offset-4', openLoadMenu, startingGameRow)
-
-});
-
+//var saveId;
+/*
 function newGame() {
     saveId = '1';
     var startingPotion = cloneItem(fetchItem('smallPotion'));
@@ -17,11 +7,6 @@ function newGame() {
     Items = [startingPotion];
     Equipe = [instancierPlayer(strPotiron, 5, true), instancierPlayer(strPotipuce, 5, true)];
     initialiserWorldMap(Equipe);
-}
-
-function initialiserLoadMenu() {
-    var savesViewModels = getSavesViewModels();
-    var modalBody = creerMenuDeChargement('loadGameModal', savesViewModels, 'Continue');
 }
 
 function openLoadMenu() {
@@ -56,4 +41,4 @@ function loadGame(gameId) {
         }
     });
     initialiserWorldMap(Equipe);
-}
+}*/

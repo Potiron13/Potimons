@@ -3,8 +3,10 @@ class ViewModelDetails {
         this.id = player.id;
         this.Nom = player.name;
         this.Niveau = player.level;
-        this.HpMax = player.hp;
+        this.Hp = player.hp;
         this.curHp = player.currentHp;
+        this.curMana = player.currentMana;
+        this.Mana = player.mana;
         this.Force = player.force;
         this.Magie = player.magie;
         this.Exp = player.experience;

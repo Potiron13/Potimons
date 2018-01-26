@@ -5,14 +5,7 @@ class MainMenuViewModel {
         this.Niveau = player.level;
         this.Hp = player.hp;
         this.CurrentHp = player.currentHp;
+        this.Mana = player.mana;
+        this.CurrentMana = player.currentMana;
     }
-}
-
-function mapMainMenuViewModel (Equipe) {
-    var result = [];
-    $.each(Equipe, function(index) {
-        result.push(new MainMenuViewModel(Equipe[index]))
-    });
-
-    return result;
 }

@@ -1,33 +1,46 @@
 var monsterFusionList = [
     new MonsterFusionData(strPotitata, 1, 'aucune'),
-    new MonsterFusionData(strPotipuce, 3, 'eau'),
-    new MonsterFusionData(strPotimeche, 5, 'feu')
+    new MonsterFusionData(strPotipuce, 5, 'eau'),
+    new MonsterFusionData(strPotizarre, 8, 'plante'),
+    new MonsterFusionData(strPotimeche, 12, 'feu'),
+    new MonsterFusionData(strPotidoudou, 15, 'lune'),
 ];
 
 var monsterList = [
-    //new PlayerMonsterData(name, hpLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, catClass, evolution, evolutionLevel, futureSkills, loot)
+    //new PlayerMonsterData(name, hpLevelOne, manaLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot)
     new PlayerMonsterData(
-        strPotiron, 20, 10, 10, 10, 2, 2, 5, 3,'Chat', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strCapture, 1), new FutureSkill(strFireBall, 5)],
+        strPotiron, 20, 10, 10, 10, 10, 2, 2, 5, 10, 'Chat', null, null,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strCapture, 1), new FutureSkill(strMorsure, 1) , new FutureSkill(strFireBall, 5)],
     ),
     new PlayerMonsterData(
-        strPotitata, 10, 2, 2, 3, 1, 1, 1, 2,'Normal', strPotitatac, 4,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strCharge, 3)],
-        [new Loot('smallPotion', 0.3)]
+        strPotitata, 10, 2, 2, 2, 3, 1, 1, 1, 4, 'Normal', strPotitatac, 8,
+        [new FutureSkill(strGriffe, 1)],
+        [new Loot('smallPotion', 0.6), new Loot('smallManaPotion', 0.3)]
     ),
     new PlayerMonsterData(
-        strPotitatac, 20, 5, 5, 5, 2, 2, 5, 2,'Normal', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strCharge, 3), new FutureSkill(strMorsure, 5)]
+        strPotitatac, 20, 5, 5, 5, 5, 2, 2, 5, 5, 'Normal', null, null,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strCharge, 3), new FutureSkill(strMorsure, 5)],
+        [new Loot('mediumPotion', 0.6), new Loot('smallManaPotion', 0.4)]
     ),
     new PlayerMonsterData(
-        strPotipuce, 15, 5, 5, 5, 2, 2, 5, 2,'Eau', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strAquaBall, 5)],
-        [new Loot('mediumPotion', 0.5)]
+        strPotipuce, 20, 15, 5, 5, 5, 3, 2, 5, 5, 'Eau', null, null,
+        [new FutureSkill(strCharge, 1), new FutureSkill(strAquaBall, 5)],
+        [new Loot('mediumPotion', 0.8), new Loot('smallManaPotion', 0.6)]
     ),
     new PlayerMonsterData(
-        strPotidoudou, 12, 5, 5, 7, 2, 2, 7, 2,'Lune', null, null,
+        strPotizarre, 10, 10, 10, 7, 7, 2, 3, 5, 5, 'Plante', null, null,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strLanceFeuille, 5)],
+        [new Loot('mediumPotion', 0.8), new Loot('smallManaPotion', 0.6)]
+    ),
+    new PlayerMonsterData(
+        strPotimeche, 15, 5, 5, 10, 2, 4, 2, 5, 5, 'Feu', null, null,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 5)],
+        [new Loot('mediumPotion', 0.8), new Loot('smallManaPotion', 0.6)]
+    ),
+    new PlayerMonsterData(
+        strPotidoudou, 12, 20, 5, 5, 7, 2, 2, 7, 7, 'Lune', null, null,
         [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 5), new FutureSkill(strAquaBall, 5)]
-    )
+    ),
 ];
 
 function fetchMonsterLoot(monsterName) {

@@ -1,133 +1,27 @@
-function getSavesViewModels() {
-    var savesViewModels = [];
-    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-        savesViewModels.push(mapViewModelSaveFile(JSON.parse(localStorage.getItem( localStorage.key( i )))));
-    }
-
-    return savesViewModels;
-}
-
-function initialiserReserveMenu() {
-    if ($('#modalMenuReserve').length) {
-        $('#modalMenuReserve').empty();
-    }
-    var modalBody = creerReserveMenu('modalMenuReserve',  mapReserveViewModel(Equipe),  mapReserveViewModel(Reserve), 'Modifier Equipe')
-}
-
-function initialiserItemsMenu() {
-    if ($('#modalMenuItems').length) {
-        $('#modalMenuItems').empty();
-    }
-    var modalBody = creerItemMenu('modalMenuItems',  mapItemViewModel(Items), 'Liste des objets')
-}
-
-function initialiserVictoireMenu(expertienceGagnee, itemsVictoireViewModels) {
-    if ($('#modalMenuVictoire').length) {
-        $('#modalMenuVictoire').empty();
-    }
-    var modalBody = creerVictoireMenu('modalMenuVictoire',  expertienceGagnee, itemsVictoireViewModels,'Victoire');
-    $('#modalMenuVictoire').modal();
-}
-
-function initialiserPotionMenu(id, effect) {
-    if ($('#modalMenuPotions').length) {
-        $('#modalMenuPotions').empty();
-    }
-    var modalBody = creerPotionMenu(id, effect, 'modalMenuPotions',  mapMainMenuViewModel(Equipe), 'Liste des monstres a soigner');
-    $('#modalMenuPotions').modal();
-}
-
-function initialiserFusionTwoMonstersMenu() {
-    if ($('#modalMenuFusionTwoMonsters').length) {
-        $('#modalMenuFusionTwoMonsters').empty();
-    }
-    var modalBody = creerFusionTwoMonstersMenu('modalMenuFusionTwoMonsters',  mapReserveViewModel(Reserve), 'Fusionner deux monstres')
-}
-
-function initialiserSaveMenu() {
-    if ($('#modalMenuSave').length) {
-        $('#modalMenuSave').empty();
-    }
-    var savesViewModels = getSavesViewModels();
-    var modalBody = creerMenuDeSauvegarde('modalMenuSave', savesViewModels, 'Sauvegarder');
-}
-
-function initialiserMainMenu(Equipe) {
-    if ($('#modalMenuStats').length) {
-        $('#modalMenuStats').empty();
-    }
-    var modalBody = creerMenu('modalMenuStats', mapMainMenuViewModel(Equipe), 'Statistiques' );
-}
-
-function initialiserFusionResultMenu(monster) {
-    if ($('#modalMenuResultFusion').length) {
-        $('#modalMenuResultFusion').empty();
-    }
-    var modalBody = creerFusionResultMenu('modalMenuResultFusion', new FusionViewModel(monster), 'Resultat de la fusion' );
-}
 
 function initialiserEvolutionMenu(monster) {
-    if ($('#modalEvolution' + monster.id).length) {
-        $('#modalEvolution' + monster.id).empty();
+    var idModal = 'modalEvolution' + monster.id;
+    if ($('#' + idModal).length) {
+        $('#' + idModal).empty();
     }
-    var modalBody = creerEvolutionMenu('modalEvolution' + monster.id, new EvolutionViewModel(monster), 'Resultat de l\'evolution' );
-}
-
-function initialiserSkillsMenu() {
-    var modalId;
-    $.each(Equipe, function(index) {
-        modalId = 'modalSkills' + Equipe[index].id
-        if ($('#' + modalId).length) {
-            $('#' + modalId).empty();
+    var viewModel = new EvolutionViewModel(monster);
+    var parent = createModal(idModal, 'Resultat de l\'evolution');
+    var rowLabel = displayElementOnParent('div', 'Label' + viewModel.id + idModal, 'row', '', parent);
+    var rowValue = displayElementOnParent('div', 'Value' + viewModel.id + idModal , 'row', '', parent);
+    $.each(viewModel, function(label, value) {
+        if (label != 'id') {
+            if (label != 'src') {
+                displayElementOnParent('div', label + 'Label' + viewModel.id, 'col-sm-2', label, rowLabel);
+                displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-2', value, rowValue);
+            }else {
+                var colImg = displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-2', '', rowValue);
+                var playerImg = document.createElement('img');
+                playerImg.src = value;
+                colImg.append(playerImg);
+            }
         }
-        var modalSkill = creerMenuSkills(modalId, mapSkillViewModel(Equipe[index].skills), 'Competences');
     });
-}
-
-function initialiserDetailsMenu() {
-    var modalId;
-    $.each(Equipe, function(index) {
-        modalId = 'modalDetails' + Equipe[index].id
-        if ($('#' + modalId).length) {
-            $('#' + modalId).empty();
-        }
-        var modalDetails = creerMenuDetails(modalId, new ViewModelDetails(Equipe[index]), 'Details');
-    });
-}
-function initialiserEquipementMenu(Equipe) {
-    $.each(Equipe, function(index) {
-        var modalEquipement = creerMenuEquipement('modalEquipement' + Equipe[index].id, Equipe[index].equipement, 'Equipement');
-    });
-}
-
-function creerReserveMenu(idModal, viewModelsEquipe, viewModelsReserve, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayReserveViewModels(idModal, viewModelsEquipe, viewModelsReserve, modalBody);
-    return modalBody;
-}
-
-function creerVictoireMenu(idModal,  expertienceGagnee, itemsVictoireViewModels, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayVictoireViewModels(idModal, expertienceGagnee, itemsVictoireViewModels, modalBody);
-    return modalBody;
-}
-
-function creerFusionTwoMonstersMenu(idModal, viewModelsReserve, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayFusionMonstersViewModels(idModal, viewModelsReserve, modalBody);
-    return modalBody;
-}
-
-function creerFusionResultMenu(idModal, viewModel, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayFusionResultMonstersViewModels(idModal, viewModel, modalBody);
-    return modalBody;
-}
-
-function creerMenuDetails(idModal, viewModel, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayDetailsViewModels(idModal, viewModel, modalBody);
-    return modalBody;
+    $('#' + idModal).modal();
 }
 
 function creerEvolutionMenu(idModal, viewModel, titre) {
@@ -136,69 +30,6 @@ function creerEvolutionMenu(idModal, viewModel, titre) {
     return modalBody;
 }
 
-function creerPotionMenu(id, effect, idModal, viewModel, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayPotionViewModels(id, effect, idModal, viewModel, modalBody);
-    return modalBody;
-}
-
-function creerMenuEquipement(idModal, viewModels, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayEquipementViewModels(idModal, viewModels, modalBody, 'col-sm-2');
-    return modalBody;
-}
-
-function creerMenuDeSauvegarde(idModal, saves, titre) {
-    var modalBody = createModal(idModal, titre);
-    var savingId;
-    displaySaves(saves, modalBody, savingId, idModal);
-    savingId = saves.length + 1;
-    displayButtons ('btnNouveau', 'Nouveau', 'BUTTON', function() {
-        sauvegarder(localStorage.length + 1);
-    }, modalBody);
-
-    return modalBody;
-}
-
-function creerMenuDeChargement(idModal, loads, titre) {
-    var modalBody = createModal(idModal, titre);
-    var loadId;
-    displayLoads(loads, modalBody, loadId, idModal);
-    loadId = loads.length + 1;
-
-    return modalBody;
-}
-
-function displayLoads(loads, modalBody, loadId, idModal){
-    $.each(loads, function(index) {
-        loadId = loads[index].find( x => x.dataType == 'saveId').value;
-        var loadRow = displayElementOnParent('div', loadId, 'row saveRow', '', modalBody);
-        displaySaveFileViewModels(idModal, loads[index], loadRow, 'Charger', function() {loadGame(loadRow.attr('id'))});
-    });
-}
-
-function displaySaves(saves, modalBody, savingId, idModal){
-    $.each(saves, function(index) {
-        savingId = saves[index][saves[index].length-1].value;
-        var saveRow = displayElementOnParent('div', savingId, 'row saveRow', '', modalBody);
-        displaySaveFileViewModels(idModal, saves[index], saveRow, 'Sauvegarder'+savingId,function() {sauvegarder(saveRow.attr('id'))});
-    });
-}
-
-function creerMenu(idModal, viewModels, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayMenuViewModels(idModal, viewModels, modalBody, 'col-sm-2');
-    return modalBody;
-}
-
-function creerItemMenu(idModal, viewModels, titre) {
-    var modalBody = createModal(idModal, titre);
-    displayItemViewModels(idModal, viewModels, modalBody, 'col-sm-2');
-    return modalBody;
-}
-
-function creerMenuSkills(idModal, viewModels, titre) {
-    var modalBody = createModal(idModal, titre);
-    displaySkillsViewModels(idModal, viewModels, modalBody, 'col-sm-2');
-    return modalBody;
+function displayEvoltionResult(){
+    $('#modalEvolution').modal();
 }

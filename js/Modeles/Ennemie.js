@@ -4,6 +4,9 @@ class ViewModelInfoEnnemie {
         this.Nom = ennemie.name;
         this.Hp = ennemie.hp;
         this.CurrentHp = ennemie.currentHp;
+        this.Mana = ennemie.mana;
+        this.CurrentMana = ennemie.currentMana;
+
     }
 }
 

@@ -1,5 +1,5 @@
 
-function animateGriffe(player, target, skill) {
+function animateCorpsACorps(player, target, skill) {
     var finRotation = player.gentil ? 90 : -90;
     var id = setInterval(frame, 1);
     var compteurRotation = 0;
@@ -16,6 +16,8 @@ function animateGriffe(player, target, skill) {
             compteurRotation = player.gentil ? compteurRotation + 10 : compteurRotation - 10;
         }
    }
+
+   animateProjectil(target, target, skill, 5, 5);
 }
 
 function animateCharge(player, target, skill) {
@@ -31,7 +33,7 @@ function animateCharge(player, target, skill) {
     });
 }
 
-function animateProjectil(player, target, skill) {
+function animateProjectil(player, target, skill, height, width) {
     var playerElement = $('#' + player.id);
     var targetElement = $('#' + target.id);
     var imgMagie = document.createElement('img');
@@ -39,12 +41,21 @@ function animateProjectil(player, target, skill) {
     imgMagie.id = skill.name + "Img"
     imgMagie.style="position:absolute";
     imgMagie.style.zIndex = "10";
-    imgMagie.style.height = "300px";
-    imgMagie.style.width = "300px";
+    if (!width) {
+        width = 10;
+    }
+    if (!height) {
+        height = 10;
+    }
+    imgMagie.style.height = height + "em";
+    imgMagie.style.width = width + "em";
     playerElement.prepend(imgMagie);
     var jqueryImg = $('#' + imgMagie.id);
     jqueryImg.animate({
         left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - jqueryImg.width()/2 + 'px',
-        top: targetElement.offset().top - playerElement.offset().top + 'px'
+        top: targetElement.offset().top - playerElement.offset().top + targetElement.height()/2 - jqueryImg.height()/2 + 'px'
     }, skill.duration);
+    setTimeout(function(){
+        $("#" + skill.name + "Img").remove();
+    }, skill.duration)
 }

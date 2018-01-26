@@ -1,29 +1,33 @@
-var CombatController = function (view, listEquipe, Reserve, Items) {
+var CombatController = function (view, listEquipe, listReserve, listItem, initiliserWorldMap, listCarte) {
     this.listEquipe = listEquipe;
-    this.listPlayer = listEquipe.slice();
+    this.listPlayer;
     this.listCapture = [];
+    this.listReserve = listReserve;
     this.listEnnemies = [];
     this.listEnnemiesTotal = [];
-    this.listCapture = [];
-    this.reserve = Reserve;
-    this.listItem = Items
+    this.listItem = listItem;
     this.view = view;
+    this.initiliserWorldMap = initiliserWorldMap;
+    this.listCarte = listCarte;
+    this.carte;
 };
 
 CombatController.prototype = {
 
     init: function(carte) {
+        this.carte = carte;
         var nombreEnnemieAuCombat = entierAleatoire(1, carte.nombreMaximumEnnemie);
-        var listPlayerTemp = this.listPlayer;
-        var listEnnemiesTemp = this.listEnnemies;
-        var listEnnemiesTotalTemp = this.listEnnemiesTotal;
+        this.listPlayer = this.listEquipe.slice();
+        this.listEnnemiesTotal = [];
+        this.listEnnemies = [];
+        this.listCapture = [];
         for (var i = 0; i < nombreEnnemieAuCombat; i++) {
             var level = entierAleatoire(carte.levelMin, carte.levelMax);
             var indexEnnemieGenere = entierAleatoire(0, carte.listNomEnnemiePossible.length - 1);
             var ennemie = instancierPlayer(carte.listNomEnnemiePossible[indexEnnemieGenere], level, false);
-            listPlayerTemp.push(ennemie);
-            listEnnemiesTemp.push(ennemie);
-            listEnnemiesTotalTemp.push(ennemie);
+            this.listPlayer.push(ennemie);
+            this.listEnnemies.push(ennemie);
+            this.listEnnemiesTotal.push(ennemie);
         }
     },
 
@@ -32,7 +36,7 @@ CombatController.prototype = {
     },
 
     getListEquipe : function() {
-        return this.listPlayer.filter(x=>x.gentil == true);
+        return this.listEquipe;
     },
 
     getListPlayer : function() {
@@ -52,6 +56,17 @@ CombatController.prototype = {
         var result = [];
         for (var i = 0; i < this.getListEquipe().length; i++) {
             result.push(new ViewModelInfoPlayer(this.listPlayer[i]));
+        }
+
+        return result;
+    },
+
+    getVictoryItemViewModel: function(listItem) {
+        var result = [];
+        if (listItem) {
+            $.each(listItem, function(index) {
+                result.push(new ViewModelVictoireItem(listItem[index]))
+            });
         }
 
         return result;
@@ -79,21 +94,6 @@ CombatController.prototype = {
         controllerCombat.view.displayFuturActions(controllerCombat.listPlayer, $('#' + strBottomRow));
     },
 
-    fillSkillsBtn: function (i, controllerCombat) {
-        return function() {
-            var player = controllerCombat.listEquipe[i];
-            controllerCombat.bindSkillsOnBtn(player, player.skills[0], controllerCombat);
-        };
-    },
-
-    bindSkillsOnBtn : function(player, skill, controllerCombat) {
-        var btn = $('#btn' + skill.id);
-        btn.click( skill, function(){
-            $('#buttonRow' + player.id).hide();
-            controllerCombat.attaque(player, null, skill, controllerCombat);
-        });
-    },
-
     combat : function() {
         var listEnnemies = this.listEnnemies;
         var _setSelectedEnnemie = this.setSelectedEnnemie;
@@ -104,6 +104,7 @@ CombatController.prototype = {
             this.getListEquipe(),
             this.getListPlayer(),
             this.getCombatUsableItems(),
+            this.carte.name,
         );
         var controllerCombat = this;
         for (var i = 0; i < this.listEquipe.length; i++) {
@@ -165,8 +166,11 @@ CombatController.prototype = {
                                 controllerCombat.view.displayAutoCursor();
                                 $('#equipeCol').children().off();
                                 $('body').off();
-                                controllerCombat.useObject(cible, item, controllerCombat);
                                 controllerCombat.view.removeSelector(this);
+                                if (cible.currentHp > 0) {
+                                    controllerCombat.useObject(cible, item, controllerCombat);
+                                }
+                                controllerCombat.gererTourParTour(controllerCombat);
                             });
                         });
                     };
@@ -176,7 +180,7 @@ CombatController.prototype = {
         this.gererTourParTour(this);
     },
 
-    handleContextMenu(controllerCombat, rowToUnbind) {
+    handleContextMenu: function(controllerCombat, rowToUnbind) {
         $('body').contextmenu(function(){
             $(this).off()
             rowToUnbind.children().off();
@@ -188,63 +192,81 @@ CombatController.prototype = {
     },
 
     useObject: function(cible, item, controllerCombat) {
-        item.effectInCombat(item.name, cible.id, controllerCombat.view.getProgressBar(cible, strCombat));
-        controllerCombat.view.updateBtnItems(controllerCombat.listEquipe, controllerCombat.listItem);
+        item.effectInCombat(item.name, cible.id, controllerCombat.view.getProgressBar(cible, strCombat + item.category));
+        controllerCombat.updateBtnItems(controllerCombat.listEquipe, controllerCombat.listItem);
         controllerCombat.listPlayer.push(controllerCombat.listPlayer.shift());
-        controllerCombat.gererTourParTour(controllerCombat);
+    },
+
+    updateBtnItems : function(listPlayer, listItem){
+        $.each(listPlayer, function(index){
+            var player = listPlayer[index];
+            $.each(listItem, function(i) {
+                var item = listItem[i];
+                var btn = $('#btn' +  item.id + player.id);
+                btn.html(item.name + ' (x' + item.quantity + ')');
+                if (item.quantity <= 0) {
+                    btn.remove();
+                }
+            });
+        })
     },
 
     attaque: function(source, cible, skill, controllerCombat) {
         var listEnnemies = controllerCombat.listEnnemies;
         var listPlayer = controllerCombat.listPlayer;
         var listEquipe = controllerCombat.listEquipe;
-        skill.animation(source, cible, skill);
-        var intervalAttaqueDelay = setTimeout(function() {
-            var dammage = 0;
-            var dammageDelay = 2000;
-            if (skill.animationType == strProjectil) {
-                $("#" + skill.name + "Img").remove();
-                dammage = source.magie*skill.power;
-            }else {
-                dammage = source.force*skill.power;
-            }
-            cible.currentHp = cible.currentHp - dammage;
-            var cibleColonneElement = $('#colonne' + cible.id);
-            var dammageElement = prependElementOnParent('div', 'dammage' + cible.id, 'dammageAnimated', dammage, cibleColonneElement);
-            dammageElement.css({
-                'left' : cibleColonneElement.width()/2 + 'px'
-            });
-            dammageElement.animate({
-                top: -2 + 'em'
-            }, dammageDelay, function (){
-                dammageElement.remove();
-            });
-            if( cible.currentHp > 0 ) {
-                updateProgressBar(controllerCombat.view.getProgressBar(cible, strCombat), cible.currentHp, cible.hp);
-            }else {
-                cible.currentHp = 0;
-                updateProgressBar(controllerCombat.view.getProgressBar(cible, strCombat), cible.currentHp, cible.hp)
-            }
-            var intervalDammageDelay = setTimeout(function() {
-                if( cible.currentHp <= 0 ) {
-                    if (cible.gentil == false) {
-                        controllerCombat.sortirEnnemieCombat(cible, controllerCombat);
-                    }else {
-                        listPlayer.splice(listPlayer.findIndex(x => x.id == cible.id), 1);
+        if (source.currentMana >= skill.manaCost) {
+            source.currentMana -= skill.manaCost;
+            updateProgressBar(controllerCombat.view.getProgressBar(source, strCombat + 'Mana'), source.currentMana, source.mana);
+            skill.animation(source, cible, skill);
+            var intervalAttaqueDelay = setTimeout(function() {
+                var dammage = 0;
+                var dammageDelay = 2000;
+                if (skill.animationType == strProjectil) {
+                    dammage = source.magie*skill.power;
+                }else {
+                    dammage = source.force*skill.power;
+                }
+                cible.currentHp = cible.currentHp - dammage;
+                var cibleColonneElement = $('#colonne' + cible.id);
+                var dammageElement = prependElementOnParent('div', 'dammage' + cible.id, 'dammageAnimated', dammage, cibleColonneElement);
+                dammageElement.css({
+                    'left' : cibleColonneElement.width()/2 + 'px'
+                });
+                dammageElement.animate({
+                    top: -2 + 'em'
+                }, dammageDelay, function (){
+                    dammageElement.remove();
+                });
+                if( cible.currentHp > 0 ) {
+                    updateProgressBar(controllerCombat.view.getProgressBar(cible, strCombat + 'Hp'), cible.currentHp, cible.hp);
+                }else {
+                    cible.currentHp = 0;
+                    updateProgressBar(controllerCombat.view.getProgressBar(cible, strCombat + 'Hp'), cible.currentHp, cible.hp)
+                }
+                var intervalDammageDelay = setTimeout(function() {
+                    if( cible.currentHp <= 0 ) {
+                        if (cible.gentil == false) {
+                            controllerCombat.sortirEnnemieCombat(cible, controllerCombat);
+                        }else {
+                            listPlayer.splice(listPlayer.findIndex(x => x.id == cible.id), 1);
+                        }
                     }
-                }
-                if (skill.id == 'capture' && controllerCombat.captureReussie(cible)) {
-                    controllerCombat.capturerEnnemie(controllerCombat.sortirEnnemieCombat(cible, controllerCombat), controllerCombat.listCapture, controllerCombat.reserve);
-                }
-                listPlayer.push(listPlayer.shift());
-                controllerCombat.gererTourParTour(controllerCombat);
-            }, dammageDelay);
-        }, skill.duration);
+                    if (skill.id == 'capture' && controllerCombat.captureReussie(cible)) {
+                        controllerCombat.capturerEnnemie(controllerCombat.sortirEnnemieCombat(cible, controllerCombat), controllerCombat.listCapture, controllerCombat.listReserve);
+                    }
+                    listPlayer.push(listPlayer.shift());
+                    controllerCombat.gererTourParTour(controllerCombat);
+                }, dammageDelay);
+            }, skill.duration);
+        }else {
+            controllerCombat.gererTourParTour(controllerCombat);
+        }
     },
 
     attaqueEnnemie: function(ennemie, controllerCombat) {
-        var skill = skillChoisi(ennemie.skills);
-        var listPlayerAlive = controllerCombat.listPlayer.filter(x => x.currentHp > 0 && x.gentil == true);
+        var skill = skillChoisi(ennemie.skills.filter(x=>x.manaCost <= ennemie.currentMana));
+        var listPlayerAlive = controllerCombat.listEquipe.filter(x => x.currentHp > 0 && x.gentil == true);
         var cible = listPlayerAlive[entierAleatoire(0, listPlayerAlive.length - 1)];
         controllerCombat.attaque(ennemie, cible, skill, controllerCombat);
     },
@@ -303,26 +325,36 @@ CombatController.prototype = {
 
     victoire: function(controllerCombat) {
         var experienceGagnee = controllerCombat.getExperienceGagnee(controllerCombat.listEnnemiesTotal);
-        var lootedItems = controllerCombat.getLootedItems();
-        reformateItems(lootedItems);
-        Items = Items.concat(lootedItems);
-        reformateItems(Items);
         controllerCombat.incrementerExperience(controllerCombat.listEquipe, experienceGagnee);
+        var lootedItems = controllerCombat.getLootedItems(controllerCombat.listEnnemiesTotal);
+        reformateItems(lootedItems);
+        Array.prototype.push.apply(this.listItem, lootedItems)
+        this.listItem = reformateItems(this.listItem);
         $.each(controllerCombat.listCapture, function(index) {
             if (controllerCombat.listEquipe.length <= 2 ) {
                 controllerCombat.listEquipe.push(controllerCombat.listCapture[index]);
             }else {
-                controllerCombat.reserve.push(controllerCombat.listCapture[index]);
+                controllerCombat.listReserve.push(controllerCombat.listCapture[index]);
             }
         });
-        controllerCombat.view.displayVictory(experienceGagnee, mapVictoireItemViewModel(lootedItems));
+        controllerCombat.view.displayVictory(experienceGagnee, controllerCombat.getVictoryItemViewModel(lootedItems));
+        $('#' + strModalMenuVictoire).on('hidden.bs.modal', function () {
+            var carteIndex = controllerCombat.listCarte.findIndex(x=>x.id == controllerCombat.carte.id);
+            if (AllCartes.length > carteIndex + 1) {
+                var nextCarteIndex = AllCartes.findIndex(x=>x.id == controllerCombat.carte.id) + 1;
+                if (!controllerCombat.listCarte[nextCarteIndex]) {
+                    controllerCombat.listCarte.push(AllCartes[nextCarteIndex]);
+                }
+           }
+            controllerCombat.initiliserWorldMap(controllerCombat.listCarte);
+        });
     },
 
-    incrementerExperience: function(Equipe, expertienceGagnee) {
-        $.each(Equipe, function(index) {
-            Equipe[index].experience += expertienceGagnee;
-            if (Equipe[index].experience >= Equipe[index].experienceNextLevel) {
-                Equipe[index] = incrementerLevel(Equipe[index]);
+    incrementerExperience: function(listEquipe, expertienceGagnee) {
+        $.each(listEquipe, function(index) {
+            listEquipe[index].experience += expertienceGagnee;
+            if (listEquipe[index].experience >= listEquipe[index].experienceNextLevel) {
+                incrementerLevel(listEquipe[index]);
             }
         });
     },

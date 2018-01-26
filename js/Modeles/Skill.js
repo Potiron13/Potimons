@@ -1,13 +1,14 @@
 class Skill {
-    constructor(id, name, power, type, animation, animationType, duration) {
+    constructor(id, name, power, type, animation, animationType, duration, manaCost) {
         this.id = id;
         this.name = name;
         this.power = power;
         this.type = type;
-        this.src = 'Images/' + name + '.png';
+        this.src = 'Images/Skills/' + name + '.png';
         this.animation = animation;
         this.animationType = animationType;
-        this.duration = duration
+        this.duration = duration;
+        this.manaCost = manaCost;
     }
 }
 
@@ -30,26 +31,19 @@ class ViewModelSkill {
         this.id = skill.id;
         this.name = skill.name;
         this.type = skill.type;
+        this.manaCost = skill.manaCost;
     }
 }
 
-var AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', animateGriffe, '', 1000),
-            new Skill(strCharge, strCharge, 1, 'corpsACorps', animateCharge, '', 1000),
-            new Skill(strMorsure, strMorsure, 2, 'corpsACorps', 500),
-            new Skill(strFireBall, strFireBall, 2, 'magie', animateProjectil, strProjectil, 1000),
-            new Skill(strAquaBall, strAquaBall, 2, 'magie', animateProjectil, strProjectil, 1000),
-            new Skill(strChanter, strChanter, 2, 'corpsACorps', 5000),
-            new Skill(strHypercut, strHypercut, 3, 'corpsACorps', 5000),
-            new Skill(strCapture, strCapture, 0, 'corpsACorps', animateProjectil, strProjectil, 1000)];
-
-function mapSkillViewModel (skills) {
-    var result = [];
-    $.each(skills, function(index) {
-        result.push(new ViewModelSkill(skills[index]))
-    });
-
-    return result;
-}
+var AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0),
+            new Skill(strCharge, strCharge, 3, 'corpsACorps', animateCharge, '', 1000, 0),
+            new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0),
+            new Skill(strFireBall, strFireBall, 2, 'magie', animateProjectil, strProjectil, 1000, 10),
+            new Skill(strLanceFeuille, strLanceFeuille, 3, 'magie', animateProjectil, strProjectil, 1000, 10),
+            new Skill(strAquaBall, strAquaBall, 2, 'magie', animateProjectil, strProjectil, 1000, 10),
+            new Skill(strChanter, strChanter, 2, 'corpsACorps', animateProjectil, strProjectil, 5000, 20),
+            new Skill(strHypercut, strHypercut, 3, 'corpsACorps', animateCorpsACorps, '', 5000, 0),
+            new Skill(strCapture, strCapture, 0, 'corpsACorps', animateProjectil, strProjectil, 1000, 0)];
 
 function fetchSkills(skillsId) {
     result = [];

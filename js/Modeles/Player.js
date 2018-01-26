@@ -1,5 +1,5 @@
 class Player {
-    constructor(id, name, level, experience, experienceNextLevel, currentHp, hp, force, magie, gentil, experienceDonnee, src, skills, catClass, evolution, evolutionLevel, loot) {
+    constructor(id, name, level, experience, experienceNextLevel, currentHp, hp, currentMana, mana, force, magie, gentil, experienceDonnee, src, skills, catClass, evolution, evolutionLevel, loot) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -7,6 +7,8 @@ class Player {
         this.experienceNextLevel = experienceNextLevel;
         this.currentHp = currentHp;
         this.hp = hp;
+        this.currentMana = currentMana;
+        this.mana = mana;
         this.force = force;
         this.magie = magie;
         this.gentil = gentil;
@@ -22,9 +24,10 @@ class Player {
 }
 
 class PlayerMonsterData {
-    constructor(name, hpLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot) {
+    constructor(name, hpLevelOne, manaLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot) {
         this.name = name;
         this.hpLevelOne = hpLevelOne;
+        this.manaLevelOne = manaLevelOne;
         this.forceLevelOne = forceLevelOne;
         this.magieLevelOne = magieLevelOne;
         this.hp = hp;
@@ -69,9 +72,10 @@ class ViewModelInfoPlayer {
         this.Nom = player.name;
         this.Hp = player.hp;
         this.CurrentHp = player.currentHp;
+        this.Mana = player.mana;
+        this.CurrentMana = player.currentMana;
     }
 }
-
 
 function instancierPlayer(name, level, gentil) {
     result = {};
@@ -79,7 +83,9 @@ function instancierPlayer(name, level, gentil) {
     var skills = [];
     var gentil = gentil;
     var playerData = getPlayerDataFromMonsterList(name);
-    result = new Player(name + guidGenerator(), name, 0, 0, 0, playerData.hpLevelOne, playerData.hpLevelOne, playerData.forceLevelOne, playerData.magieLevelOne, gentil, 0, src, skills, playerData.catClass, playerData.evolution, playerData.evolutionLevel);
+    result = new Player(name + guidGenerator(), name, 0, 0, 0, playerData.hpLevelOne, playerData.hpLevelOne, playerData.manaLevelOne, playerData.manaLevelOne,
+                        playerData.forceLevelOne, playerData.magieLevelOne, gentil, 0, src, skills, playerData.catClass, playerData.evolution,
+                        playerData.evolutionLevel);
     for (var i = 0; i < level; i++) {
         result = incrementerLevel(result);
     }
@@ -87,9 +93,8 @@ function instancierPlayer(name, level, gentil) {
     return result;
 }
 
-
 function incrementerLevel(player) {
-    playerData = getPlayerDataFromMonsterList(player.name);
+    var playerData = getPlayerDataFromMonsterList(player.name);
     var futureSkills;
     player.level += 1;
     player.experience = 0;
@@ -97,6 +102,8 @@ function incrementerLevel(player) {
     player.experienceDonnee += player.level*playerData.experienceDonnee;
     player.hp += playerData.hp;
     player.currentHp = player.hp;
+    player.mana += playerData.magie;
+    player.currentMana = player.mana;
     player.force += playerData.force;
     player.magie += playerData.magie;
     futureSkills = playerData.futureSkills;
@@ -125,9 +132,10 @@ function isReadyToEvolve(player) {
 }
 
 function evolution(player) {
-    player = instancierPlayer(player.evolution, player.level, true);
-    initialiserEvolutionMenu(player);
-    displayEvoltionResult(player.id);
+    player = instancierPlayer(player.evolution, player.level, player.gentil);
+    if (player.gentil) {
+        initialiserEvolutionMenu(player);
+    }
 
     return player
 }
