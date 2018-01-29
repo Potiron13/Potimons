@@ -43,7 +43,7 @@ var AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', animateCorpsA
             new Skill(strCharge, strCharge, 3, 'corpsACorps', animateCharge, '', 1000, 0, false),
             new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false),
             new Skill(strFireBall, strFireBall, 2, 'magie', animateProjectil, strProjectil, 1000, 10, false),
-            new Skill(strLanceFlame, strLanceFlame, 2, 'magie', animateProjectil, strProjectil, 1000, 1, true),
+            new Skill(strLanceFlame, strLanceFlame, 2, 'magie', animateProjectil, strProjectil, 1000, 20, true),
             new Skill(strLanceFeuille, strLanceFeuille, 3, 'magie', animateProjectil, strProjectil, 1000, 10, false),
             new Skill(strAquaBall, strAquaBall, 2, 'magie', animateProjectil, strProjectil, 1000, 10, false),
             new Skill(strChanter, strChanter, 2, 'corpsACorps', animateProjectil, strProjectil, 5000, 20, false),

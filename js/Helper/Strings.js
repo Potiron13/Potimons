@@ -6,6 +6,7 @@ const strPotipuce = 'potipuce';
 const strPotimeche = 'potimeche';
 const strPotidoudou = 'potidou';
 const strPotizarre = 'potizarre';
+const strKaroutSauvage = 'karoutSauvage';
 
 // SKILLS
 const strGriffe = 'griffe';

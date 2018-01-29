@@ -81,11 +81,11 @@ CombatController.prototype = {
         var effect = AllEffects.find(x=>x.name == player.etat);
         if (effect) {
             effect.effect(player, controllerCombat);
+            $.each(controllerCombat.getListPlayer().filter(x=>x.currentHp <= 0), function(index){
+                controllerCombat.sortirEnnemieCombat(this, controllerCombat);
+            });
+            player = controllerCombat.listPlayer[0];
         }
-        $.each(controllerCombat.getListPlayer().filter(x=>x.currentHp <= 0), function(index){
-            controllerCombat.sortirEnnemieCombat(this, controllerCombat);
-        });
-        player = controllerCombat.listPlayer[0];
         if (player) {
             if(player.gentil == true) {
                 controllerCombat.view.showSkillNavBar(player.id);
