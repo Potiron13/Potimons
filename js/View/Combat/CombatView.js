@@ -185,9 +185,6 @@ CombatView.prototype = {
 
     displayVictory: function(experienceGagnee, itemsVictoireViewModels) {
         var idModal = strModalMenuVictoire;
-        $('div').each(function(i){
-            this.remove();
-        });
         if ($('#' + idModal).length) {
             $('#' + idModal).empty();
         }

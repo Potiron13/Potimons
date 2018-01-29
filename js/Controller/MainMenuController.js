@@ -154,6 +154,7 @@ MainMenuController.prototype = {
             controllerMainMenu.view.renderPlayerSkillMenu(controllerMainMenu.getSkillMenuViewModel(this), this.id);
             controllerMainMenu.view.renderPlayerDetailMenu(controllerMainMenu.getDetailMenuViewModel(this));
         });
+        this.view.renderItemMenu(this.getItemMenuViewModel(), this.getPotionMenuViewModel());
     },
 
     fuseTwoMonsters: function() {
@@ -164,7 +165,7 @@ MainMenuController.prototype = {
             monsters.push(new MonsterFusion(monsterList[index], (monsterList.length - index)/sum))
         });
         var monsterFusionChoisi = this.monstreChoisi(monsters);
-        var player = instancierPlayer(monsterFusionChoisi.name, entierAleatoire(monsterFusionChoisi.level, max(this.listFusion[0].level, this.listFusion[1].level) + 2), true);
+        var player = instancierPlayer(monsterFusionChoisi.name, entierAleatoire(min(this.listFusion[0].level, this.listFusion[1].level), max(this.listFusion[0].level, this.listFusion[1].level) + 2), true);
         this.listReserve.push(player);
         this.listFusion = [];
         this.view.renderReserveMenu(this.getReserveViewModel(this.listEquipe), this.getReserveViewModel(this.listReserve));

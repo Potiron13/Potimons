@@ -1,6 +1,6 @@
 
 function initialiserEvolutionMenu(monster) {
-    var idModal = 'modalEvolution' + monster.id;
+    var idModal = 'modalEvolution' + monster.id;    
     if ($('#' + idModal).length) {
         $('#' + idModal).empty();
     }

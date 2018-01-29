@@ -10,6 +10,7 @@ const strPotizarre = 'potizarre';
 // SKILLS
 const strGriffe = 'griffe';
 const strFireBall = 'fireBall';
+const strLanceFlame = 'lanceFlame'
 const strAquaBall = 'aquaBall';
 const strMorsure = 'morsure';
 const strCharge = 'charge';
@@ -18,6 +19,7 @@ const strChanter = 'chanter';
 const strHypercut = 'hypercut';
 const strProjectil = 'projectil';
 const strLanceFeuille = 'lanceFeuille';
+const strPoison = 'poison';
 
 // CAT CLASS
 

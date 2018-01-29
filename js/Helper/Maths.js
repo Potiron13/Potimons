@@ -22,6 +22,10 @@ function max(int1, int2) {
     return (int1 > int2) ? int1 : int2;
 }
 
+function min(int1, int2) {
+    return (int1 < int2) ? int1 : int2;
+}
+
 function getSum(total, num) {
     return total + num;
-} 
+}

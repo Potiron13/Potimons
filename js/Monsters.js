@@ -10,11 +10,11 @@ var monsterList = [
     //new PlayerMonsterData(name, hpLevelOne, manaLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot)
     new PlayerMonsterData(
         strPotiron, 20, 10, 10, 10, 10, 2, 2, 5, 10, 'Chat', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strCapture, 1), new FutureSkill(strMorsure, 1) , new FutureSkill(strFireBall, 5)],
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strCapture, 1), new FutureSkill(strLanceFlame, 1), new FutureSkill(strFireBall, 1), new FutureSkill(strPoison, 1)],
     ),
     new PlayerMonsterData(
-        strPotitata, 10, 2, 2, 2, 3, 1, 1, 1, 4, 'Normal', strPotitatac, 8,
-        [new FutureSkill(strGriffe, 1)],
+        strPotitata, 10, 20, 2, 20, 3, 1, 1, 1, 4, 'Normal', strPotitatac, 8,
+        [new FutureSkill(strPoison, 1)/*, new FutureSkill(strLanceFlame, 1)*/],
         [new Loot('smallPotion', 0.6), new Loot('smallManaPotion', 0.3)]
     ),
     new PlayerMonsterData(
@@ -33,7 +33,7 @@ var monsterList = [
         [new Loot('mediumPotion', 0.8), new Loot('smallManaPotion', 0.6)]
     ),
     new PlayerMonsterData(
-        strPotimeche, 15, 5, 5, 10, 2, 4, 2, 5, 5, 'Feu', null, null,
+        strPotimeche, 15, 5, 5, 10, 7, 4, 2, 5, 5, 'Feu', null, null,
         [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 5)],
         [new Loot('mediumPotion', 0.8), new Loot('smallManaPotion', 0.6)]
     ),

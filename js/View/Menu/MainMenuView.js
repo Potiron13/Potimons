@@ -123,7 +123,7 @@ MainMenuView.prototype = {
             $('#' + modalId).empty();
         }
         var parent = createModal(modalId, 'Stockage des potimons');
-        var equipeTitleRow = displayElementOnParent('div', 'rowTitreEquipeActuel', 'row', 'Equipe Actuel', parent);
+        var equipeTitleRow = displayElementOnParent('div', 'rowTitreEquipeActuel', 'row', 'Equipe Actuelle', parent);
         var equipeRow = displayElementOnParent('div', 'rowEquipeActuel', 'row', '', parent);
         var view = this;
         equipeRow.droppable({

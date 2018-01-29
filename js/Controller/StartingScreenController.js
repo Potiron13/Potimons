@@ -37,8 +37,8 @@ StartingScreenController.prototype = {
         var reformatedSkills = fetchSkills(ids);
         return new Player(playerData.data.id, playerData.data.name, playerData.data.level, playerData.data.experience,
              playerData.data.experienceNextLevel, playerData.data.currentHp, playerData.data.hp, playerData.data.currentMana, playerData.data.mana, playerData.data.force,
-             playerData.data.magie, playerData.data.gentil, playerData.data.experienceDonnee, playerData.data.src,
-             reformatedSkills, playerData.data.catClass, playerData.data.evolution, playerData.data.evolutionLevel);
+             playerData.data.magie, playerData.data.gentil, playerData.data.experienceDonnee, reformatedSkills,
+             playerData.data.catClass, playerData.data.evolution, playerData.data.evolutionLevel);
     },
 
     instanciateItemFromData: function(itemData) {
@@ -52,7 +52,7 @@ StartingScreenController.prototype = {
 
     loadGame: function(gameId) {
         var data = loadDataFromLocalStorage(gameId);
-        var controller = this;        
+        var controller = this;
         $.each(data, function(i){
             if (data[i].dataType == strPlayerInfo) {
                 controller.listEquipe.push(controller.instanciatePlayerFromData(data[i]));

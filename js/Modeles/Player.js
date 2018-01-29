@@ -1,5 +1,5 @@
 class Player {
-    constructor(id, name, level, experience, experienceNextLevel, currentHp, hp, currentMana, mana, force, magie, gentil, experienceDonnee, src, skills, catClass, evolution, evolutionLevel, loot) {
+    constructor(id, name, level, experience, experienceNextLevel, currentHp, hp, currentMana, mana, force, magie, gentil, experienceDonnee, skills, catClass, evolution, evolutionLevel, loot, etat) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -13,13 +13,14 @@ class Player {
         this.magie = magie;
         this.gentil = gentil;
         this.experienceDonnee = experienceDonnee;
-        this.src = src;
-        this.srcDos = src.replace(strPathImgMonstre, strPathImgMonstreDos);
-        this.srcPortrait = src.replace(strPathImgMonstre, strPathImgMonstreProtrait);
+        this.src = strPathImgMonstre + '/' + name + '.png';
+        this.srcDos = this.src.replace(strPathImgMonstre, strPathImgMonstreDos);
+        this.srcPortrait = this.src.replace(strPathImgMonstre, strPathImgMonstreProtrait);
         this.skills = skills;
         this.catClass = catClass;
         this.evolution = evolution;
         this.evolutionLevel = evolutionLevel;
+        this.etat = etat;
     }
 }
 
@@ -62,7 +63,7 @@ class ViewModelPlayer {
         this.Magie = player.magie;
         this.Exp = player.experience;
         this.ExpNext = player.experienceNextLevel;
-        this.catClass = player.catClass;
+        this.catClass = player.catClass;        
     }
 }
 
@@ -79,12 +80,11 @@ class ViewModelInfoPlayer {
 
 function instancierPlayer(name, level, gentil) {
     result = {};
-    var src = 'Images/Monsters/' + name + '.png';
     var skills = [];
     var gentil = gentil;
     var playerData = getPlayerDataFromMonsterList(name);
     result = new Player(name + guidGenerator(), name, 0, 0, 0, playerData.hpLevelOne, playerData.hpLevelOne, playerData.manaLevelOne, playerData.manaLevelOne,
-                        playerData.forceLevelOne, playerData.magieLevelOne, gentil, 0, src, skills, playerData.catClass, playerData.evolution,
+                        playerData.forceLevelOne, playerData.magieLevelOne, gentil, 0, skills, playerData.catClass, playerData.evolution,
                         playerData.evolutionLevel);
     for (var i = 0; i < level; i++) {
         result = incrementerLevel(result);
@@ -115,7 +115,7 @@ function incrementerLevel(player) {
         }
     });
     if (isReadyToEvolve(player)) {
-        player = evolution(player);
+        evolution(player);
     }
 
     return player;
@@ -132,7 +132,28 @@ function isReadyToEvolve(player) {
 }
 
 function evolution(player) {
-    player = instancierPlayer(player.evolution, player.level, player.gentil);
+    var level = player.level;
+    var playerData = getPlayerDataFromMonsterList(player.evolution);
+    player.id = playerData.name + guidGenerator()
+    player.level = 0;
+    player.experience = 0;
+    player.experienceNextLevel = 0;
+    player.name = playerData.name;
+    player.hp = playerData.hpLevelOne;
+    player.currentHp = playerData.hpLevelOne;
+    player.mana = playerData.manaLevelOne;
+    player.currentMana = playerData.manaLevelOne;
+    player.force = playerData.forceLevelOne;
+    player.magie = playerData.magieLevelOne;
+    player.src = strPathImgMonstre + '/' + player.name + '.png';
+    player.srcDos = player.src.replace(strPathImgMonstre, strPathImgMonstreDos);
+    player.srcPortrait = player.src.replace(strPathImgMonstre, strPathImgMonstreProtrait);
+    player.catClass = playerData.catClass;
+    player.evolution = playerData.evolution;
+    player.evolutionLevel = playerData.evolutionLevel;
+    for (var i = 0; i < level; i++) {
+        incrementerLevel(player);
+    }
     if (player.gentil) {
         initialiserEvolutionMenu(player);
     }
