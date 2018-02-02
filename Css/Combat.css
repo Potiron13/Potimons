@@ -1,6 +1,6 @@
 body {
     margin-left: 20px;;
-    padding:0;    
+    padding:0;
     background-size: cover;
     z-index: -1;
 }
@@ -76,7 +76,7 @@ body {
     50% { -webkit-transform: rotateZ(10deg); transform:rotateZ(10deg); }
     50% { -webkit-transform: rotateZ(-10deg); transform:rotateZ(-10deg); }
 }
-
+/*
 @keyframes comete {
     0%  { -webkit-transform: translate(10px); }
    100% { -webkit-transform: translate(1000px, 200px);}
@@ -97,4 +97,4 @@ body {
 @keyframes casting {
     50% { -webkit-transform: rotateZ(10deg); transform:rotateZ(10deg); }
     50% { -webkit-transform: rotateZ(-10deg); transform:rotateZ(-10deg); }
-}
+}*/

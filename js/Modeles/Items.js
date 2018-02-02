@@ -100,9 +100,6 @@ function potionHeal(itemName, playerId, progressBar) {
         playerToHeal.currentHp = playerToHeal.hp;
     }
     updateProgressBar(progressBar, playerToHeal.currentHp, playerToHeal.hp);
-    if (potionUsed.quantity <= 0) {
-        Items.splice(Items.findIndex(x => x.id == potionUsed.id), 1);
-    }
 }
 
 function potionMana(itemName, playerId, progressBar) {

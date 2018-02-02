@@ -40,6 +40,7 @@ class ViewModelSkill {
 }
 
 var AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false),
+            new Skill(strBalayage, strBalayage, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, true),
             new Skill(strCharge, strCharge, 3, 'corpsACorps', animateCharge, '', 1000, 0, false),
             new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false),
             new Skill(strFireBall, strFireBall, 2, 'magie', animateProjectil, strProjectil, 1000, 10, false),
@@ -49,7 +50,8 @@ var AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', animateCorpsA
             new Skill(strChanter, strChanter, 2, 'corpsACorps', animateProjectil, strProjectil, 5000, 20, false),
             new Skill(strHypercut, strHypercut, 3, 'corpsACorps', animateCorpsACorps, '', 5000, 0, false),
             new Skill(strCapture, strCapture, 0, 'corpsACorps', animateProjectil, strProjectil, 1000, 0, false, 'Capture'),
-            new Skill(strPoison, strPoison, 0, 'corpsACorps', animateProjectil, strProjectil, 1000, 0, false, strPoison)];
+            new Skill(strJetDeVenin, strJetDeVenin, 0, 'magie', animateProjectil, strProjectil, 1000, 8, true, strPoison),
+            new Skill(strPoison, strPoison, 0, 'magie', animateProjectil, strProjectil, 1000, 4, false, strPoison)];
 
 function fetchSkills(skillsId) {
     result = [];

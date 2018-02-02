@@ -1,10 +1,12 @@
-var StartingScreenController = function (view, listEquipe, listReserve, listItem, listCarte) {
+var StartingScreenController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture) {
     this.view = view;
     this.listEquipe = listEquipe;
     this.listItem = listItem;
     this.listReserve = listReserve;
     this.listCarte = listCarte;
-    this.worldMapController = new WorldMapController(new WorldMapView(), this.listEquipe, this.listReserve, this.listItem, this.listCarte);
+    this.timeGame = timeGame;
+    this.listMonstresCapture = listMonstresCapture;
+    this.worldMapController = new WorldMapController(new WorldMapView(), this.listEquipe, this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture);
 };
 
 StartingScreenController.prototype = {
@@ -20,9 +22,9 @@ StartingScreenController.prototype = {
         var startingPotion = cloneItem(fetchItem('smallPotion'));
         startingPotion.quantity = 5;
         this.listItem.push(startingPotion);
-        this.listEquipe.push(instancierPlayer(strPotiron, 1, true));
-        this.listCarte.push(AllCartes[0]);
-        this.worldMapController.init(this.listCarte);
+        this.listEquipe.push(instancierPlayer(strPotiron, 3, true));
+        this.listCarte.push(generateCarte(0));
+        this.worldMapController.init(this.listCarte, this.timeGame, this.listMonstresCapture);
     },
 
     openLoadMenu: function() {
@@ -54,17 +56,24 @@ StartingScreenController.prototype = {
         var data = loadDataFromLocalStorage(gameId);
         var controller = this;
         $.each(data, function(i){
-            if (data[i].dataType == strPlayerInfo) {
-                controller.listEquipe.push(controller.instanciatePlayerFromData(data[i]));
-            }else if (data[i].dataType == strReserveInfo) {
-                controller.listReserve.push(controller.instanciatePlayerFromData(data[i]));
-            }else if (data[i].dataType == strItemInfo) {
-                controller.listItem.push(controller.instanciateItemFromData(data[i]));
-            }else if (data[i].dataType == strCarteInfo) {
-                controller.listCarte.push(controller.instanciateCarteFromData(data[i]));
+            if (this.dataType == strPlayerInfo) {
+                controller.listEquipe.push(controller.instanciatePlayerFromData(this));
+            }else if (this.dataType == strReserveInfo) {
+                controller.listReserve.push(controller.instanciatePlayerFromData(this));
+            }else if (this.dataType == strItemInfo) {
+                controller.listItem.push(controller.instanciateItemFromData(this));
+            }else if (this.dataType == strCarteInfo) {
+                controller.listCarte.push(controller.instanciateCarteFromData(this));
+            }else if (this.dataType == strMonsterInfo) {
+                controller.listMonstresCapture.push(this.data);
+            }else if (this.dataType == strTimeGameInfo) {
+                var temp = new Date(Date.parse(this.data));
+                controller.timeGame.setSeconds(temp.getSeconds());
+                controller.timeGame.setMinutes(temp.getMinutes());
+                controller.timeGame.setHours(temp.getHours());
             }
         });
-        this.worldMapController.init(this.listCarte);
+        this.worldMapController.init(this.listCarte, this.timeGame);
     },
 
 }

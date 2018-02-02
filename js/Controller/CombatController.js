@@ -1,4 +1,4 @@
-var CombatController = function (view, listEquipe, listReserve, listItem, initiliserWorldMap, listCarte) {
+var CombatController = function (view, listEquipe, listReserve, listItem, initiliserWorldMap, listCarte, listMonstresCapture) {
     this.listEquipe = listEquipe;
     this.listPlayer;
     this.listCapture = [];
@@ -10,6 +10,7 @@ var CombatController = function (view, listEquipe, listReserve, listItem, initil
     this.initiliserWorldMap = initiliserWorldMap;
     this.listCarte = listCarte;
     this.carte;
+    this.listMonstresCapture = listMonstresCapture;
 };
 
 CombatController.prototype = {
@@ -55,7 +56,7 @@ CombatController.prototype = {
     getEquipeInfoViewModel: function() {
         var result = [];
         for (var i = 0; i < this.getListEquipe().length; i++) {
-            result.push(new ViewModelInfoPlayer(this.listPlayer[i]));
+            result.push(new ViewModelInfoPlayer(this.listEquipe[i]));
         }
 
         return result;
@@ -72,6 +73,15 @@ CombatController.prototype = {
         return result;
     },
 
+    getEquipeVictoireViewModel: function() {
+        var result = [];
+        for (var i = 0; i < this.getListEquipe().length; i++) {
+            result.push(new ViewModelVictoirePlayer(this.listEquipe[i]));
+        }
+
+        return result;
+    },
+
     getCombatUsableItems: function() {
         return this.listItem.filter(x => x.usableInCombat == true);
     },
@@ -81,7 +91,8 @@ CombatController.prototype = {
         var effect = AllEffects.find(x=>x.name == player.etat);
         if (effect) {
             effect.effect(player, controllerCombat);
-            $.each(controllerCombat.getListPlayer().filter(x=>x.currentHp <= 0), function(index){
+            var listPlayerKilled = controllerCombat.getListPlayer().filter(x=>x.currentHp <= 0);
+            $.each(listPlayerKilled, function(index){
                 controllerCombat.sortirEnnemieCombat(this, controllerCombat);
             });
             player = controllerCombat.listPlayer[0];
@@ -232,17 +243,20 @@ CombatController.prototype = {
     },
 
     updateBtnItems : function(listPlayer, listItem){
-        $.each(listPlayer, function(index){
-            var player = listPlayer[index];
-            $.each(listItem, function(i) {
-                var item = listItem[i];
+        $.each(listItem, function(i) {
+            var item = this;
+            $.each(listPlayer, function(index){
+                var player = this;
                 var btn = $('#btn' +  item.id + player.id);
                 btn.html(item.name + ' (x' + item.quantity + ')');
                 if (item.quantity <= 0) {
                     btn.remove();
                 }
             });
-        })
+            if (item.quantity <= 0) {
+                listItem.splice(listItem.findIndex(x => x.id == item.id), 1);
+            }
+        });
     },
 
     attaque: function(source, listCible, skill, controllerCombat) {
@@ -279,6 +293,7 @@ CombatController.prototype = {
                         }
                         if (skill.id == strCapture && this.etat == 'Capture') {
                             effect.effect(this, controllerCombat);
+                            controllerCombat.listMonstresCapture.push(this.name);
                         }
                     });
                     listPlayer.push(listPlayer.shift());
@@ -286,7 +301,7 @@ CombatController.prototype = {
                 }, textAttackDisplayDelay);
             }, skill.duration);
         }else {
-            controllerCombat.gererTourParTour(controllerCombat);
+            controllerCombat.view.showSkillNavBar(source.id);
         }
     },
 
@@ -338,9 +353,7 @@ CombatController.prototype = {
             var cible = listPlayerAlive[entierAleatoire(0, listPlayerAlive.length - 1)];
             controllerCombat.attaque(ennemie, [cible], skill, controllerCombat);
         }else {
-            $.each(listPlayerAlive, function(){
-                controllerCombat.attaque(ennemie, this, skill, controllerCombat);
-            });
+            controllerCombat.attaque(ennemie, listPlayerAlive, skill, controllerCombat);
         }
     },
 
@@ -382,33 +395,43 @@ CombatController.prototype = {
         Array.prototype.push.apply(this.listItem, lootedItems)
         this.listItem = reformateItems(this.listItem);
         var experienceGagnee = controllerCombat.getExperienceGagnee(controllerCombat.listEnnemiesTotal);
-        controllerCombat.view.displayVictory(experienceGagnee, controllerCombat.getVictoryItemViewModel(lootedItems));
-        controllerCombat.incrementerExperience(controllerCombat.listEquipe, experienceGagnee);
-        $.each(controllerCombat.listCapture, function(index) {
-            if (controllerCombat.listEquipe.length <= 2 ) {
-                controllerCombat.listEquipe.push(controllerCombat.listCapture[index]);
-            }else {
-                controllerCombat.listReserve.push(controllerCombat.listCapture[index]);
-            }
-        });
-        $('#' + strModalMenuVictoire).on('hidden.bs.modal', function () {
-            var carteIndex = controllerCombat.listCarte.findIndex(x=>x.id == controllerCombat.carte.id);
-            if (AllCartes.length > carteIndex + 1) {
-                var nextCarteIndex = AllCartes.findIndex(x=>x.id == controllerCombat.carte.id) + 1;
-                if (!controllerCombat.listCarte[nextCarteIndex]) {
-                    controllerCombat.listCarte.push(AllCartes[nextCarteIndex]);
+        controllerCombat.view.displayVictory(experienceGagnee, controllerCombat.getVictoryItemViewModel(lootedItems), controllerCombat.getEquipeVictoireViewModel());
+        setTimeout(function(){
+            controllerCombat.incrementerExperience(controllerCombat, experienceGagnee);
+            $.each(controllerCombat.listCapture, function(index) {
+                if (controllerCombat.listEquipe.length <= 2 ) {
+                    controllerCombat.listEquipe.push(controllerCombat.listCapture[index]);
+                }else {
+                    controllerCombat.listReserve.push(controllerCombat.listCapture[index]);
                 }
-           }
-            controllerCombat.initiliserWorldMap(controllerCombat.listCarte);
+            });
+            controllerCombat.reinitialiserEtat(controllerCombat.getListEquipe());
+        }, 1000);
+
+        // a la fermeture de la modal
+        $('#' + strModalMenuVictoire).on('hidden.bs.modal', function () {
+            if (controllerCombat.listCarte.length == controllerCombat.listCarte.findIndex(x=>x.id == controllerCombat.carte.id) + 1) {
+                controllerCombat.listCarte.push(generateCarte(controllerCombat.carte.id));
+            }
+            controllerCombat.initiliserWorldMap(controllerCombat.listCarte, controllerCombat.timeGame);
         });
     },
 
-    incrementerExperience: function(listEquipe, expertienceGagnee) {
-        $.each(listEquipe, function(index) {
-            listEquipe[index].experience += expertienceGagnee;
-            if (listEquipe[index].experience >= listEquipe[index].experienceNextLevel) {
-                incrementerLevel(listEquipe[index]);
+    incrementerExperience: function(controllerCombat, experienceGagnee) {
+        $.each(controllerCombat.listEquipe, function(index) {
+            this.experience = ((this.experience + experienceGagnee) > this.experienceNextLevel ) ? this.experienceNextLevel : this.experience + experienceGagnee;
+            updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);
+            if (this.experience >= this.experienceNextLevel) {
+                var learnedSkills = [];
+                incrementerLevel(this, learnedSkills);
+                controllerCombat.view.animateLevelUp(this, learnedSkills);
             }
+        });
+    },
+
+    reinitialiserEtat(listPlayer) {
+        $.each(listPlayer, function(index) {
+            this.etat = '';
         });
     },
 }

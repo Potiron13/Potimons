@@ -183,7 +183,7 @@ CombatView.prototype = {
         document.body.style.textAlign = "center";
     },
 
-    displayVictory: function(experienceGagnee, itemsVictoireViewModels) {
+    displayVictory: function(experienceGagnee, itemsVictoireViewModels, equipeVictoireViewModel) {
         var idModal = strModalMenuVictoire;
         if ($('#' + idModal).length) {
             $('#' + idModal).empty();
@@ -191,7 +191,7 @@ CombatView.prototype = {
         var parent = createModal(idModal, 'Victoire !');
         var experienceRow = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'row', '', parent);
         var experienceLabelCol = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'col-sm-6', 'Experience gagnee : ' + experienceGagnee + 'xp', experienceRow);
-        var separationRow = displayElementOnParent('div', 'rowVcitoireSeparation', 'row seperation', '', parent);
+        var separationRowExprienceItem = displayElementOnParent('div', 'rowVcitoireSeparationExprienceItem', 'row separation', '', parent);
         $.each(itemsVictoireViewModels, function(index) {
             var rowLabel = displayElementOnParent('div', 'Label' + itemsVictoireViewModels[index].id + idModal, 'row', '', parent);
             var rowValue = displayElementOnParent('div', 'Value' + itemsVictoireViewModels[index].id + idModal , 'row', '', parent);
@@ -202,6 +202,60 @@ CombatView.prototype = {
                 displayElementOnParent('div', label + 'Value', 'col-sm-6', value, rowValue);
             });
         });
+
+        var separationRowItemPlayer = displayElementOnParent('div', 'rowVcitoireSeparationItemPlayer', 'row separation', '', parent);
+        $.each(equipeVictoireViewModel, function(index) {
+            var playerVictoireViewModel = equipeVictoireViewModel[index];
+            var rowLabel = displayElementOnParent('div', 'Label' + playerVictoireViewModel.id + idModal, 'row', '', parent);
+            var rowValue = displayElementOnParent('div', 'Value' + playerVictoireViewModel.id + idModal , 'row', '', parent);
+            if (index == 0) {
+                displayElementOnParent('div', 'NomPlayerVictoire' + 'Label', 'col-sm-2', 'Nom', rowLabel);
+                displayElementOnParent('div', 'NiveauPlayerVictoire' + 'Label', 'col-sm-2', 'Niveau', rowLabel);
+                displayElementOnParent('div', 'PortraitPlayerVictoire' + 'Label', 'col-sm-4', '', rowLabel);
+                displayElementOnParent('div', 'ExperiencePlayerVictoire' + 'Label', 'col-sm-4', 'Experience', rowLabel);
+            }
+            displayElementOnParent('div', 'NomPlayerVictoireValue' + playerVictoireViewModel.id, 'col-sm-2', playerVictoireViewModel.Nom, rowValue);
+            displayElementOnParent('div', 'NiveauPlayerVictoireValue' + playerVictoireViewModel.id, 'col-sm-2', playerVictoireViewModel.Niveau, rowValue);
+            var colImage = displayElementOnParent('div', 'ContainerPlayerVictoireImg' + playerVictoireViewModel.id, "col-sm-4", "", rowValue);
+            var portraitImg = document.createElement('img');
+            portraitImg.src =  playerVictoireViewModel.Portrait;
+            colImage.append(portraitImg);
+            displayProgressBar(playerVictoireViewModel.id + strProgressBar + strVictoire + 'Experience', playerVictoireViewModel.ExperienceActuelle, playerVictoireViewModel.ExperienceSuivant, rowValue)
+        });
+
         $('#' + idModal).modal();
-    }
+    },
+
+    animateLevelUp(player, learnedSkills){
+        var levelElement = $('#NiveauPlayerVictoireValue' + player.id);
+        levelElement.html(player.level);
+        var levelDisplayElement = prependElementOnParent('div', 'levelDisplay' + player.id, '', 'Level up !', levelElement);
+        levelDisplayElement.css({
+            'left' : levelElement.width()/2 + 'px',
+            'position' : 'absolute'
+        });
+        levelDisplayElement.animate({
+            top: -2 + 'em'
+        }, 1000, function (){
+            levelDisplayElement.remove();
+        });
+
+        var portraitElement = $('#ContainerPlayerVictoireImg' + player.id);
+        $.each(learnedSkills, function(index) {
+            var skill = this;
+            setTimeout(function(){
+                var skillDisplayElement = prependElementOnParent('div', 'skillDisplay' + skill + player.id, '',
+                                            player.name + ' apprend : ' + skill, levelElement);
+                skillDisplayElement.css({
+                    'left' : portraitElement.width() + 10 + 'px',
+                    'position' : 'absolute'
+                });
+                skillDisplayElement.animate({
+                    top: -4 + 'em'
+                }, 2000, function (){
+                    skillDisplayElement.remove();
+                });
+            }, 2000 * (index + 1));
+        });
+    },
 }

@@ -1,8 +1,10 @@
 var WorldMapView = function () {
     this.displayMainMenu = null;
     this.displaySaveMenu = null;
+    this.displayPotidex = null;
     this.initialiserSaveMenu = null;
     this.initialiserMainMenu = null;
+    this.initialiserPotidex = null;
 }
 
 WorldMapView.prototype = {
@@ -14,8 +16,16 @@ WorldMapView.prototype = {
         document.body.style.backgroundImage =  "url(Images/Maps/worldMap.png)";
         this.initialiserSaveMenu.init();
         this.initialiserMainMenu.init();
+        this.initialiserPotidex.init();
         var btnMenu = displayButtons('btnOuvrirMainMenu', 'Menu', 'btn btn-primary btnMainMenu', this.displayMainMenu, $('body'));
         var btnSaveMenu = displayButtons('btnOuvrirSaveMenu', 'Sauvegarder', 'btn btn-primary btnSaveMenu', this.displaySaveMenu, $('body'));
+        var btnPotidex = displayButtons('btnOuvrirPotidex', 'Potidex', 'btn btn-primary btnPotidex', this.displayPotidex, $('body'));
+        var timerRow = displayElementOnParent('div', 'timerRow', 'row', '', $('body'));
+        timerRow.css({
+            'color' : 'white'
+        })
+        var timerLabel = displayElementOnParent('div', 'timerLabel', 'col-sm-2', 'Temps de jeu : ', timerRow);
+        var timer = displayElementOnParent('div', 'timer', 'col-sm-2', '', timerRow);
         var seperationTopRow = displayElementOnParent('div', 'seperationTopRow', 'col-sm-12', '', $('body'));
         seperationTopRow.css({
             'height' : '20%',
@@ -36,12 +46,17 @@ WorldMapView.prototype = {
         seperationTopBtnRow.css({
             'height': '20%',
         })
+        var btnRow = displayElementOnParent('div', 'btnLauchCombatRow', 'row', '', jumbotron);
         $.each(listCarte, function() {
-            var btnLauchCombat = displayButtons('btnLauchCombat' + this.id, 'niveau ' + this.levelMin + ' - ' + this.levelMax, 'btn btn-danger col-sm-4', null, jumbotron);
+            var btnLauchCombat = displayButtons('btnLauchCombat' + this.id, 'niveau ' + this.levelMin + ' - ' + this.levelMax, 'btn btn-danger col-sm-4', null, btnRow);
             btnLauchCombat.css({
                 'height': '20%',
-            })
-            btnLauchCombat.hide();
+            });
         });
     },
+
+    renderTimeGame : function (timeGame) {
+        var result = timeGame.toTimeString().split(' ')[0];
+        $('#timer').html(result);
+    }
 }

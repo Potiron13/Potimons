@@ -54,7 +54,7 @@
      border-radius: 7px;
 }
 
-.seperation {
+.separation {
     border: solid 1px white;
     -webkit-border-radius: 7px;
     -moz-border-radius: 7px;
@@ -94,6 +94,13 @@
 }
 
 .btnSaveMenu {
+    top:0;
+    right: 0;
+    height: 5em;
+    width: 15em;
+}
+
+.btnPotidex {
     top:0;
     right: 0;
     height: 5em;

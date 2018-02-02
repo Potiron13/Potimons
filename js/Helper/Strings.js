@@ -8,6 +8,11 @@ const strPotidoudou = 'potidou';
 const strPotizarre = 'potizarre';
 const strKaroutSauvage = 'karoutSauvage';
 
+// DECRIPTION
+strDescriptionPotiron = 'Aime griffer le canape et uriner dans les lits.';
+strDescriptionPotitata = 'Un gros rat mechant.';
+strDescriptionPotitatac = 'Un tres gros rat mechant.';
+
 // SKILLS
 const strGriffe = 'griffe';
 const strFireBall = 'fireBall';
@@ -21,6 +26,8 @@ const strHypercut = 'hypercut';
 const strProjectil = 'projectil';
 const strLanceFeuille = 'lanceFeuille';
 const strPoison = 'poison';
+const strJetDeVenin = 'jetDeVenin';
+const strBalayage = 'balayage';
 
 // CAT CLASS
 
@@ -37,6 +44,7 @@ const strColonne = 'colonne';
 const strProgressBar = 'ProgressBar';
 const strMenu = 'menu';
 const strCombat = 'combat';
+const strVictoire = 'victoire';
 const strModalMenuStats = 'modalMenuStats'
 const strModalMenuItems = 'modalMenuItems';
 const strModalSkills = 'modalSkills';
@@ -47,6 +55,8 @@ const strModalMenuResultFusion = 'modalMenuResultFusion';
 const strModalMenuSave = 'modalMenuSave';
 const strModalMenuPotions = 'modalMenuPotions';
 const strModalMenuManaPotions = 'modalMenuManaPotions';
+const strModalPotidex = 'modalPotidex';
+const strModalDetailPotidex = 'modalDetailPotidex'
 const strNewGameContainer = 'newGameContainer';
 const strNewGameRow = 'newGameRow';
 const strLoadGameModal = 'loadGameModal';
@@ -67,6 +77,8 @@ const strCarteInfo = 'carteInfo';
 const strSaveId = 'saveId';
 const strDataType = 'dataType';
 const strData = 'data';
+const strTimeGameInfo = 'timeGameInfo';
+const strMonsterInfo = 'monsterInfo'
 
 // MODAL TITLE
 const strSauvegarder = 'Sauvegarder';

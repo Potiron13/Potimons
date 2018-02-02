@@ -1,3 +1,5 @@
+attaques :
+
 attache cherche ses lunettes : 30% reussite . si success mega buff
 gros joint : 30 hp mais n'attaque pas au tour prochain
 c'est la vie : peut etre lancer aprs un echec adverse. Renvoie les degats

@@ -13,9 +13,9 @@ class Player {
         this.magie = magie;
         this.gentil = gentil;
         this.experienceDonnee = experienceDonnee;
-        this.src = strPathImgMonstre + '/' + name + '.png';
-        this.srcDos = this.src.replace(strPathImgMonstre, strPathImgMonstreDos);
-        this.srcPortrait = this.src.replace(strPathImgMonstre, strPathImgMonstreProtrait);
+        this.src = getSrc(name);
+        this.srcDos = getSrcDos(this.src);
+        this.srcPortrait = getSrcPortrait(this.src);
         this.skills = skills;
         this.catClass = catClass;
         this.evolution = evolution;
@@ -25,7 +25,7 @@ class Player {
 }
 
 class PlayerMonsterData {
-    constructor(name, hpLevelOne, manaLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot) {
+    constructor(name, hpLevelOne, manaLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot, description) {
         this.name = name;
         this.hpLevelOne = hpLevelOne;
         this.manaLevelOne = manaLevelOne;
@@ -41,6 +41,7 @@ class PlayerMonsterData {
         this.evolutionLevel = evolutionLevel
         this.futureSkills = futureSkills;
         this.loot = loot;
+        this.description = description;
     }
 }
 
@@ -63,7 +64,18 @@ class ViewModelPlayer {
         this.Magie = player.magie;
         this.Exp = player.experience;
         this.ExpNext = player.experienceNextLevel;
-        this.catClass = player.catClass;        
+        this.catClass = player.catClass;
+    }
+}
+
+class ViewModelVictoirePlayer {
+    constructor (player) {
+        this.id = player.id
+        this.Nom = player.name;
+        this.ExperienceActuelle = player.experience;
+        this.ExperienceSuivant = player.experienceNextLevel;
+        this.Niveau = player.level;
+        this.Portrait = player.srcPortrait;
     }
 }
 
@@ -76,6 +88,18 @@ class ViewModelInfoPlayer {
         this.Mana = player.mana;
         this.CurrentMana = player.currentMana;
     }
+}
+
+function getSrc(name){
+     return strPathImgMonstre + '/' + name + '.gif';
+}
+
+function getSrcDos(src){
+    return src.replace(strPathImgMonstre, strPathImgMonstreDos);
+}
+
+function getSrcPortrait(src) {
+    return src.replace(strPathImgMonstre, strPathImgMonstreProtrait);
 }
 
 function instancierPlayer(name, level, gentil) {
@@ -93,7 +117,7 @@ function instancierPlayer(name, level, gentil) {
     return result;
 }
 
-function incrementerLevel(player) {
+function incrementerLevel(player, learnedSkills) {
     var playerData = getPlayerDataFromMonsterList(player.name);
     var futureSkills;
     player.level += 1;
@@ -111,6 +135,9 @@ function incrementerLevel(player) {
         if (player.skills.filter(x=>x.id == futureSkills[index].skill.id).length == 0) {
             if (futureSkills[index].requiredLevel <= player.level) {
                 player.skills.push(futureSkills[index].skill);
+                if (learnedSkills) {
+                    learnedSkills.push(futureSkills[index].skill.name);
+                }
             }
         }
     });
@@ -145,9 +172,9 @@ function evolution(player) {
     player.currentMana = playerData.manaLevelOne;
     player.force = playerData.forceLevelOne;
     player.magie = playerData.magieLevelOne;
-    player.src = strPathImgMonstre + '/' + player.name + '.png';
-    player.srcDos = player.src.replace(strPathImgMonstre, strPathImgMonstreDos);
-    player.srcPortrait = player.src.replace(strPathImgMonstre, strPathImgMonstreProtrait);
+    player.src = getSrc(player.name);
+    player.srcDos = getSrcDos(player.src);
+    player.srcPortrait = getSrcPortrait(player.src);
     player.catClass = playerData.catClass;
     player.evolution = playerData.evolution;
     player.evolutionLevel = playerData.evolutionLevel;

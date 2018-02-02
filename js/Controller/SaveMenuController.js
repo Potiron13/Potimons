@@ -23,6 +23,10 @@ SaveMenuController.prototype = {
         $.each(Cartes, function(index) {
             gameData.push({'dataType' : 'carteInfo', 'data' : Cartes[index]});
         });
+        $.each(MonstresCapture, function(index) {
+            gameData.push({'dataType' : 'monsterInfo', 'data' : MonstresCapture[index]});
+        });
+        gameData.push({'dataType' : 'timeGameInfo', 'data' : TimeGame.toString()});
         gameData.push({'dataType' : 'gameInfo', 'data' : (new Date()).toLocaleString()});
         gameData.push({'dataType' : 'saveId', 'data' : saveId});
         localStorage.setItem(saveId, JSON.stringify(gameData));

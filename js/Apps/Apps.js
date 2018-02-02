@@ -1,5 +1,5 @@
 var StartingScreenApp = {
-    'controller' : new StartingScreenController(new StartingScreenView(), Equipe, Reserve, Items, Cartes),
+    'controller' : new StartingScreenController(new StartingScreenView(), Equipe, Reserve, Items, Cartes, TimeGame, MonstresCapture),
 }
 
 $('document').ready(function(){
