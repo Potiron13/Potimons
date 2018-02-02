@@ -9,9 +9,9 @@ var monsterFusionList = [
 var monsterList = [
     //new PlayerMonsterData(name, hpLevelOne, manaLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot, description)
     new PlayerMonsterData(
-        strPotiron, 20, 10, 10, 10, 10, 2, 2, 5, 10, 'Chat', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strCapture, 1), new FutureSkill(strLanceFlame, 4),
-        new FutureSkill(strFireBall, 4), new FutureSkill(strBalayage, 4)],
+        strPotiron, 20, 10, 10, 10, 10, 2, 2, 5, 1, 'Chat', null, null,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strCapture, 2), new FutureSkill(strLanceFlame, 6),
+        new FutureSkill(strFireBall, 4), new FutureSkill(strBalayage, 5)],
         [],
         strDescriptionPotiron,
     ),

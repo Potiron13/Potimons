@@ -29,7 +29,7 @@ PotidexView.prototype = {
                     view.renderMonsterDetail(viewModels[index]);
                 });
             }else {
-                monsterImg.src = 'Images/Ui/questionMark.png';
+                monsterImg.src = strPathQuestionMark;
                 monsterCol.append(monsterImg);
             }
         });

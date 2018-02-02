@@ -36,6 +36,7 @@ const strPathImgMonstre = 'Images/Monsters';
 const strPathImgMonstreDos = 'Images/Monsters/Dos';
 const strPathImgMonstreProtrait = 'Images/Monsters/Portrait';
 const strPathStartingScreen = 'url(Images/Maps/startingScreen.png)';
+const strPathQuestionMark = 'Images/Ui/questionMark.png';
 
 // DOM ids
 const strFutureActionsRow = 'futureActionsRow';

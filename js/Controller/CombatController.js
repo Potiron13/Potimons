@@ -419,13 +419,23 @@ CombatController.prototype = {
 
     incrementerExperience: function(controllerCombat, experienceGagnee) {
         $.each(controllerCombat.listEquipe, function(index) {
-            this.experience = ((this.experience + experienceGagnee) > this.experienceNextLevel ) ? this.experienceNextLevel : this.experience + experienceGagnee;
-            updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);
-            if (this.experience >= this.experienceNextLevel) {
-                var learnedSkills = [];
-                incrementerLevel(this, learnedSkills);
-                controllerCombat.view.animateLevelUp(this, learnedSkills);
-            }
+            var experienceRestante = experienceGagnee;
+            do {                
+                if ((this.experience + experienceRestante) < this.experienceNextLevel) {
+                    this.experience = this.experience + experienceRestante;
+                    experienceRestante = 0;
+                    updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);
+                }else {
+                    this.experience = this.experienceNextLevel;
+                    experienceRestante = experienceRestante - (this.experienceNextLevel - this.experience);
+                    updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);
+                    if (this.experience >= this.experienceNextLevel) {
+                        var learnedSkills = [];
+                        incrementerLevel(this, learnedSkills);
+                        controllerCombat.view.animateLevelUp(this, learnedSkills);
+                    }
+                }
+            } while (experienceRestante > 0);
         });
     },
 
