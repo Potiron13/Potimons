@@ -136,7 +136,7 @@ MainMenuView.prototype = {
                 return this.childElementCount < 3;
             }
         });
-        var separationRow = displayElementOnParent('div', 'rowReserveSeparation', 'row seperation', '', parent);
+        var separationRow = displayElementOnParent('div', 'rowReserveSeparation', 'row separation', '', parent);
         var reserveRow = displayElementOnParent('div', 'rowReserve', 'row', '', parent);
         reserveRow.droppable({
             drop: function(event, ui) {
@@ -176,7 +176,7 @@ MainMenuView.prototype = {
                 return this.childElementCount < 2;
             }
         });
-        var separationRow = displayElementOnParent('div', 'rowReserveSeparation', 'row seperation', '', parent);
+        var separationRow = displayElementOnParent('div', 'rowReserveSeparation', 'row separation', '', parent);
         var reserveRow = displayElementOnParent('div', 'rowReserveFusion', 'row', '', parent);
         reserveRow.droppable({
             drop: function(event, ui) {

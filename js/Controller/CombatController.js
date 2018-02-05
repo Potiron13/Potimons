@@ -420,7 +420,7 @@ CombatController.prototype = {
     incrementerExperience: function(controllerCombat, experienceGagnee) {
         $.each(controllerCombat.listEquipe, function(index) {
             var experienceRestante = experienceGagnee;
-            do {                
+            do {
                 if ((this.experience + experienceRestante) < this.experienceNextLevel) {
                     this.experience = this.experience + experienceRestante;
                     experienceRestante = 0;
@@ -428,7 +428,7 @@ CombatController.prototype = {
                 }else {
                     this.experience = this.experienceNextLevel;
                     experienceRestante = experienceRestante - (this.experienceNextLevel - this.experience);
-                    updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);
+                    //updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);
                     if (this.experience >= this.experienceNextLevel) {
                         var learnedSkills = [];
                         incrementerLevel(this, learnedSkills);

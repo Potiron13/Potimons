@@ -28,7 +28,7 @@ function effectCapture(ennemie, controllerCombat) {
 
 function calculPoison(ennemie) {
     var rand = entierAleatoire(1, 100)
-    if (rand <= 50 ) {
+    if (rand <= 100 ) {
         return true;
     }
 
@@ -36,9 +36,9 @@ function calculPoison(ennemie) {
 }
 
 function effectPoison(ennemie, controllerCombat) {
-    var poisonDammage = 5;
+    var poisonDammage = ennemie.currentHp*10/100;
     var poisonDelay = 2000;
-    ennemie.currentHp = ennemie.currentHp - poisonDammage;
+    ennemie.currentHp = Math.round(ennemie.currentHp - poisonDammage);
     controllerCombat.animateTextAttackDisplay(poisonDammage, poisonDelay, ennemie, controllerCombat)
 }
 
