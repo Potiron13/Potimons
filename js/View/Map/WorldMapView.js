@@ -2,9 +2,11 @@ var WorldMapView = function () {
     this.displayMainMenu = null;
     this.displaySaveMenu = null;
     this.displayPotidex = null;
+    this.displayOnline = null;
     this.initialiserSaveMenu = null;
     this.initialiserMainMenu = null;
     this.initialiserPotidex = null;
+    this.initialiserOnline = null;
 }
 
 WorldMapView.prototype = {
@@ -17,9 +19,11 @@ WorldMapView.prototype = {
         this.initialiserSaveMenu.init();
         this.initialiserMainMenu.init();
         this.initialiserPotidex.init();
+        this.initialiserOnline.init();
         var btnMenu = displayButtons('btnOuvrirMainMenu', 'Menu', 'btn btn-primary btnMainMenu', this.displayMainMenu, $('body'));
         var btnSaveMenu = displayButtons('btnOuvrirSaveMenu', 'Sauvegarder', 'btn btn-primary btnSaveMenu', this.displaySaveMenu, $('body'));
         var btnPotidex = displayButtons('btnOuvrirPotidex', 'Potidex', 'btn btn-primary btnPotidex', this.displayPotidex, $('body'));
+        var btnOnline = displayButtons('btnGoOnline', 'Online', 'btn btn-primary btnOnline', this.displayOnline, $('body'));
         var timerRow = displayElementOnParent('div', 'timerRow', 'row', '', $('body'));
         timerRow.css({
             'color' : 'white'

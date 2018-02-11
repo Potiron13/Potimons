@@ -1,12 +1,13 @@
-var StartingScreenController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture) {
+var StartingScreenController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture, listUser) {
     this.view = view;
     this.listEquipe = listEquipe;
     this.listItem = listItem;
     this.listReserve = listReserve;
     this.listCarte = listCarte;
     this.timeGame = timeGame;
+    this.listUser = listUser;
     this.listMonstresCapture = listMonstresCapture;
-    this.worldMapController = new WorldMapController(new WorldMapView(), this.listEquipe, this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture);
+    this.worldMapController = new WorldMapController(new WorldMapView(), this.listEquipe, this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture, this.listUser);
 };
 
 StartingScreenController.prototype = {
@@ -25,6 +26,7 @@ StartingScreenController.prototype = {
         this.listEquipe.push(instancierPlayer(strPotiron, 3, true));
         this.listCarte.push(generateCarte(0));
         this.worldMapController.init(this.listCarte, this.timeGame, this.listMonstresCapture);
+        this.goOnline();
     },
 
     openLoadMenu: function() {
@@ -75,5 +77,15 @@ StartingScreenController.prototype = {
         });
         this.worldMapController.init(this.listCarte, this.timeGame);
     },
+
+    goOnline: function() {
+        var socket = io();
+        var userId = guidGenerator();
+        var controller = this;
+        socket.emit('go online', new User(userId, userId, this.listEquipe));
+        socket.on('go online', function(user){
+            controller.listUser.push(user);            
+        });
+    }
 
 }

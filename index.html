@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font: 13px Helvetica, Arial; }
+          form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+          form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+          form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+          #messages { list-style-type: none; margin: 0; padding: 0; }
+          #messages li { padding: 5px 10px; }
+          #messages li:nth-child(odd) { background: #eee; }
+        </style>
         <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="Css/worldMap.css">
         <link rel="stylesheet" type="text/css" href="Css/Combat.css">
@@ -26,7 +36,6 @@
         <script type="text/javascript" src="js/Modeles/SaveFile.js" ></script>
         <script type="text/javascript" src="js/Modeles/Skill.js" ></script>
         <script type="text/javascript" src="js/Modeles/Details.js" ></script>
-        <script type="text/javascript" src="js/Modeles/Equipement.js" ></script>
         <script type="text/javascript" src="js/Modeles/Reserve.js" ></script>
         <script type="text/javascript" src="js/Modeles/Carte.js" ></script>
         <script type="text/javascript" src="js/Modeles/Fusion.js" ></script>
@@ -36,10 +45,12 @@
         <script type="text/javascript" src="js/Modeles/Modele.js" ></script>
         <script type="text/javascript" src="js/Modeles/Effect.js" ></script>
         <script type="text/javascript" src="js/Modeles/Potidex.js" ></script>
+        <script type="text/javascript" src="js/Modeles/User.js" ></script>
         <script type="text/javascript" src="js/View/Combat/CombatView.js" ></script>
         <script type="text/javascript" src="js/View/Menu/MainMenuView.js" ></script>
         <script type="text/javascript" src="js/View/Menu/SaveMenuView.js" ></script>
         <script type="text/javascript" src="js/View/Map/WorldMapView.js" ></script>
+        <script type="text/javascript" src="js/View/OnlineView.js" ></script>
         <script type="text/javascript" src="js/View/worldMap.js"></script>
         <script type="text/javascript" src="js/View/StartingScreenView.js" ></script>
         <script type="text/javascript" src="js/View/PotidexView.js" ></script>
@@ -49,9 +60,28 @@
         <script type="text/javascript" src="js/Controller/StartingScreenController.js" ></script>
         <script type="text/javascript" src="js/Controller/WolrdMapController.js" ></script>
         <script type="text/javascript" src="js/Controller/PotidexController.js" ></script>
+        <script type="text/javascript" src="js/Controller/OnlineController.js" ></script>
         <script type="text/javascript" src="js/Monsters.js" ></script>
         <script type="text/javascript" src="js/Apps/Apps.js" ></script>
     </head>
-    <body>
+    <script src="/socket.io/socket.io.js"></script>
+   <script>
+    $(function () {
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+      });
+    });
+  </script>
+    <body>        
+        <ul id="messages"></ul>
+        <form action="">
+          <input id="m" autocomplete="off" /><button>Send</button>
+        </form>
     </body>
 </html>

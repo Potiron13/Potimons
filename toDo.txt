@@ -1,1 +1,14 @@
 bug protrait lors de l'évolution
+balance
+contenu
+online
+
+
+
+
+Enfin, dans l’administration alwaysdata, créons un site de type Node.js, en indiquant comme commande :
+
+node ~/myapp/app.js
+1
+node ~/myapp/app.js
+Le tour est joué : notre petite application Express est bien joignable !

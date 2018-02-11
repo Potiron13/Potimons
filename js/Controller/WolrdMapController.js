@@ -1,4 +1,4 @@
-var WorldMapController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture) {
+var WorldMapController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture, listUser) {
     this.view = view;
     this.listEquipe = listEquipe;
     this.listReserve = listReserve;
@@ -6,11 +6,13 @@ var WorldMapController = function (view, listEquipe, listReserve, listItem, list
     this.listCarte = listCarte;
     this.timeGame = timeGame;
     this.listMonstresCapture = listMonstresCapture;
+    this.listUser = listUser;
     this.mainMenuController = new MainMenuController(new MainMenuView(), this.listEquipe, this.listReserve, this.listItem);
     this.saveMenuController = new SaveMenuController(new SaveMenuView());
     this.combatController = new CombatController(new CombatView(), this.listEquipe, this.listReserve, this.listItem,
                             this.init.bind(this), this.listCarte, this.listMonstresCapture);
     this.potidexController = new PotidexController(new PotidexView(), this.listMonstresCapture);
+    this.onlineController = new OnlineController(new OnlineView(), this.listUser, this.listEquipe);
 };
 
 WorldMapController.prototype = {
@@ -19,9 +21,11 @@ WorldMapController.prototype = {
         this.view.initialiserSaveMenu = this.saveMenuController;
         this.view.initialiserMainMenu = this.mainMenuController;
         this.view.initialiserPotidex = this.potidexController;
+        this.view.initialiserOnline = this.onlineController;
         this.view.displayPotidex = this.potidexController.displayPotidex.bind(this);
         this.view.displayMainMenu = this.mainMenuController.displayMainMenu.bind(this);
         this.view.displaySaveMenu = this.saveMenuController.displaySaveMenu.bind(this);
+        this.view.displayOnline = this.onlineController.displayOnline.bind(this);
         this.view.render(listCarte);
         var controller = this;
         $.each(listCarte, function() {
