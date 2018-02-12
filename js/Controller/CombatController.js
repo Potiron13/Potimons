@@ -10,12 +10,16 @@ var CombatController = function (view, listEquipe, listReserve, listItem, initil
     this.initiliserWorldMap = initiliserWorldMap;
     this.listCarte = listCarte;
     this.carte;
+    this.online = false;
     this.listMonstresCapture = listMonstresCapture;
 };
 
 CombatController.prototype = {
 
     init: function(carte) {
+        $.each($('body').children(), function(index, child){
+            child.remove();
+        });
         this.carte = carte;
         var nombreEnnemieAuCombat = entierAleatoire(1, carte.nombreMaximumEnnemie);
         this.listPlayer = this.listEquipe.slice();
@@ -30,6 +34,26 @@ CombatController.prototype = {
             this.listEnnemies.push(ennemie);
             this.listEnnemiesTotal.push(ennemie);
         }
+    },
+
+    initDuel: function(user, carte) {
+        $.each($('body').children(), function(index, child){
+            child.remove();
+        });
+        var controller = this;
+        this.online = true;
+        this.listPlayer = this.listEquipe.slice();
+        this.listEnnemiesTotal = [];
+        this.listEnnemies = [];
+        this.listCapture = [];
+        this.carte = carte;
+        $.each(user.equipe, function(index){
+            this.gentil = false;
+            controller.listPlayer.push(this);
+            controller.listEnnemies.push(this);
+            controller.listEnnemiesTotal.push(this);
+        })
+        controller.combat();
     },
 
     getListEnnemie : function () {
@@ -98,9 +122,10 @@ CombatController.prototype = {
             player = controllerCombat.listPlayer[0];
         }
         if (player) {
+            console.log(controllerCombat.online);
             if(player.gentil == true) {
                 controllerCombat.view.showSkillNavBar(player.id);
-            }else {
+            }else if (controllerCombat.online === false) {
                 var intervalAttaqueDelay = setTimeout(function() {
                     controllerCombat.attaqueEnnemie(player, controllerCombat);
                 }, 2000);
@@ -135,56 +160,60 @@ CombatController.prototype = {
             $.each(player.skills, function(j){
                 var skill = player.skills[j];
                 var btn = $('#btn' + skill.id + player.id);
-                btn.click( skill, (function(playerCopy) {
-                    return function(){
-                        controllerCombat.handleContextMenu(controllerCombat, $('#rowEnnemies'));
-                        controllerCombat.view.hideSkillNavBar(playerCopy.id);
-                        controllerCombat.view.displayTargetCursor();
-                        $.each($('#rowEnnemies').children(), function(k) {
-                            var elementEnnemie = this;
-                            var $elementEnnemie = $('#' + elementEnnemie.id);
-                            if (skill.multiTarget) {
-                                $elementEnnemie.hover(
-                                    function(){
-                                        $.each(controllerCombat.getListEnnemie(), function() {
-                                            controllerCombat.view.deplacerSelector(this);
-                                        });
-                                    }, function(){
-                                        $.each(controllerCombat.getListEnnemie(), function() {
+                if (!(skill.id === 'capture' && controllerCombat.online === true)) {
+                    btn.click( skill, (function(playerCopy) {
+                        return function(){
+                            controllerCombat.handleContextMenu(controllerCombat, $('#rowEnnemies'));
+                            controllerCombat.view.hideSkillNavBar(playerCopy.id);
+                            controllerCombat.view.displayTargetCursor();
+                            $.each($('#rowEnnemies').children(), function(k) {
+                                var elementEnnemie = this;
+                                var $elementEnnemie = $('#' + elementEnnemie.id);
+                                if (skill.multiTarget) {
+                                    $elementEnnemie.hover(
+                                        function(){
+                                            $.each(controllerCombat.getListEnnemie(), function() {
+                                                controllerCombat.view.deplacerSelector(this);
+                                            });
+                                        }, function(){
+                                            $.each(controllerCombat.getListEnnemie(), function() {
+                                                controllerCombat.view.removeSelector(this);
+                                            });
+                                        }
+                                    );
+                                    $elementEnnemie.on('click', function(){
+                                        var cibles = controllerCombat.getListEnnemie();
+                                        controllerCombat.view.displayAutoCursor();
+                                        $('#rowEnnemies').children().off();
+                                        $('body').off();
+                                        $.each(controllerCombat.getListEnnemie(), function(){
                                             controllerCombat.view.removeSelector(this);
                                         });
-                                    }
-                                );
-                                $elementEnnemie.on('click', function(){
-                                    var cibles = controllerCombat.getListEnnemie();
-                                    controllerCombat.view.displayAutoCursor();
-                                    $('#rowEnnemies').children().off();
-                                    $('body').off();
-                                    $.each(controllerCombat.getListEnnemie(), function(){
+                                        controllerCombat.attaque(playerCopy, cibles, skill, controllerCombat);
+                                    });
+                                }else {
+                                    $elementEnnemie.hover(
+                                        function(){
+                                            controllerCombat.view.deplacerSelector(this);
+                                        }, function(){
+                                            controllerCombat.view.removeSelector(this);
+                                        }
+                                    );
+                                    $elementEnnemie.on('click', function(){
+                                        var cible = controllerCombat.getListEnnemie().find(x=>x.id == $('#' + this.id.replace(strColonne, '')).attr('id'));
+                                        controllerCombat.view.displayAutoCursor();
+                                        $('#rowEnnemies').children().off();
+                                        $('body').off();
+                                        controllerCombat.attaque(playerCopy, [cible], skill, controllerCombat);
                                         controllerCombat.view.removeSelector(this);
                                     });
-                                    controllerCombat.attaque(playerCopy, cibles, skill, controllerCombat);
-                                });
-                            }else {
-                                $elementEnnemie.hover(
-                                    function(){
-                                        controllerCombat.view.deplacerSelector(this);
-                                    }, function(){
-                                        controllerCombat.view.removeSelector(this);
-                                    }
-                                );
-                                $elementEnnemie.on('click', function(){
-                                    var cible = controllerCombat.getListEnnemie().find(x=>x.id == $('#' + this.id.replace(strColonne, '')).attr('id'));
-                                    controllerCombat.view.displayAutoCursor();
-                                    $('#rowEnnemies').children().off();
-                                    $('body').off();
-                                    controllerCombat.attaque(playerCopy, [cible], skill, controllerCombat);
-                                    controllerCombat.view.removeSelector(this);
-                                });
-                            }
-                        });
-                    };
-                })(player));
+                                }
+                            });
+                        };
+                    })(player));
+                }else {
+                    btn.hide();
+                }
             });
 
             // on bind les items et les btn
@@ -351,9 +380,9 @@ CombatController.prototype = {
         var listPlayerAlive = controllerCombat.listEquipe.filter(x => x.currentHp > 0 && x.gentil == true);
         if (!skill.multiTarget) {
             var cible = listPlayerAlive[entierAleatoire(0, listPlayerAlive.length - 1)];
-            controllerCombat.attaque(ennemie, [cible], skill, controllerCombat);
+            controllerCombat.attaque(ennemie, [cible], skill, controllerCombat, false);
         }else {
-            controllerCombat.attaque(ennemie, listPlayerAlive, skill, controllerCombat);
+            controllerCombat.attaque(ennemie, listPlayerAlive, skill, controllerCombat, false);
         }
     },
 

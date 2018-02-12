@@ -9,9 +9,9 @@ const strPotizarre = 'potizarre';
 const strKaroutSauvage = 'karoutSauvage';
 
 // DECRIPTION
-strDescriptionPotiron = 'Aime griffer le canape et uriner dans les lits.';
-strDescriptionPotitata = 'Un gros rat mechant.';
-strDescriptionPotitatac = 'Un tres gros rat mechant.';
+const strDescriptionPotiron = 'Aime griffer le canape et uriner dans les lits.';
+const strDescriptionPotitata = 'Un gros rat mechant.';
+const strDescriptionPotitatac = 'Un tres gros rat mechant.';
 
 // SKILLS
 const strGriffe = 'griffe';

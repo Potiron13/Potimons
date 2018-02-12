@@ -25,9 +25,15 @@ function generateCarte (lastCarteId) {
     var randMonster2 = entierAleatoire(0, allMonstersName.length - 1);
     var randMonster3 = entierAleatoire(0, allMonstersName.length - 1);
     var randTerrain = entierAleatoire(0, AllTerrain.length - 1);
+    var randNombreMonster = entierAleatoire(1, 3);
     var carteId = lastCarteId + 1;
-    return new Carte(carteId, 1, [allMonstersName[randMonster1], allMonstersName[randMonster2], allMonstersName[randMonster3]],
+    return new Carte(carteId, randNombreMonster, [allMonstersName[randMonster1], allMonstersName[randMonster2], allMonstersName[randMonster3]],
          carteId*5 - 4, carteId*5, AllTerrain[randTerrain]);
+}
+
+function generateCarteOnline(){
+    var randTerrain = entierAleatoire(0, AllTerrain.length - 1);
+    return new Carte(guidGenerator(), null, null, null, null, AllTerrain[randTerrain]);
 }
 
 /*

@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var Users = [];
+var listPlayer = [];
 
 app.use(express.static(__dirname));
 
@@ -18,6 +18,21 @@ io.on('connection', function(socket){
   socket.on('go online', function(user){
       io.emit('go online', user);
   });
+
+  socket.on('disconnect', function(user){
+      io.emit('user disconnected', user);
+  });
+
+  socket.on('start duel', function(data) {
+      for (var i = 0; i <  data.userChallenged.equipe.length; i++) {
+          listPlayer.push(data.userChallenged.equipe[i]);
+      }
+      for (var i = 0; i < data.userChallenging.equipe.length; i++) {
+          listPlayer.push(data.userChallenging.equipe[i]);
+      }
+      console.log(listPlayer);
+      io.emit('start duel', data)
+  })
 });
 
 http.listen(3000, function(){

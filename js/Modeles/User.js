@@ -1,8 +1,9 @@
 class User {
-    constructor(id, name, equipe) {
+    constructor(id, name, equipe, socket) {
         this.id = id;
         this.name = name;
-        this.equipe = equipe
+        this.equipe = equipe;
+        this.socket = socket;
     }
 }
 

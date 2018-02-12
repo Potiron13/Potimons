@@ -1,4 +1,4 @@
-var WorldMapController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture, listUser) {
+var WorldMapController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture) {
     this.view = view;
     this.listEquipe = listEquipe;
     this.listReserve = listReserve;
@@ -6,13 +6,12 @@ var WorldMapController = function (view, listEquipe, listReserve, listItem, list
     this.listCarte = listCarte;
     this.timeGame = timeGame;
     this.listMonstresCapture = listMonstresCapture;
-    this.listUser = listUser;
     this.mainMenuController = new MainMenuController(new MainMenuView(), this.listEquipe, this.listReserve, this.listItem);
     this.saveMenuController = new SaveMenuController(new SaveMenuView());
     this.combatController = new CombatController(new CombatView(), this.listEquipe, this.listReserve, this.listItem,
                             this.init.bind(this), this.listCarte, this.listMonstresCapture);
     this.potidexController = new PotidexController(new PotidexView(), this.listMonstresCapture);
-    this.onlineController = new OnlineController(new OnlineView(), this.listUser, this.listEquipe);
+    this.onlineController = new OnlineController(new OnlineView(), this.listEquipe, this.combatController);
 };
 
 WorldMapController.prototype = {
@@ -45,10 +44,8 @@ WorldMapController.prototype = {
         var combatController = this.combatController;
         var controller = this;
         $('#btnLauchCombat' + carte.id).on('click', function(){
-            $.each($('body').children(), function(index, child){
-                child.remove();
-            });
             combatController.init(carte);
+            combatController.online = false;
             combatController.combat();
         });
     },

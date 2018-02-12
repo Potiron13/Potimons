@@ -6,8 +6,9 @@ var StartingScreenController = function (view, listEquipe, listReserve, listItem
     this.listCarte = listCarte;
     this.timeGame = timeGame;
     this.listUser = listUser;
+    this.userId;
     this.listMonstresCapture = listMonstresCapture;
-    this.worldMapController = new WorldMapController(new WorldMapView(), this.listEquipe, this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture, this.listUser);
+    this.worldMapController = new WorldMapController(new WorldMapView(), this.listEquipe, this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture);
 };
 
 StartingScreenController.prototype = {
@@ -76,16 +77,27 @@ StartingScreenController.prototype = {
             }
         });
         this.worldMapController.init(this.listCarte, this.timeGame);
+        this.goOnline();
     },
 
     goOnline: function() {
         var socket = io();
-        var userId = guidGenerator();
+        this.worldMapController.onlineController.socket = socket;
+        this.userId = guidGenerator();
+        this.worldMapController.onlineController.userId = this.userId;
         var controller = this;
-        socket.emit('go online', new User(userId, userId, this.listEquipe));
+        socket.emit('go online', new User(controller.userId, controller.userId, controller.listEquipe));
         socket.on('go online', function(user){
-            controller.listUser.push(user);            
+            if (!controller.listUser.find(x=>x.id == user.id)) {
+                socket.emit('go online', new User(controller.userId, controller.userId, controller.listEquipe));
+                controller.listUser.push(user);
+                controller.worldMapController.onlineController.init(controller.listUser, controller.userId);
+            }
+        });
+        socket.on('start duel', function(data){
+            if (controller.userId != data.userChallenging.id) {
+                controller.worldMapController.combatController.initDuel(data.userChallenging, data.carte);
+            }
         });
     }
-
 }
