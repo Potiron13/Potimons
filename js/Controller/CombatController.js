@@ -12,6 +12,7 @@ var CombatController = function (view, listEquipe, listReserve, listItem, initil
     this.carte;
     this.online = false;
     this.listMonstresCapture = listMonstresCapture;
+    this.userId;
 };
 
 CombatController.prototype = {
@@ -36,23 +37,30 @@ CombatController.prototype = {
         }
     },
 
-    initDuel: function(user, carte) {
+    initDuel: function(user, carte, listPlayer) {
+        var controller = this;
+        $.each(listPlayer, function(){
+            if (controller.listEquipe.find(x=>x.id === this.id)) {
+                this.gentil = true;
+            }else {
+                this.gentil = false;
+            }
+        });
         $.each($('body').children(), function(index, child){
             child.remove();
         });
-        var controller = this;
         this.online = true;
-        this.listPlayer = this.listEquipe.slice();
+        this.listPlayer = listPlayer;
         this.listEnnemiesTotal = [];
         this.listEnnemies = [];
         this.listCapture = [];
         this.carte = carte;
-        $.each(user.equipe, function(index){
-            this.gentil = false;
-            controller.listPlayer.push(this);
-            controller.listEnnemies.push(this);
-            controller.listEnnemiesTotal.push(this);
-        })
+        $.each(listPlayer, function(index){
+            if (this.gentil === false) {
+                controller.listEnnemies.push(this);
+                controller.listEnnemiesTotal.push(this);
+            }
+        });
         controller.combat();
     },
 
@@ -122,7 +130,6 @@ CombatController.prototype = {
             player = controllerCombat.listPlayer[0];
         }
         if (player) {
-            console.log(controllerCombat.online);
             if(player.gentil == true) {
                 controllerCombat.view.showSkillNavBar(player.id);
             }else if (controllerCombat.online === false) {
@@ -204,6 +211,11 @@ CombatController.prototype = {
                                         controllerCombat.view.displayAutoCursor();
                                         $('#rowEnnemies').children().off();
                                         $('body').off();
+                                        if (controllerCombat.online) {
+                                            var socket = io();
+                                            var data = {source: playerCopy, listCible: [cible], skill: skill, userId: controllerCombat.userId};
+                                            socket.emit('action', data);
+                                        }
                                         controllerCombat.attaque(playerCopy, [cible], skill, controllerCombat);
                                         controllerCombat.view.removeSelector(this);
                                     });
@@ -294,7 +306,7 @@ CombatController.prototype = {
         var listEquipe = controllerCombat.listEquipe;
         var effect = AllEffects.find(x=>x.name == skill.effect);
         if (source.currentMana >= skill.manaCost) {
-            source.currentMana -= skill.manaCost;
+            source.currentMana -= skill.manaCost;            
             updateProgressBar(controllerCombat.view.getProgressBar(source, strCombat + 'Mana'), source.currentMana, source.mana);
             $.each(listCible, function(){
                 skill.animation(source, this, skill);
@@ -332,6 +344,47 @@ CombatController.prototype = {
         }else {
             controllerCombat.view.showSkillNavBar(source.id);
         }
+    },
+
+    animateAttaque: function(source, listCible, skill, controllerCombat) {
+        var listEnnemies = controllerCombat.listEnnemies;
+        var listPlayer = controllerCombat.listPlayer;
+        var listEquipe = controllerCombat.listEquipe;
+        var effect = AllEffects.find(x=>x.name == skill.effect);
+        updateProgressBar(controllerCombat.view.getProgressBar(source, strCombat + 'Mana'), source.currentMana, source.mana);
+        $.each(listCible, function(){
+            skill.animation(source, this, skill);
+        });
+        var intervalAttaqueDelay = setTimeout(function() {
+            var textAttackDisplayDelay = 2000;
+            $.each(listCible, function(index){
+                var changementEtatReussi;
+                if (effect) {
+                    changementEtatReussi = effect.calculReussite(this, this.listCapture, this.listReserve);
+                    if (changementEtatReussi) {
+                        this.etat = skill.effect;
+                    }
+                }
+                controllerCombat.handleDammage(source, this, skill, controllerCombat, changementEtatReussi, textAttackDisplayDelay);
+            });
+            var intervalDammageDelay = setTimeout(function() {
+                $.each(listCible, function(index){
+                    if( this.currentHp <= 0 ) {
+                        if (this.gentil == false) {
+                            controllerCombat.sortirEnnemieCombat(this, controllerCombat);
+                        }else {
+                            listPlayer.splice(listPlayer.findIndex(x => x.id == this.id), 1);
+                        }
+                    }
+                    if (skill.id == strCapture && this.etat == 'Capture') {
+                        effect.effect(this, controllerCombat);
+                        controllerCombat.listMonstresCapture.push(this.name);
+                    }
+                });
+                listPlayer.push(listPlayer.shift());
+                controllerCombat.gererTourParTour(controllerCombat);
+            }, textAttackDisplayDelay);
+        }, skill.duration);
     },
 
     handleDammage : function(source, cible, skill, controllerCombat, changementEtatReussi, textAttackDisplayDelay) {

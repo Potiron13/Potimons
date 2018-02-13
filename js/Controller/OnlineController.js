@@ -19,11 +19,15 @@ OnlineController.prototype = {
     },
 
     startDuel: function(user) {
+        var controller = this;
         var carte = generateCarteOnline();
         var userChallenging = this.listUser.find(x=>x.id === this.userId)
         var data = {userChallenging : userChallenging, userChallenged : user, carte: carte}
+        var listPlayer = [];
         this.socket.emit('start duel', data);
-        this.controllerCombat.initDuel(user, carte);
+        this.socket.on('start duel', function(data){
+            controller.controllerCombat.initDuel(user, carte, data.listPlayer);
+        });
     },
 
 }

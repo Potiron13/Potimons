@@ -24,15 +24,21 @@ io.on('connection', function(socket){
   });
 
   socket.on('start duel', function(data) {
+      listPlayer = [];
       for (var i = 0; i <  data.userChallenged.equipe.length; i++) {
           listPlayer.push(data.userChallenged.equipe[i]);
       }
       for (var i = 0; i < data.userChallenging.equipe.length; i++) {
           listPlayer.push(data.userChallenging.equipe[i]);
       }
-      console.log(listPlayer);
-      io.emit('start duel', data)
+      data.listPlayer = listPlayer;
+      io.emit('start duel', data);
+  });
+
+  socket.on('action', function(data) {      
+      io.emit('action', data);
   })
+
 });
 
 http.listen(3000, function(){

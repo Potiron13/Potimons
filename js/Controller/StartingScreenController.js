@@ -85,6 +85,7 @@ StartingScreenController.prototype = {
         this.worldMapController.onlineController.socket = socket;
         this.userId = guidGenerator();
         this.worldMapController.onlineController.userId = this.userId;
+        this.worldMapController.combatController.userId = this.userId;
         var controller = this;
         socket.emit('go online', new User(controller.userId, controller.userId, controller.listEquipe));
         socket.on('go online', function(user){
@@ -96,8 +97,21 @@ StartingScreenController.prototype = {
         });
         socket.on('start duel', function(data){
             if (controller.userId != data.userChallenging.id) {
-                controller.worldMapController.combatController.initDuel(data.userChallenging, data.carte);
+                controller.worldMapController.combatController.initDuel(data.userChallenging, data.carte, data.listPlayer);
             }
         });
+
+        socket.on('action', function(data){
+            if (controller.userId != data.userId) {
+                // la socket ne transporte pas de fonction donc on va chercher le skill
+                var skill = fetchSkill(data.skill.id);
+                data.source.gentil = false;
+                $.each(data.listCible, function(index){
+                    this.gentil = true;
+                });
+                controller.worldMapController.combatController.animateAttaque(data.source, data.listCible, skill, controller.worldMapController.combatController);
+            }
+        })
+
     }
 }
