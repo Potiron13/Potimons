@@ -41,6 +41,8 @@ io.on('connection', function(socket){
 
 });
 
-http.listen(3000, function(){
+var port = process.env.ALWAYSDATA_HTTPD_PORT || 3000;
+var ip = process.env.ALWAYSDATA_HTTPD_IP || '0.0.0.0';
+http.listen(port, ip, function(){
   console.log('listening on *:3000');
 });
