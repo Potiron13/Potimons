@@ -21,12 +21,13 @@ StartingScreenController.prototype = {
     },
 
     newGame: function() {
+        this.promptUserName();
         var startingPotion = cloneItem(fetchItem('smallPotion'));
         startingPotion.quantity = 5;
         this.listItem.push(startingPotion);
         this.listEquipe.push(instancierPlayer(strPotiron, 3, true));
         this.listCarte.push(generateCarte(0));
-        this.worldMapController.init(this.listCarte, this.timeGame, this.listMonstresCapture);
+        this.worldMapController.init(this.listCarte, this.timeGame, this.userName);
         this.goOnline();
     },
 
@@ -74,6 +75,8 @@ StartingScreenController.prototype = {
                 controller.timeGame.setSeconds(temp.getSeconds());
                 controller.timeGame.setMinutes(temp.getMinutes());
                 controller.timeGame.setHours(temp.getHours());
+            }else if (this.dataType == strUserNameInfo) {
+                SetUserName(this.data);
             }
         });
         this.worldMapController.init(this.listCarte, this.timeGame);
@@ -87,12 +90,12 @@ StartingScreenController.prototype = {
         this.worldMapController.onlineController.userId = this.userId;
         this.worldMapController.combatController.userId = this.userId;
         var controller = this;
-        socket.emit('go online', new User(controller.userId, controller.userId, controller.listEquipe));
+        socket.emit('go online', new User(controller.userId, GetUserName(), controller.listEquipe));
         socket.on('go online', function(user){
             if (!controller.listUser.find(x=>x.id == user.id)) {
-                socket.emit('go online', new User(controller.userId, controller.userId, controller.listEquipe));
+                socket.emit('go online', new User(controller.userId, GetUserName(), controller.listEquipe));
                 controller.listUser.push(user);
-                controller.worldMapController.onlineController.init(controller.listUser, controller.userId);
+                controller.worldMapController.onlineController.refreshDuelList(controller.listUser, controller.userId);
             }
         });
         socket.on('start duel', function(data){
@@ -111,7 +114,18 @@ StartingScreenController.prototype = {
                 });
                 controller.worldMapController.combatController.animateAttaque(data.source, data.listCible, skill, controller.worldMapController.combatController);
             }
-        })
+        });
 
-    }
+        socket.on('chat message', function(msg){
+            $('#messageForm').append($('<li>').text(msg));
+        });
+
+    },
+
+    promptUserName: function() {
+        var userName = prompt("Please enter your potiname", "Potiron le vaillant");
+        if (userName) {
+            SetUserName(userName);
+        }
+    },
 }

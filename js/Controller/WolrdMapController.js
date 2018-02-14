@@ -12,6 +12,7 @@ var WorldMapController = function (view, listEquipe, listReserve, listItem, list
                             this.init.bind(this), this.listCarte, this.listMonstresCapture);
     this.potidexController = new PotidexController(new PotidexView(), this.listMonstresCapture);
     this.onlineController = new OnlineController(new OnlineView(), this.listEquipe, this.combatController);
+    this.profilController = new ProfilController(new ProfilView());
 };
 
 WorldMapController.prototype = {
@@ -21,11 +22,13 @@ WorldMapController.prototype = {
         this.view.initialiserMainMenu = this.mainMenuController;
         this.view.initialiserPotidex = this.potidexController;
         this.view.initialiserOnline = this.onlineController;
+        this.view.initialiserProfil = this.profilController;
         this.view.displayPotidex = this.potidexController.displayPotidex.bind(this);
         this.view.displayMainMenu = this.mainMenuController.displayMainMenu.bind(this);
         this.view.displaySaveMenu = this.saveMenuController.displaySaveMenu.bind(this);
         this.view.displayOnline = this.onlineController.displayOnline.bind(this);
-        this.view.render(listCarte);
+        this.view.displayProfil = this.profilController.displayProfil.bind(this);
+        this.view.render(listCarte, GetUserName());
         var controller = this;
         $.each(listCarte, function() {
             controller.mapCombatButton(this);

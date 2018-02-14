@@ -80,6 +80,7 @@ const strDataType = 'dataType';
 const strData = 'data';
 const strTimeGameInfo = 'timeGameInfo';
 const strMonsterInfo = 'monsterInfo'
+const strUserNameInfo = 'userNameInfo'
 
 // MODAL TITLE
 const strSauvegarder = 'Sauvegarder';
