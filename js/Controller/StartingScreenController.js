@@ -103,12 +103,21 @@ StartingScreenController.prototype = {
             controller.worldMapController.onlineController.activateDuelBtn(data.userChallenging);
         });
 
+        socket.on('update query', function(data){
+            socket.emit('update team', {userId : controller.userId, equipe : GetListEquipe(), previousUserId : data})
+        });
+
+        socket.on('update complete', function(data){
+            controller.worldMapController.onlineController.startDuel(data);
+        });
+
         socket.on('start duel', function(data){
-            var opponent = [data.userChallenging, data.userChallenged].find(x=>x.id != controller.userId);
+            var opponent = [data.userChallengingId, data.userChallengedId].find(x=>x.id != controller.userId);
             controller.worldMapController.combatController.initDuel(opponent, data.carte, data.listPlayer, data.room);
         });
 
         socket.on('action', function(data){
+            console.log(data.attaqueResults);
             controller.worldMapController.combatController.attaque(data.attaqueResults, data.sourceId, data.skillId, controller.worldMapController.combatController);
         });
 

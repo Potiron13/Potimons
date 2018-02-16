@@ -4,6 +4,6 @@ contenu
 online :
     - utilisation Objets
     - victoire/défaite
-    - gerer affichage de Online apres retour combat
     - mort en combat
     - css menu Online
+    - bug : mana et hp ne se mette pas a jour réellement

@@ -202,14 +202,13 @@ CombatController.prototype = {
                                     controllerCombat.view.displayAutoCursor();
                                     $('#rowEnnemies').children().off();
                                     $('body').off();
+                                    var attaqueResults = controllerCombat.generateAttaqueResults(playerCopy, cibles, skill, controllerCombat);
                                     if (controllerCombat.online) {
                                         var socket = io();
-                                        var attaqueResults = controllerCombat.generateAttaqueResults(playerCopy, cibles, skill, controllerCombat);
                                         var data = {attaqueResults: attaqueResults,  userId: controllerCombat.userId,
                                                     room : controllerCombat.room, sourceId : playerCopy.id, skillId : skill.id};
                                         socket.emit('action', data);
                                     }else {
-                                        var attaqueResults = controllerCombat.generateAttaqueResults(playerCopy, cibles, skill, controllerCombat);
                                         controllerCombat.attaque(attaqueResults, playerCopy.id, skill.id, controllerCombat);
                                     }
                                     $.each(cibles, function(){
@@ -298,10 +297,10 @@ CombatController.prototype = {
 
     generateAttaqueResults : function(source, listCible, skill, controllerCombat) {
         var result = [];
-        var canPerformAttaque = source.currentMana >= skill.manaCost;
-        result.sourceId = source.id;
-        result.skillId = skill.id;
+        var canPerformAttaque = (source.currentMana >= skill.manaCost);
         if (canPerformAttaque) {
+            result.sourceId = source.id;
+            result.skillId = skill.id;
             var effect = AllEffects.find(x=>x.name == skill.effect);
             $.each(listCible, function(index){
                 var output = {};
@@ -331,6 +330,7 @@ CombatController.prototype = {
         if (attaqueResults.length > 0) {
             var source = controllerCombat.listPlayer.find(x=>x.id == sourceId);
             var skill = fetchSkill(skillId);
+            // mettre a jour listEquipe si la source est gentille
             source.currentMana -= skill.manaCost;
             updateProgressBar(controllerCombat.view.getProgressBar(source, strCombat + 'Mana'), source.currentMana, source.mana);
             $.each(attaqueResults, function(){
@@ -376,11 +376,12 @@ CombatController.prototype = {
                 }, textAttackDisplayDelay);
             }, skill.duration);
         }else {
-            controllerCombat.view.showSkillNavBar(source.id);
+            controllerCombat.view.showSkillNavBar(sourceId);
         }
     },
 
     applyAttaque: function(changementEtatReussi, etat, dammage, cible){
+        // mettre a jour listEquipe si la cible est gentille
         if (changementEtatReussi) {
             cible.etat = etat;
         }

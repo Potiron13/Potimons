@@ -23,13 +23,17 @@ OnlineController.prototype = {
         $('#' + 'onlineModal').modal();
     },
 
-    startDuel: function(user) {
+    startDuel: function(userId) {
         var socket = io();
         var controller = this;
         var carte = generateCarteOnline();
-        var userChallenging = this.listUser.find(x=>x.id === this.userId);
-        var data = {userChallenging : userChallenging, userChallenged : user, carte: carte}
+        var data = {userChallengedId : this.userId, userChallengingId : userId, carte: carte}
         socket.emit('start duel', data);
+    },
+
+    synchronizeTeams: function(user){
+        var socket = io();
+        socket.emit('update team', {userId: this.userId, equipe: GetListEquipe(), nextUserId: user.id});
     },
 
     duelQuery: function(user) {
@@ -44,7 +48,7 @@ OnlineController.prototype = {
         var controller = this;
         var btn = $('#btnDuel' + user.id);
         btn.on('click', function(){
-            controller.startDuel(user);
+            controller.synchronizeTeams(user);
             btn.prop('disabled', true);
         });
     },

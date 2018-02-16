@@ -28,17 +28,30 @@ io.on('connection', function(socket){
         challengedClient.socket.emit('duel query', data);
     });
 
-    socket.on('start duel', function(data) {
-        listPlayer = [];
-        for (var i = 0; i <  data.userChallenged.equipe.length; i++) {
-            listPlayer.push(data.userChallenged.equipe[i]);
+    socket.on('update team', function(data) {
+        var userClient = allClients.find(x=>x.user.id == data.userId);
+        if (userClient) {
+            userClient.user.equipe = data.equipe;
+            if (data.nextUserId) {
+                var nextClient = allClients.find(x=>x.user.id == data.nextUserId);
+                nextClient.socket.emit('update query', data.userId);
+            }else {
+                userClient.socket.emit('update complete', data.previousUserId);
+            }
         }
-        for (var i = 0; i < data.userChallenging.equipe.length; i++) {
-            listPlayer.push(data.userChallenging.equipe[i]);
+    });
+
+    socket.on('start duel', function(data) {
+        var challengedClient = allClients.find(x=>x.user.id == data.userChallengedId);
+        var challengingClient = allClients.find(x=>x.user.id == data.userChallengingId);
+        listPlayer = [];
+        for (var i = 0; i <  challengedClient.user.equipe.length; i++) {
+            listPlayer.push(challengedClient.user.equipe[i]);
+        }
+        for (var i = 0; i < challengingClient.user.equipe.length; i++) {
+            listPlayer.push(challengingClient.user.equipe[i]);
         }
         data.listPlayer = listPlayer;
-        var challengedClient = allClients.find(x=>x.user.id == data.userChallenged.id);
-        var challengingClient = allClients.find(x=>x.user.id == data.userChallenging.id);
         challengedClient.enDuel = true;
         challengingClient.enDuel = true;
         var room = challengedClient.socket.id + challengingClient.socket.id;
