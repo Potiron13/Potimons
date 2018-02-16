@@ -10,13 +10,13 @@ OnlineController.prototype = {
 
     init: function(listUser, userId) {
         this.listUser = listUser;
-        this.view.render(listUser, userId, this.startDuel.bind(this));
+        this.view.render(listUser, userId, this.duelQuery.bind(this));
         this.handleChat();
     },
 
     refreshDuelList: function(listUser, userId) {
         this.listUser = listUser;
-        this.view.renderDuelList(listUser, userId, this.startDuel.bind(this));
+        this.view.renderDuelList(listUser, userId, this.duelQuery.bind(this));
     },
 
     displayOnline: function() {
@@ -24,22 +24,35 @@ OnlineController.prototype = {
     },
 
     startDuel: function(user) {
+        var socket = io();
         var controller = this;
         var carte = generateCarteOnline();
-        var userChallenging = this.listUser.find(x=>x.id === this.userId)
+        var userChallenging = this.listUser.find(x=>x.id === this.userId);
         var data = {userChallenging : userChallenging, userChallenged : user, carte: carte}
-        var listPlayer = [];
-        var socket = io();
         socket.emit('start duel', data);
-        socket.on('start duel', function(data){
-            controller.controllerCombat.initDuel(user, carte, data.listPlayer);
+    },
+
+    duelQuery: function(user) {
+        this.view.renderDuelQueryChallenging(user);
+        var socket = io();
+        var userChallenging = this.listUser.find(x=>x.id === this.userId);
+        var data = {userChallenging : userChallenging, userChallenged : user};
+        socket.emit('duel query', data)
+    },
+
+    activateDuelBtn: function(user) {
+        var controller = this;
+        var btn = $('#btnDuel' + user.id);
+        btn.on('click', function(){
+            controller.startDuel(user);
+            btn.prop('disabled', true);
         });
     },
 
     handleChat: function(){
         var socket = io();
         $('#messageForm').submit(function(){
-            socket.emit('chat message', $('#m').val());
+            socket.emit('chat message', GetUserName() + ' : ' + $('#m').val());
             $('#m').val('');
             return false;
         });

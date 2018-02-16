@@ -1,5 +1,5 @@
 var OnlineView = function () {
-this.modalBody = null;
+    this.modalBody = null;
 }
 
 OnlineView.prototype = {
@@ -9,36 +9,55 @@ OnlineView.prototype = {
             $('#' + idModal).empty();
         }
         this.modalBody = createModal(idModal, 'Online');
+        displayElementOnParent('div', 'onlineRow', 'row onlineRow', '', this.modalBody);
         this.renderDuelList(viewModels, userId, startDuel);
         this.renderChat();
     },
 
-    renderDuelList: function(viewModels, userId, startDuel){
+    renderDuelList: function(viewModels, userId, duelQuery){
         var view = this;
+        var duelCol;
         if ($('#' + 'duelCol').length) {
             $('#' + 'duelCol').empty();
+            duelCol = $('#' + 'duelCol');
+        }else {
+            duelCol = displayElementOnParent('div', 'duelCol', 'col-sm-2 duelCol', '', $('#onlineRow'));
         }
-        var duelCol = displayElementOnParent('div', 'duelCol', 'col-sm-2', '', this.modalBody);
-        var userRow = displayElementOnParent('div', 'onlineRow' + this.id, 'row', '', duelCol);
+        var duelRow = displayElementOnParent('div', 'duelRow', 'row', '', duelCol);
         $.each(viewModels, function(index) {
             if (this.id != userId) {
                 var user = this;
-                var userCol = displayElementOnParent('div', 'userCol' + this.id, 'col-sm-12', this.name, userRow);
-                displayButtons ('btnDuel' + this.id, 'Duel', 'BUTTON', function(){startDuel(user)}, view.modalBody);
+                var userRow = displayElementOnParent('div', 'userRow' + this.id, 'row', '', duelRow);
+                var userCol = displayElementOnParent('div', 'userCol' + this.id, 'col-sm-10', this.name, userRow);
+                displayButtons ('btnDuel' + this.id, 'Duel', 'BUTTON', function(){duelQuery(user)}, userRow);
             }
         });
     },
 
     renderChat: function(){
+        var chatCol;
         if ($('#' + 'chatCol').length) {
             $('#' + 'chatCol').empty();
+            chatCol = $('#' + 'chatCol')
+        }else {
+            chatCol = displayElementOnParent('div', 'chatCol', 'col-sm-10 chatCol', '', $('#onlineRow'));
         }
-        var chatCol = displayElementOnParent('div', 'chatCol', 'col-sm-10', '', this.modalBody);
         var ulMessages = displayElementOnParent('ul', 'messages', '', '', chatCol);
         var messageForm = displayElementOnParent('form', 'messageForm', '', '', ulMessages);
         messageForm.attr('action', '');
         var messageInput = displayElementOnParent('input', 'm', '', '', messageForm);
         messageInput.attr('autocomplete', 'off');
         var buttonSend = displayElementOnParent('button', 'btnSendMessage', '', 'Envoyer', messageForm);
+    },
+
+    renderDuelQueryChallenging: function(viewModel) {
+        var btn = $('#btnDuel' + viewModel.id);
+        btn.html('En attente');
+        btn.prop('disabled', true);
+    },
+
+    renderDuelQueryChallenged: function(viewModel) {
+        var btn = $('#btnDuel' + viewModel.id);
+        btn.html('Accepter');
     },
 }

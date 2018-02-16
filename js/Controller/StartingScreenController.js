@@ -21,7 +21,9 @@ StartingScreenController.prototype = {
     },
 
     newGame: function() {
-        this.promptUserName();
+        if (!this.promptUserName()) {
+            return;
+        }
         var startingPotion = cloneItem(fetchItem('smallPotion'));
         startingPotion.quantity = 5;
         this.listItem.push(startingPotion);
@@ -90,30 +92,24 @@ StartingScreenController.prototype = {
         this.worldMapController.onlineController.userId = this.userId;
         this.worldMapController.combatController.userId = this.userId;
         var controller = this;
-        socket.emit('go online', new User(controller.userId, GetUserName(), controller.listEquipe));
-        socket.on('go online', function(user){
-            if (!controller.listUser.find(x=>x.id == user.id)) {
-                socket.emit('go online', new User(controller.userId, GetUserName(), controller.listEquipe));
-                controller.listUser.push(user);
-                controller.worldMapController.onlineController.refreshDuelList(controller.listUser, controller.userId);
-            }
+        socket.emit('go online', new User(controller.userId, GetUserName(), GetListEquipe()));
+        socket.on('all users', function(allUsers){
+                controller.worldMapController.listUser = allUsers;
+                controller.worldMapController.onlineController.refreshDuelList(controller.worldMapController.listUser, controller.userId);
         });
+
+        socket.on('duel query', function(data){
+            controller.worldMapController.onlineController.view.renderDuelQueryChallenged(data.userChallenging);
+            controller.worldMapController.onlineController.activateDuelBtn(data.userChallenging);
+        });
+
         socket.on('start duel', function(data){
-            if (controller.userId != data.userChallenging.id) {
-                controller.worldMapController.combatController.initDuel(data.userChallenging, data.carte, data.listPlayer);
-            }
+            var opponent = [data.userChallenging, data.userChallenged].find(x=>x.id != controller.userId);
+            controller.worldMapController.combatController.initDuel(opponent, data.carte, data.listPlayer, data.room);
         });
 
         socket.on('action', function(data){
-            if (controller.userId != data.userId) {
-                // la socket ne transporte pas de fonction donc on va chercher le skill
-                var skill = fetchSkill(data.skill.id);
-                data.source.gentil = false;
-                $.each(data.listCible, function(index){
-                    this.gentil = true;
-                });
-                controller.worldMapController.combatController.animateAttaque(data.source, data.listCible, skill, controller.worldMapController.combatController);
-            }
+            controller.worldMapController.combatController.attaque(data.attaqueResults, data.sourceId, data.skillId, controller.worldMapController.combatController);
         });
 
         socket.on('chat message', function(msg){
@@ -122,10 +118,14 @@ StartingScreenController.prototype = {
 
     },
 
+
     promptUserName: function() {
         var userName = prompt("Please enter your potiname", "Potiron le vaillant");
         if (userName) {
             SetUserName(userName);
+            return true;
         }
+
+        return false;
     },
 }

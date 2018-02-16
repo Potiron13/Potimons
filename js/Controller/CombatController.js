@@ -13,6 +13,8 @@ var CombatController = function (view, listEquipe, listReserve, listItem, initil
     this.online = false;
     this.listMonstresCapture = listMonstresCapture;
     this.userId;
+    this.room;
+    this.opponent;
 };
 
 CombatController.prototype = {
@@ -37,7 +39,9 @@ CombatController.prototype = {
         }
     },
 
-    initDuel: function(user, carte, listPlayer) {
+    initDuel: function(user, carte, listPlayer, room) {
+        this.opponent = user;
+        this.room = room;
         var controller = this;
         $.each(listPlayer, function(){
             if (controller.listEquipe.find(x=>x.id === this.id)) {
@@ -141,6 +145,7 @@ CombatController.prototype = {
         controllerCombat.view.displayFuturActions(controllerCombat.listPlayer, $('#' + strBottomRow));
         if(controllerCombat.listEnnemies.length == 0) {
             controllerCombat.victoire(controllerCombat);
+
         }
         if(controllerCombat.listEquipe.filter(x => x.currentHp > 0).length == 0) {
             controllerCombat.view.displayGameOver();
@@ -176,50 +181,41 @@ CombatController.prototype = {
                             $.each($('#rowEnnemies').children(), function(k) {
                                 var elementEnnemie = this;
                                 var $elementEnnemie = $('#' + elementEnnemie.id);
+                                var cibles;
                                 if (skill.multiTarget) {
-                                    $elementEnnemie.hover(
-                                        function(){
-                                            $.each(controllerCombat.getListEnnemie(), function() {
-                                                controllerCombat.view.deplacerSelector(this);
-                                            });
-                                        }, function(){
-                                            $.each(controllerCombat.getListEnnemie(), function() {
-                                                controllerCombat.view.removeSelector(this);
-                                            });
-                                        }
-                                    );
-                                    $elementEnnemie.on('click', function(){
-                                        var cibles = controllerCombat.getListEnnemie();
-                                        controllerCombat.view.displayAutoCursor();
-                                        $('#rowEnnemies').children().off();
-                                        $('body').off();
-                                        $.each(controllerCombat.getListEnnemie(), function(){
+                                    cibles = controllerCombat.getListEnnemie();
+                                }else {
+                                    cibles = [controllerCombat.getListEnnemie().find(x=>x.id == $('#' + this.id.replace(strColonne, '')).attr('id'))];
+                                }
+                                $elementEnnemie.hover(
+                                    function(){
+                                        $.each(cibles, function() {
+                                            controllerCombat.view.deplacerSelector(this);
+                                        });
+                                    }, function(){
+                                        $.each(cibles, function() {
                                             controllerCombat.view.removeSelector(this);
                                         });
-                                        controllerCombat.attaque(playerCopy, cibles, skill, controllerCombat);
-                                    });
-                                }else {
-                                    $elementEnnemie.hover(
-                                        function(){
-                                            controllerCombat.view.deplacerSelector(this);
-                                        }, function(){
-                                            controllerCombat.view.removeSelector(this);
-                                        }
-                                    );
-                                    $elementEnnemie.on('click', function(){
-                                        var cible = controllerCombat.getListEnnemie().find(x=>x.id == $('#' + this.id.replace(strColonne, '')).attr('id'));
-                                        controllerCombat.view.displayAutoCursor();
-                                        $('#rowEnnemies').children().off();
-                                        $('body').off();
-                                        if (controllerCombat.online) {
-                                            var socket = io();
-                                            var data = {source: playerCopy, listCible: [cible], skill: skill, userId: controllerCombat.userId};
-                                            socket.emit('action', data);
-                                        }
-                                        controllerCombat.attaque(playerCopy, [cible], skill, controllerCombat);
+                                    }
+                                );
+                                $elementEnnemie.on('click', function(){
+                                    controllerCombat.view.displayAutoCursor();
+                                    $('#rowEnnemies').children().off();
+                                    $('body').off();
+                                    if (controllerCombat.online) {
+                                        var socket = io();
+                                        var attaqueResults = controllerCombat.generateAttaqueResults(playerCopy, cibles, skill, controllerCombat);
+                                        var data = {attaqueResults: attaqueResults,  userId: controllerCombat.userId,
+                                                    room : controllerCombat.room, sourceId : playerCopy.id, skillId : skill.id};
+                                        socket.emit('action', data);
+                                    }else {
+                                        var attaqueResults = controllerCombat.generateAttaqueResults(playerCopy, cibles, skill, controllerCombat);
+                                        controllerCombat.attaque(attaqueResults, playerCopy.id, skill.id, controllerCombat);
+                                    }
+                                    $.each(cibles, function(){
                                         controllerCombat.view.removeSelector(this);
-                                    });
-                                }
+                                    })
+                                });
                             });
                         };
                     })(player));
@@ -300,44 +296,82 @@ CombatController.prototype = {
         });
     },
 
-    attaque: function(source, listCible, skill, controllerCombat) {
-        var listEnnemies = controllerCombat.listEnnemies;
-        var listPlayer = controllerCombat.listPlayer;
-        var listEquipe = controllerCombat.listEquipe;
-        var effect = AllEffects.find(x=>x.name == skill.effect);
-        if (source.currentMana >= skill.manaCost) {
-            source.currentMana -= skill.manaCost;            
+    generateAttaqueResults : function(source, listCible, skill, controllerCombat) {
+        var result = [];
+        var canPerformAttaque = source.currentMana >= skill.manaCost;
+        result.sourceId = source.id;
+        result.skillId = skill.id;
+        if (canPerformAttaque) {
+            var effect = AllEffects.find(x=>x.name == skill.effect);
+            $.each(listCible, function(index){
+                var output = {};
+                var dammage = 0;
+                output.cibleId = this.id;
+                if (effect) {
+                    output.changementEtatReussi = effect.calculReussite(this, this.listCapture, this.listReserve);
+                    if (output.changementEtatReussi) {
+                        output.etat = skill.effect;
+                    }
+                }
+                if (skill.type == 'corpsACorps' || 'magie') {
+                    if (skill.animationType == strProjectil) {
+                        dammage = source.magie*skill.power;
+                    }else {
+                        dammage = source.force*skill.power;
+                    }
+                    output.dammage = Math.round(dammage);
+                }
+                result.push(output);
+            });
+        }
+        return result;
+    },
+
+    attaque: function(attaqueResults, sourceId, skillId, controllerCombat) {
+        if (attaqueResults.length > 0) {
+            var source = controllerCombat.listPlayer.find(x=>x.id == sourceId);
+            var skill = fetchSkill(skillId);
+            source.currentMana -= skill.manaCost;
             updateProgressBar(controllerCombat.view.getProgressBar(source, strCombat + 'Mana'), source.currentMana, source.mana);
-            $.each(listCible, function(){
-                skill.animation(source, this, skill);
+            $.each(attaqueResults, function(){
+                var cible = controllerCombat.listPlayer.find(x=>x.id == this.cibleId)
+                skill.animation(source, cible, skill);
             });
             var intervalAttaqueDelay = setTimeout(function() {
                 var textAttackDisplayDelay = 2000;
-                $.each(listCible, function(index){
-                    var changementEtatReussi;
-                    if (effect) {
-                        changementEtatReussi = effect.calculReussite(this, this.listCapture, this.listReserve);
-                        if (changementEtatReussi) {
-                            this.etat = skill.effect;
-                        }
+                $.each(attaqueResults, function(index){
+                    var result = this;
+                    var cible = controllerCombat.listPlayer.find(x=>x.id == this.cibleId)
+                    var textAttackDisplay = '';
+                    if (this.changementEtatReussi == true) {
+                        textAttackDisplay = this.etat;
+                    }else if (this.changementEtatReussi == false) {
+                        textAttackDisplay = 'Echec';
                     }
-                    controllerCombat.handleDammage(source, this, skill, controllerCombat, changementEtatReussi, textAttackDisplayDelay);
+                    controllerCombat.animateTextAttackDisplay(textAttackDisplay, textAttackDisplayDelay, cible, controllerCombat);
+                    if (this.dammage > 0) {
+                        setTimeout(function(){
+                            controllerCombat.animateTextAttackDisplay(result.dammage, textAttackDisplayDelay, cible, controllerCombat);
+                        }, 500);
+                    }
+                    controllerCombat.applyAttaque(this.changementEtatReussi, this.etat, this.dammage, cible);
                 });
                 var intervalDammageDelay = setTimeout(function() {
-                    $.each(listCible, function(index){
-                        if( this.currentHp <= 0 ) {
-                            if (this.gentil == false) {
-                                controllerCombat.sortirEnnemieCombat(this, controllerCombat);
+                    $.each(attaqueResults, function(index){
+                        var cible = controllerCombat.listPlayer.find(x=>x.id == this.cibleId)
+                        if( cible.currentHp <= 0 ) {
+                            if (cible.gentil == false) {
+                                controllerCombat.sortirEnnemieCombat(cible, controllerCombat);
                             }else {
-                                listPlayer.splice(listPlayer.findIndex(x => x.id == this.id), 1);
+                                controllerCombat.listPlayer.splice(controllerCombat.listPlayer.findIndex(x => x.id == cible.id), 1);
                             }
                         }
-                        if (skill.id == strCapture && this.etat == 'Capture') {
-                            effect.effect(this, controllerCombat);
-                            controllerCombat.listMonstresCapture.push(this.name);
+                        if (skill.id == strCapture && cible.etat == 'Capture') {
+                            effectCapture(cible, controllerCombat);
+                            controllerCombat.listMonstresCapture.push(cible.name);
                         }
                     });
-                    listPlayer.push(listPlayer.shift());
+                    controllerCombat.listPlayer.push(controllerCombat.listPlayer.shift());
                     controllerCombat.gererTourParTour(controllerCombat);
                 }, textAttackDisplayDelay);
             }, skill.duration);
@@ -346,67 +380,11 @@ CombatController.prototype = {
         }
     },
 
-    animateAttaque: function(source, listCible, skill, controllerCombat) {
-        var listEnnemies = controllerCombat.listEnnemies;
-        var listPlayer = controllerCombat.listPlayer;
-        var listEquipe = controllerCombat.listEquipe;
-        var effect = AllEffects.find(x=>x.name == skill.effect);
-        updateProgressBar(controllerCombat.view.getProgressBar(source, strCombat + 'Mana'), source.currentMana, source.mana);
-        $.each(listCible, function(){
-            skill.animation(source, this, skill);
-        });
-        var intervalAttaqueDelay = setTimeout(function() {
-            var textAttackDisplayDelay = 2000;
-            $.each(listCible, function(index){
-                var changementEtatReussi;
-                if (effect) {
-                    changementEtatReussi = effect.calculReussite(this, this.listCapture, this.listReserve);
-                    if (changementEtatReussi) {
-                        this.etat = skill.effect;
-                    }
-                }
-                controllerCombat.handleDammage(source, this, skill, controllerCombat, changementEtatReussi, textAttackDisplayDelay);
-            });
-            var intervalDammageDelay = setTimeout(function() {
-                $.each(listCible, function(index){
-                    if( this.currentHp <= 0 ) {
-                        if (this.gentil == false) {
-                            controllerCombat.sortirEnnemieCombat(this, controllerCombat);
-                        }else {
-                            listPlayer.splice(listPlayer.findIndex(x => x.id == this.id), 1);
-                        }
-                    }
-                    if (skill.id == strCapture && this.etat == 'Capture') {
-                        effect.effect(this, controllerCombat);
-                        controllerCombat.listMonstresCapture.push(this.name);
-                    }
-                });
-                listPlayer.push(listPlayer.shift());
-                controllerCombat.gererTourParTour(controllerCombat);
-            }, textAttackDisplayDelay);
-        }, skill.duration);
-    },
-
-    handleDammage : function(source, cible, skill, controllerCombat, changementEtatReussi, textAttackDisplayDelay) {
-        // dammage ou capture
-        var textAttackDisplay;
-        if (skill.effect) {
-            if (changementEtatReussi) {
-                textAttackDisplay = skill.effect;
-            }else {
-                textAttackDisplay = 'Echec';
-            }
-        }else {
-            if (skill.type == 'corpsACorps' || 'magie') {
-                if (skill.animationType == strProjectil) {
-                    textAttackDisplay = source.magie*skill.power;
-                }else {
-                    textAttackDisplay = source.force*skill.power;
-                }
-                cible.currentHp = cible.currentHp - textAttackDisplay;
-            }
+    applyAttaque: function(changementEtatReussi, etat, dammage, cible){
+        if (changementEtatReussi) {
+            cible.etat = etat;
         }
-        controllerCombat.animateTextAttackDisplay(textAttackDisplay, textAttackDisplayDelay, cible, controllerCombat);
+        cible.currentHp = cible.currentHp - dammage;
     },
 
     animateTextAttackDisplay: function(textAttackDisplay, textAttackDisplayDelay, cible, controllerCombat){
@@ -431,12 +409,15 @@ CombatController.prototype = {
     attaqueEnnemie: function(ennemie, controllerCombat) {
         var skill = skillChoisi(ennemie.skills.filter(x=>x.manaCost <= ennemie.currentMana));
         var listPlayerAlive = controllerCombat.listEquipe.filter(x => x.currentHp > 0 && x.gentil == true);
-        if (!skill.multiTarget) {
-            var cible = listPlayerAlive[entierAleatoire(0, listPlayerAlive.length - 1)];
-            controllerCombat.attaque(ennemie, [cible], skill, controllerCombat, false);
+        var target = [];
+        if (skill.multiTarget) {
+            target = listPlayerAlive;
         }else {
-            controllerCombat.attaque(ennemie, listPlayerAlive, skill, controllerCombat, false);
+            var cible = listPlayerAlive[entierAleatoire(0, listPlayerAlive.length - 1)];
+            target.push(cible);
         }
+        var attaqueResults = controllerCombat.generateAttaqueResults(ennemie, target, skill, controllerCombat);
+        controllerCombat.attaque(attaqueResults, ennemie.id, skill.id, controllerCombat);
     },
 
     sortirEnnemieCombat: function(ennemie, controllerCombat) {

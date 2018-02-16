@@ -36,9 +36,9 @@ function calculPoison(ennemie) {
 }
 
 function effectPoison(ennemie, controllerCombat) {
-    var poisonDammage = ennemie.currentHp*10/100;
+    var poisonDammage = Math.round(ennemie.hp*10/100);
     var poisonDelay = 2000;
-    ennemie.currentHp = Math.round(ennemie.currentHp - poisonDammage);
+    ennemie.currentHp = ennemie.currentHp - poisonDammage;
     controllerCombat.animateTextAttackDisplay(poisonDammage, poisonDelay, ennemie, controllerCombat)
 }
 

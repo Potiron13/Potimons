@@ -41,6 +41,13 @@ WorldMapController.prototype = {
                 controller.view.renderTimeGame(timeGame);
             }, 1000)
         }
+        if (controller.combatController.userId) {
+            var socket = io();
+            var data = {
+                userLeavingDuel: controller.combatController.userId,                
+            }
+            socket.emit('end duel', data);
+        }
     },
 
     mapCombatButton(carte) {
@@ -52,4 +59,5 @@ WorldMapController.prototype = {
             combatController.combat();
         });
     },
+
 }

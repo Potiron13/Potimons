@@ -16,3 +16,7 @@ function SetUserName(userName) {
 function GetUserName() {
     return UserName;
 }
+
+function GetListEquipe() {
+    return Equipe;
+}
