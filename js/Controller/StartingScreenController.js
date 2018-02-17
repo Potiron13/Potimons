@@ -116,8 +116,7 @@ StartingScreenController.prototype = {
             controller.worldMapController.combatController.initDuel(opponent, data.carte, data.listPlayer, data.room);
         });
 
-        socket.on('action', function(data){
-            console.log(data.attaqueResults);
+        socket.on('action', function(data){            
             controller.worldMapController.combatController.attaque(data.attaqueResults, data.sourceId, data.skillId, controller.worldMapController.combatController);
         });
 

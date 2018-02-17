@@ -17,13 +17,13 @@ function calculCapture(ennemie, listCapture, listReserve) {
 }
 
 function effectCapture(ennemie, controllerCombat) {
+    controllerCombat.sortirPlayerCombat(ennemie, controllerCombat);
     ennemie.gentil = true;
     if (controllerCombat.listReserve.length < 9) {
         controllerCombat.listCapture.push(ennemie);
     }else {
         alert('La reserve est pleine, le monstre est relache.');
     }
-    controllerCombat.sortirEnnemieCombat(ennemie, controllerCombat);
 }
 
 function calculPoison(ennemie) {
