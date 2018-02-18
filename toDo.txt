@@ -2,5 +2,4 @@ bug protrait lors de l'évolution
 balance
 contenu
 online :
-    - css menu Online
-    - intégrer théo
+    - css menu Online    

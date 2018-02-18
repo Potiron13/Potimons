@@ -45,8 +45,12 @@ OnlineView.prototype = {
         var ulMessages = displayElementOnParent('ul', 'messages', '', '', chatCol);
         var messageForm = displayElementOnParent('form', 'messageForm', '', '', ulMessages);
         messageForm.attr('action', '');
+        var messageContainer = displayElementOnParent('div', 'messageContainer', 'col-sm-12', '', messageForm);
         var messageInput = displayElementOnParent('input', 'm', '', '', messageForm);
         messageInput.attr('autocomplete', 'off');
+        messageInput.css({
+            'width' : '100%'
+        });
         var buttonSend = displayElementOnParent('button', 'btnSendMessage', '', 'Envoyer', messageForm);
     },
 

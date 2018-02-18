@@ -52,9 +52,22 @@ var monsterList = [
         '',
     ),
     new PlayerMonsterData(
-        strKaroutSauvage, 12, 20, 5, 5, 7, 2, 2, 7, 7, 'Lune', null, null,
+        strKaroutSauvage, 30, 40, 5, 5, 7, 2, 5, 7, 7, 'Lune', null, null,
         [new FutureSkill(strGriffe, 1), new FutureSkill(strPoison, 1), new FutureSkill(strLanceFeuille, 3),
          new FutureSkill(strMorsure, 5), new FutureSkill(strJetDeVenin, 7)],
+         [],
+        '',
+    ),
+    new PlayerMonsterData(
+        strZobi, 40, 20, 5, 10, 7, 5, 2, 7, 7, 'Poison', strZobiSanglant, 10,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strPoison, 1), new FutureSkill(strMorsure, 3),
+         new FutureSkill(strMorsure, 5)],
+         [],
+        '',
+    ),new PlayerMonsterData(
+        strZobiSanglant, 12, 20, 5, 5, 7, 2, 2, 7, 7, 'Poison', null, null,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strPoison, 1), new FutureSkill(strMorsure, 3),
+         new FutureSkill(strCharge, 5), new FutureSkill(strFireBall, 7)],
          [],
         '',
     ),

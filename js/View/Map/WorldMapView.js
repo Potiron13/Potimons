@@ -24,10 +24,10 @@ WorldMapView.prototype = {
         this.initialiserOnline.init();
         this.initialiserProfil.init();
         var btnMenu = displayButtons('btnOuvrirMainMenu', 'Menu', 'btn btn-primary btnMainMenu', this.displayMainMenu, $('body'));
-        var btnSaveMenu = displayButtons('btnOuvrirSaveMenu', 'Sauvegarder', 'btn btn-primary btnSaveMenu', this.displaySaveMenu, $('body'));
-        var btnPotidex = displayButtons('btnOuvrirPotidex', 'Potidex', 'btn btn-primary btnPotidex', this.displayPotidex, $('body'));
-        var btnOnline = displayButtons('btnGoOnline', 'Online', 'btn btn-primary btnOnline', this.displayOnline, $('body'));
-        var btnOnline = displayButtons('btnProfil', 'Profil', 'btn btn-primary btnOnline', this.displayProfil, $('body'));
+        var btnSaveMenu = displayButtons('btnOuvrirSaveMenu', 'Sauvegarder', 'btn btn-primary btnMainMenu', this.displaySaveMenu, $('body'));
+        var btnPotidex = displayButtons('btnOuvrirPotidex', 'Potidex', 'btn btn-primary btnMainMenu', this.displayPotidex, $('body'));
+        var btnOnline = displayButtons('btnGoOnline', 'Online', 'btn btn-primary btnMainMenu', this.displayOnline, $('body'));
+        var btnProfil = displayButtons('btnProfil', 'Profil', 'btn btn-primary btnMainMenu', this.displayProfil, $('body'));
         var gameInfoRow = displayElementOnParent('div', 'gameInfoRow', 'row', '', $('body'));
         gameInfoRow.css({
             'color' : 'white'

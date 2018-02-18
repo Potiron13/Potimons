@@ -25,7 +25,7 @@ CombatController.prototype = {
         });
         this.carte = carte;
         var nombreEnnemieAuCombat = entierAleatoire(1, carte.nombreMaximumEnnemie);
-        this.listPlayer = this.listEquipe.slice();
+        this.listPlayer = this.listEquipe.filter(x=>x.currentHp > 0)
         this.listEnnemiesTotal = [];
         this.listEnnemies = [];
         this.listCapture = [];
@@ -54,12 +54,12 @@ CombatController.prototype = {
             child.remove();
         });
         this.online = true;
-        this.listPlayer = listPlayer;
+        this.listPlayer = listPlayer.filter(x=>x.currentHp > 0);
         this.listEnnemiesTotal = [];
         this.listEnnemies = [];
         this.listCapture = [];
         this.carte = carte;
-        $.each(listPlayer, function(index){
+        $.each(listPlayer.filter(x=>x.currentHp > 0), function(index){
             if (this.gentil === false) {
                 controller.listEnnemies.push(this);
                 controller.listEnnemiesTotal.push(this);
@@ -339,7 +339,7 @@ CombatController.prototype = {
             var source = controllerCombat.listPlayer.find(x=>x.id == sourceId);
             var skill = fetchSkill(skillId);
             var player = GetListEquipe().find(x=>x.id == sourceId);
-            if (player) {
+            if (player && controllerCombat.online == true) {
                 player.currentMana -= skill.manaCost;
             }
             source.currentMana -= skill.manaCost;
@@ -366,7 +366,7 @@ CombatController.prototype = {
                         }, 500);
                     }
                     var player = GetListEquipe().find(x=>x.id == cible.id);
-                    if (player) {
+                    if (player && controllerCombat.online  == true) {
                         controllerCombat.applyAttaque(this.changementEtatReussi, this.etat, this.dammage, player);
                     }
                     controllerCombat.applyAttaque(this.changementEtatReussi, this.etat, this.dammage, cible);

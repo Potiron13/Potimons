@@ -7,6 +7,8 @@ const strPotimeche = 'potimeche';
 const strPotidoudou = 'potidou';
 const strPotizarre = 'potizarre';
 const strKaroutSauvage = 'karoutSauvage';
+const strZobi = 'zobi';
+const strZobiSanglant = 'zobiSanglant';
 
 // DECRIPTION
 const strDescriptionPotiron = 'Aime griffer le canape et uriner dans les lits.';

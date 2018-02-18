@@ -116,12 +116,12 @@ StartingScreenController.prototype = {
             controller.worldMapController.combatController.initDuel(opponent, data.carte, data.listPlayer, data.room);
         });
 
-        socket.on('action', function(data){            
+        socket.on('action', function(data){
             controller.worldMapController.combatController.attaque(data.attaqueResults, data.sourceId, data.skillId, controller.worldMapController.combatController);
         });
 
         socket.on('chat message', function(msg){
-            $('#messageForm').append($('<li>').text(msg));
+            $('#messageContainer').append($('<li>').text(msg));
         });
 
     },

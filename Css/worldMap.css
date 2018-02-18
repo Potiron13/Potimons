@@ -93,18 +93,12 @@
     width: 15em;
 }
 
-.btnSaveMenu {
-    top:0;
-    right: 0;
-    height: 5em;
-    width: 15em;
+input, select, textarea{
+    color: #45484c;
 }
 
-.btnPotidex {
-    top:0;
-    right: 0;
-    height: 5em;
-    width: 15em;
+textarea:focus, input:focus {
+    color: #45484c;
 }
 
 .setHeight {
