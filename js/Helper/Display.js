@@ -30,7 +30,7 @@ function displayButtons(id, label, btnClass, functionOnClick, parent){
     return $('#'+elementButton.id);
 }
 
-function displayProgressBar(id, currentValue, valueMax, parent) {
+function displayProgressBar(id, currentValue, valueMax, className, parent) {
     var hpPourcentage = Math.round((currentValue/valueMax)*100);
     var container = document.createElement('div');
     var colorClass;
@@ -43,7 +43,7 @@ function displayProgressBar(id, currentValue, valueMax, parent) {
     }else if (hpPourcentage < 33) {
         colorClass = 'progress-bar-danger'
     }
-    container.className = 'progress ' + 'col-sm-4' + ' clearPadding vcenter';
+    container.className = 'progress ' + className + ' clearPadding vcenter';
     parent.append(container);
     var progressBar = document.createElement('div');
     progressBar.id = id;

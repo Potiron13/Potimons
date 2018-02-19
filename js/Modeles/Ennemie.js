@@ -6,7 +6,7 @@ class ViewModelInfoEnnemie {
         this.CurrentHp = ennemie.currentHp;
         this.Mana = ennemie.mana;
         this.CurrentMana = ennemie.currentMana;
-
+        this.Niv = ennemie.level;
     }
 }
 

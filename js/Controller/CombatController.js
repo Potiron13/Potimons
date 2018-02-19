@@ -388,7 +388,11 @@ CombatController.prototype = {
     },
 
     calculateDammage: function(level, sourceAttaque, cibleDefence, power){
-        return Math.round((((2*level)/5)*power*(sourceAttaque/cibleDefence)/50 + 2)*entierAleatoire(85, 100)/100)  ;
+        var result = 0;
+        if (power >  0) {
+            result = Math.round((((2*level)/5)*power*(sourceAttaque/cibleDefence)/50 + 2)*entierAleatoire(85, 100)/100);
+        }
+        return result;
     },
 
     applyAttaque: function(changementEtatReussi, etat, dammage, cible){

@@ -30,8 +30,8 @@ MainMenuView.prototype = {
             }
             displayElementOnParent('div', 'nom' + 'Value', colClass, viewModels[index].Nom, rowValue);
             displayElementOnParent('div', 'niveau' + 'Value', colClass, viewModels[index].Niveau, rowValue);
-            displayProgressBar(viewModels[index].id + 'menuProgressBarHp', viewModels[index].CurrentHp, viewModels[index].Hp, rowValue);
-            displayProgressBar(viewModels[index].id + 'menuProgressBarMana', viewModels[index].CurrentMana, viewModels[index].Mana, rowValue);
+            displayProgressBar(viewModels[index].id + 'menuProgressBarHp', viewModels[index].CurrentHp, viewModels[index].Hp, 'col-sm-4',rowValue);
+            displayProgressBar(viewModels[index].id + 'menuProgressBarMana', viewModels[index].CurrentMana, viewModels[index].Mana, 'col-sm-4',rowValue);
             displayButtons ('btnSkills' + viewModels[index].id, 'Competences', 'BUTTON', function () {view.displaySkills(viewModels[index].id)}, rowValue);
             displayButtons ('btnDetails' + viewModels[index].id , 'Details', 'BUTTON', function () {view.displayDetails(viewModels[index].id)}, rowValue)
         });
@@ -232,7 +232,7 @@ MainMenuView.prototype = {
                 }
             displayElementOnParent('div', 'nom' + 'Value', 'col-sm-2', viewModels[index].Nom, rowValue);
             displayElementOnParent('div', 'niveau' + 'Value', 'col-sm-2', viewModels[index].Niveau, rowValue);
-            var progressBar = displayProgressBar(viewModels[index].id + 'potionProgressBar', viewModels[index].CurrentHp, viewModels[index].Hp, rowValue);
+            var progressBar = displayProgressBar(viewModels[index].id + 'potionProgressBar', viewModels[index].CurrentHp, viewModels[index].Hp, 'col-sm-4',rowValue);
             var btnSoigner = displayButtons ('btnCible' + viewModels[index].id , 'Soigner', 'btn btn-success col-sm-2', function () {
                 effect(objectName, viewModels[index].id, progressBar);
                 $("#" + idModal + " :button").prop("disabled", true);
@@ -270,7 +270,7 @@ MainMenuView.prototype = {
             }
             displayElementOnParent('div', 'nom' + 'Value', 'col-sm-2', viewModels[index].Nom, rowValue);
             displayElementOnParent('div', 'niveau' + 'Value', 'col-sm-2', viewModels[index].Niveau, rowValue);
-            var progressBar = displayProgressBar(viewModels[index].id + 'potionProgressBar', viewModels[index].CurrentMana, viewModels[index].Mana, rowValue);
+            var progressBar = displayProgressBar(viewModels[index].id + 'potionProgressBar', viewModels[index].CurrentMana, viewModels[index].Mana, 'col-sm-4',rowValue);
             var btnSoigner = displayButtons ('btnCible' + viewModels[index].id , 'Soigner', 'btn btn-success col-sm-2', function () {
                 effect(objectName, viewModels[index].id, progressBar);
                 $("#" + idModal + " :button").prop("disabled", true);

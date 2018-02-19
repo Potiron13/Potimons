@@ -1,12 +1,11 @@
 body {
-    margin-left: 20px;;
+    margin-left: 20px;
     padding:0;
     background-size: cover;
     z-index: -1;
 }
 
-#topRow {
-    height: 33%;
+#topRow {    
 }
 
 #mainRow {
