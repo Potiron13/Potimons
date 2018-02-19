@@ -7,7 +7,7 @@ class Effect {
     }
 }
 
-function calculCapture(ennemie, listCapture, listReserve) {
+function calculCapture(ennemie) {
     var rand = entierAleatoire(0, (ennemie.currentHp*100)/ennemie.hp)
     if (rand < 20) {
         return true;

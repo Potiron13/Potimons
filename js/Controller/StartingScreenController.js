@@ -27,7 +27,7 @@ StartingScreenController.prototype = {
         var startingPotion = cloneItem(fetchItem('smallPotion'));
         startingPotion.quantity = 5;
         this.listItem.push(startingPotion);
-        this.listEquipe.push(instancierPlayer(strPotiron, 3, true));
+        this.listEquipe.push(instancierInGamePotimon(strPotiron, 5, true));
         this.listCarte.push(generateCarte(0));
         this.worldMapController.init(this.listCarte, this.timeGame, this.userName);
         this.goOnline();
@@ -125,7 +125,6 @@ StartingScreenController.prototype = {
         });
 
     },
-
 
     promptUserName: function() {
         var userName = prompt("Please enter your potiname", "Potiron le vaillant");

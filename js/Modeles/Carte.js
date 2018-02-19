@@ -19,15 +19,15 @@ var AllTerrain = [
 ];
 
 function generateCarte (lastCarteId) {
-    var allMonstersName = monsterList.map(x=>x.name);
-    allMonstersName.shift();
-    var randMonster1 = entierAleatoire(0, allMonstersName.length - 1);
-    var randMonster2 = entierAleatoire(0, allMonstersName.length - 1);
-    var randMonster3 = entierAleatoire(0, allMonstersName.length - 1);
+    var allPotimonName = basePotimonList.map(x=>x.name);
+    allPotimonName.shift();
+    var randMonster1 = entierAleatoire(0, allPotimonName.length - 1);
+    var randMonster2 = entierAleatoire(0, allPotimonName.length - 1);
+    var randMonster3 = entierAleatoire(0, allPotimonName.length - 1);
     var randTerrain = entierAleatoire(0, AllTerrain.length - 1);
     //var randNombreMonster = entierAleatoire(1, 3);
     var carteId = lastCarteId + 1;
-    return new Carte(carteId, 3, [allMonstersName[randMonster1], allMonstersName[randMonster2], allMonstersName[randMonster3]],
+    return new Carte(carteId, 3, [allPotimonName[randMonster1], allPotimonName[randMonster2], allPotimonName[randMonster3]],
          carteId*5 - 4, carteId*5, AllTerrain[randTerrain]);
 }
 

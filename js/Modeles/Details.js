@@ -1,17 +1,20 @@
 class ViewModelDetails {
-    constructor (player) {
-        this.id = player.id;
-        this.Nom = player.name;
-        this.Niveau = player.level;
-        this.Hp = player.hp;
-        this.curHp = player.currentHp;
-        this.curMana = player.currentMana;
-        this.Mana = player.mana;
-        this.Force = player.force;
-        this.Magie = player.magie;
-        this.Exp = player.experience;
-        this.ExpNext = player.experienceNextLevel;
-        this.catClass = player.catClass;
-        this.src = player.src;
+    constructor (potimon) {
+        this.id = potimon.id;
+        this.Nom = potimon.name;
+        this.Niveau = potimon.level;
+        this.HpMax = potimon.hp;
+        this.curHp = potimon.currentHp;
+        this.ManaMax = potimon.mana;
+        this.curMana = potimon.currentMana;
+        this.attaque = potimon.attaque;
+        this.defence = potimon.defence;
+        this.specialAttaque = potimon.specialAttaque;
+        this.specialDefence = potimon.specialDefence;
+        this.speed = potimon.speed;
+        this.Exp = potimon.experience;
+        this.ExpNext = potimon.experienceNextLevel;
+        this.type = potimon.type;
+        this.src = potimon.src;
     }
 }

@@ -1,5 +1,6 @@
 bug protrait lors de l'évolution
 balance
 contenu
-online :
-    - css menu Online    
+
+balance :
+    -revoir le system de stats

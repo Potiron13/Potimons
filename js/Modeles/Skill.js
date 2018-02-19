@@ -39,11 +39,11 @@ class ViewModelSkill {
     }
 }
 
-var AllSkills = [new Skill(strGriffe, strGriffe, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false),
+var AllSkills = [new Skill(strGriffe, strGriffe, 40, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false),
             new Skill(strBalayage, strBalayage, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, true),
             new Skill(strCharge, strCharge, 3, 'corpsACorps', animateCharge, '', 1000, 0, false),
             new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false),
-            new Skill(strFireBall, strFireBall, 2, 'magie', animateProjectil, strProjectil, 1000, 10, false),
+            new Skill(strFireBall, strFireBall, 40, 'magie', animateProjectil, strProjectil, 1000, 10, false),
             new Skill(strLanceFlame, strLanceFlame, 2, 'magie', animateProjectil, strProjectil, 1000, 20, true),
             new Skill(strLanceFeuille, strLanceFeuille, 3, 'magie', animateProjectil, strProjectil, 1000, 10, false),
             new Skill(strAquaBall, strAquaBall, 2, 'magie', animateProjectil, strProjectil, 1000, 10, false),

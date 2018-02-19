@@ -10,6 +10,22 @@ const strKaroutSauvage = 'karoutSauvage';
 const strZobi = 'zobi';
 const strZobiSanglant = 'zobiSanglant';
 
+// TYPE
+const strTypeEau = 'eau';
+const strTypeElectrik = 'electrik';
+const strTypeFeu = 'feu';
+const strTypeGlace = 'glace';
+const strTypeNormal = 'normal';
+/*const strTypeCombat = 'combat';
+const strTypeDragon = 'dragon';
+const strTypeInsecte = 'insecte';
+const strTypePlante = 'plante';
+const strTypePoison = 'poison';
+const strTypePsy = 'psy';
+const strTypeRoche = 'roche';
+const strTypeSpectre = 'spectre';
+const strTypeVol = 'vol';
+*/
 // DECRIPTION
 const strDescriptionPotiron = 'Aime griffer le canape et uriner dans les lits.';
 const strDescriptionPotitata = 'Un gros rat mechant.';
@@ -30,8 +46,6 @@ const strLanceFeuille = 'lanceFeuille';
 const strPoison = 'poison';
 const strJetDeVenin = 'jetDeVenin';
 const strBalayage = 'balayage';
-
-// CAT CLASS
 
 // PATH
 const strPathImgMonstre = 'Images/Monsters';

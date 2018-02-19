@@ -16,9 +16,9 @@ PotidexController.prototype = {
     getPotidexViewModels: function() {
         result = [];
         var controller = this;
-        $.each(monsterList, function(index){
+        $.each(basePotimonList, function(index){
             var capture = (controller.listMonstresCapture.find(x=>x == this.name)) ? true : false;
-            result.push(new ViewModelPotidex(this, capture))            
+            result.push(new ViewModelPotidex(this, capture))
         });
 
         return result;

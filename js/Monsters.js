@@ -6,73 +6,23 @@ var monsterFusionList = [
     new MonsterFusionData(strPotidoudou, 15, 'lune'),
 ];
 
-var monsterList = [
-    //new PlayerMonsterData(name, hpLevelOne, manaLevelOne, forceLevelOne, magieLevelOne,hp, force, magie, experienceNextLevel, experienceDonnee, catClass, evolution, evolutionLevel, futureSkills, loot, description)
-    new PlayerMonsterData(
-        strPotiron, 20, 10, 10, 10, 10, 2, 2, 5, 1, 'Chat', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strPoison, 1), new FutureSkill(strCapture, 2), new FutureSkill(strLanceFlame, 6),
-        new FutureSkill(strFireBall, 4), new FutureSkill(strBalayage, 5)],
-        [],
-        strDescriptionPotiron,
+var basePotimonList = [
+    //new PotimonBaseStats(id, name, hp, mana, attaque, defence, specialAttaque, specialDefence,
+    //                      speed, type, evolution, evolutionLevel, experienceDonnee,futureSkills)
+    new BasePotimon(
+        '1', strPotiron, 70, 20, 80, 50, 35, 35, 35, strTypeNormal, null, null, 61,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strCapture, 1), new FutureSkill(strFireBall, 3)]
     ),
-    new PlayerMonsterData(
-        strPotitata, 10, 20, 2, 20, 3, 1, 1, 1, 4, 'Normal', strPotitatac, 8,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strCharge, 5)],
-        [new Loot('smallPotion', 0.6), new Loot('smallManaPotion', 0.3)],
-        strDescriptionPotitata,
+    new BasePotimon(
+        '2', strPotitata, 30, 0, 56, 35, 25, 35, 72, strTypeNormal, strPotitatac, 20, 51,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 3)]
     ),
-    new PlayerMonsterData(
-        strPotitatac, 20, 5, 5, 5, 5, 2, 2, 5, 5, 'Normal', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strCharge, 3), new FutureSkill(strMorsure, 5)],
-        [new Loot('mediumPotion', 0.6), new Loot('smallManaPotion', 0.4)],
-        strDescriptionPotitatac,
-    ),
-    new PlayerMonsterData(
-        strPotipuce, 20, 15, 5, 5, 5, 3, 2, 5, 5, 'Eau', null, null,
-        [new FutureSkill(strCharge, 1), new FutureSkill(strAquaBall, 5)],
-        [new Loot('mediumPotion', 0.8), new Loot('smallManaPotion', 0.6)],
-        '',
-    ),
-    new PlayerMonsterData(
-        strPotizarre, 10, 10, 10, 7, 7, 2, 3, 5, 5, 'Plante', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strLanceFeuille, 5)],
-        [new Loot('mediumPotion', 0.8), new Loot('smallManaPotion', 0.6)],
-        '',
-    ),
-    new PlayerMonsterData(
-        strPotimeche, 15, 5, 5, 10, 7, 4, 2, 5, 5, 'Feu', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 5)],
-        [new Loot('mediumPotion', 0.8), new Loot('smallManaPotion', 0.6)],
-        '',
-    ),
-    new PlayerMonsterData(
-        strPotidoudou, 12, 20, 5, 5, 7, 2, 2, 7, 7, 'Lune', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 1), new FutureSkill(strAquaBall, 1)],
-        [],
-        '',
-    ),
-    new PlayerMonsterData(
-        strKaroutSauvage, 30, 40, 5, 5, 7, 2, 5, 7, 7, 'Lune', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strPoison, 1), new FutureSkill(strLanceFeuille, 3),
-         new FutureSkill(strMorsure, 5), new FutureSkill(strJetDeVenin, 7)],
-         [],
-        '',
-    ),
-    new PlayerMonsterData(
-        strZobi, 40, 20, 5, 10, 7, 5, 2, 7, 7, 'Poison', strZobiSanglant, 10,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strPoison, 1), new FutureSkill(strMorsure, 3),
-         new FutureSkill(strMorsure, 5)],
-         [],
-        '',
-    ),new PlayerMonsterData(
-        strZobiSanglant, 12, 20, 5, 5, 7, 2, 2, 7, 7, 'Poison', null, null,
-        [new FutureSkill(strGriffe, 1), new FutureSkill(strPoison, 1), new FutureSkill(strMorsure, 3),
-         new FutureSkill(strCharge, 5), new FutureSkill(strFireBall, 7)],
-         [],
-        '',
+    new BasePotimon(
+        '3', strPotitatac, 55, 0, 81, 60, 50, 70, 97, strTypeNormal, null, null, 145,
+        [new FutureSkill(strGriffe, 1), new FutureSkill(strFireBall, 3)]
     ),
 ];
 
 function fetchMonsterLoot(monsterName) {
-    return monsterList.find(x=>x.name == monsterName).loot;
+    return basePotimonList.find(x=>x.name == monsterName).loot;
 }
