@@ -27,7 +27,7 @@ StartingScreenController.prototype = {
         var startingPotion = cloneItem(fetchItem('smallPotion'));
         startingPotion.quantity = 5;
         this.listItem.push(startingPotion);
-        this.listEquipe.push(instancierInGamePotimon(strPotiron, 5, true));
+        this.listEquipe.push(instancierInGamePotimon(strPotiron, 2, true), instancierInGamePotimon(strPotitata, 18, true));
         this.listCarte.push(generateCarte(0));
         this.worldMapController.init(this.listCarte, this.timeGame, this.userName);
         this.goOnline();
@@ -43,10 +43,12 @@ StartingScreenController.prototype = {
             ids.push(playerData.data.skills[index].id)
         });
         var reformatedSkills = fetchSkills(ids);
-        return new Player(playerData.data.id, playerData.data.name, playerData.data.level, playerData.data.experience,
-             playerData.data.experienceNextLevel, playerData.data.currentHp, playerData.data.hp, playerData.data.currentMana, playerData.data.mana, playerData.data.force,
-             playerData.data.magie, playerData.data.gentil, playerData.data.experienceDonnee, reformatedSkills,
-             playerData.data.catClass, playerData.data.evolution, playerData.data.evolutionLevel);
+        var basePotimon = getBasePotimonByName(playerData.data.name);
+        var potimon = new Potimon(basePotimon, playerData.data.level, playerData.data.experience,
+            playerData.data.currentHp, playerData.data.currentMana, playerData.data.gentil, reformatedSkills, null);
+        potimon.id = playerData.data.id;
+
+        return potimon;
     },
 
     instanciateItemFromData: function(itemData) {

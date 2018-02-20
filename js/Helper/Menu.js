@@ -1,6 +1,6 @@
 
 function initialiserEvolutionMenu(monster) {
-    var idModal = 'modalEvolution' + monster.id;    
+    var idModal = 'modalEvolution' + monster.id;
     if ($('#' + idModal).length) {
         $('#' + idModal).empty();
     }
@@ -15,6 +15,7 @@ function initialiserEvolutionMenu(monster) {
                 displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-2', value, rowValue);
             }else {
                 var colImg = displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-2', '', rowValue);
+                console.log(colImg);
                 var playerImg = document.createElement('img');
                 playerImg.src = value;
                 colImg.append(playerImg);

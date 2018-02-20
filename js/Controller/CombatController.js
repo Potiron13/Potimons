@@ -24,8 +24,8 @@ CombatController.prototype = {
             child.remove();
         });
         this.carte = carte;
-        var nombreEnnemieAuCombat = entierAleatoire(1, carte.nombreMaximumEnnemie);
-        this.listPlayer = this.listEquipe.filter(x=>x.currentHp > 0)
+        var nombreEnnemieAuCombat = this.listEquipe.length;
+        this.listPlayer = this.listEquipe.filter(x=>x.currentHp > 0);
         this.listEnnemiesTotal = [];
         this.listEnnemies = [];
         this.listCapture = [];
@@ -37,6 +37,9 @@ CombatController.prototype = {
             this.listEnnemies.push(ennemie);
             this.listEnnemiesTotal.push(ennemie);
         }
+        this.listPlayer.sort(function(a, b){ return b.speed - a.speed});
+        this.listEnnemies.sort(function(a, b){ return b.speed - a.speed});
+        this.listEquipe.sort(function(a, b){ return b.speed - a.speed});
     },
 
     initDuel: function(user, carte, listPlayer, room) {
@@ -65,6 +68,9 @@ CombatController.prototype = {
                 controller.listEnnemiesTotal.push(this);
             }
         });
+        this.listPlayer.sort(function(a, b){ return b.speed - a.speed});
+        this.listEnnemies.sort(function(a, b){ return b.speed - a.speed});
+        this.listEquipe.sort(function(a, b){ return b.speed - a.speed});
         controller.combat();
     },
 
@@ -519,9 +525,7 @@ CombatController.prototype = {
                     this.experience = this.experienceNextLevel;
                     experienceRestante = experienceRestante - (this.experienceNextLevel - this.experience);
                     if (this.experience >= this.experienceNextLevel) {
-                        var learnedSkills = [];
-                        incrementerLevel(this, learnedSkills);
-                        controllerCombat.view.animateLevelUp(this, learnedSkills);
+                        controllerCombat.view.animateLevelUp(this, incrementerLevel(this));
                     }
                 }
             } while (experienceRestante > 0);

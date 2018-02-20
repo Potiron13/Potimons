@@ -5,7 +5,7 @@ body {
     z-index: -1;
 }
 
-#topRow {    
+#topRow {
 }
 
 #mainRow {
@@ -35,7 +35,7 @@ body {
 
 .combatInfo {
     font-family: "Times New Roman", Times, serif;
-    font-size: 2em;
+    font-size: 1em;
 }
 
 .griffe {

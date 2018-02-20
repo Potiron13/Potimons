@@ -65,7 +65,6 @@ CombatView.prototype = {
             if (index == 0) {
                 var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
                 var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaColInfo', 'col-sm-6', 'Hp/Mana', labelRow);
-                //var labelManaCol = displayElementOnParent('div', viewModel.id + 'labelManaColInfo', 'col-sm-4', 'Mana', labelRow);
                 var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);
             }
             var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
@@ -86,8 +85,7 @@ CombatView.prototype = {
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEquipe);
             if (index == 0) {
                 var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
-                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-6', 'Hp/Mana', labelRow);
-                //var labelManaCol = displayElementOnParent('div', viewModel.id + 'labelManaColInfo', 'col-sm-4', 'Mana', labelRow);
+                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-6', 'Hp/Mana', labelRow);                
                 var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);
             }
             var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);

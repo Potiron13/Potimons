@@ -1,6 +1,11 @@
-bug protrait lors de l'évolution
-balance
-contenu
+affichage :
+    -s'afficher soi-meme dans le chat
+    -bug protrait lors de l'évolution
+
+contenu :
+    -ajouter des potimons
+    -ajouter des skills
 
 balance :
-    -revoir le system de stats
+    -revoir la fusion
+    -autoriser que les combats a nombre égal contre l'ordi

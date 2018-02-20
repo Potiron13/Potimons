@@ -29,6 +29,7 @@ class Potimon extends BasePotimon {
              basePotimon.type, basePotimon.evolution, basePotimon.evolutionLevel, basePotimon.experienceDonnee,
              basePotimon.futureSkills);
         this.hp = getStatHp(basePotimon.hp, level);
+        this.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
         this.attaque = getStat(basePotimon.attaque, level);
         this.defence = getStat(basePotimon.defence, level);
         this.specialAttaque = getStat(basePotimon.specialAttaque, level);
@@ -46,40 +47,59 @@ class Potimon extends BasePotimon {
 }
 
 function instancierInGamePotimon(name, level, gentil) {
-    result = {};
+    var inGamePotimon = {};
     var skills = [];
     var gentil = gentil;
     var basePotimon = getBasePotimonByName(name);
-    result = new Potimon(basePotimon, level, 0, 0, 0, gentil, skills, null);
-    result.currentHp = result.hp;
-    result.currentMana = result.mana;
-    result.id = guidGenerator();
-    for (var i = 0; i < level; i++) {
-        result = incrementerLevel(result);
-    }
+    inGamePotimon = new Potimon(basePotimon, level, 0, 0, 0, gentil, skills, null);
+    inGamePotimon.currentHp = inGamePotimon.hp;
+    inGamePotimon.currentMana = inGamePotimon.mana;
+    inGamePotimon.id = guidGenerator();
+    inGamePotimon.experience = 0;
+    setSkillsByLevel(inGamePotimon, basePotimon);
 
-    return result;
+    return inGamePotimon;
 }
 
-function incrementerLevel(potimon, learnedSkills) {
-    var basePotimon = getBasePotimonByName(potimon.name);
+function setSkillsByLevel(potimon, basePotimon, learnedSkills) {
     var futureSkills = basePotimon.futureSkills;
-    potimon.experience = 0;
-    $.each(futureSkills, function(index){
-        if (potimon.skills.filter(x=>x.id == futureSkills[index].skill.id).length == 0) {
-            if (futureSkills[index].requiredLevel <= potimon.level) {
-                potimon.skills.push(futureSkills[index].skill);
-                if (learnedSkills) {
-                    learnedSkills.push(futureSkills[index].skill.name);
+    for (var i = 0; i < potimon.level; i++) {
+        $.each(futureSkills, function(index){
+            if (potimon.skills.filter(x=>x.id == futureSkills[index].skill.id).length == 0) {
+                if (futureSkills[index].requiredLevel <= potimon.level) {
+                    potimon.skills.push(futureSkills[index].skill);
+                    if (learnedSkills) {
+                        learnedSkills.push(futureSkills[index].skill.name);
+                    }
                 }
             }
-        }
-    });
+        });
+    }
+
+    return potimon;
+}
+
+function incrementerLevel(potimon){
+    var learnedSkills = [];
+    var basePotimon = getBasePotimonByName(potimon.name);
+    potimon.level += 1;
+    var level = potimon.level;
+    potimon.hp = getStatHp(basePotimon.hp, level);
+    potimon.attaque = getStat(basePotimon.attaque, level);
+    potimon.defence = getStat(basePotimon.defence, level);
+    potimon.specialAttaque = getStat(basePotimon.specialAttaque, level);
+    potimon.specialDefence = getStat(basePotimon.specialDefence, level);
+    potimon.speed = getStat(basePotimon.speed, level);
+    potimon.experience = 0;
+    potimon.experienceNextLevel = Math.pow(potimon.level, 3);
+    potimon.currentHp = potimon.hp;
+    potimon.currentMana = potimon.mana;
+    setSkillsByLevel(potimon, basePotimon, learnedSkills);
     if (isReadyToEvolve(potimon)) {
         evolution(potimon);
     }
 
-    return potimon;
+    return learnedSkills;
 }
 
 function getSrc(name){
@@ -100,6 +120,10 @@ function getBasePotimonByName(name) {
 
 function getStatHp(basePotimonHp, level) {
     return  Math.round(basePotimonHp*2*level/100 + level + 10);
+}
+
+function getStatMana(basePotimonSpecialAttaque, basePotimonSpecialDefence, level) {
+    return Math.round(((basePotimonSpecialAttaque + basePotimonSpecialDefence)/2)*level/100 + level + 10);
 }
 
 function getStat(basePotimonStat, level) {
@@ -139,32 +163,25 @@ function isReadyToEvolve(player) {
     return false;
 }
 
-function evolution(player) {
-    var level = player.level;
-    var playerData = getPlayerDataFromMonsterList(player.evolution);
-    player.id = playerData.name + guidGenerator()
-    player.level = 0;
-    player.experience = 0;
-    player.experienceNextLevel = 0;
-    player.name = playerData.name;
-    player.hp = playerData.hpLevelOne;
-    player.currentHp = playerData.hpLevelOne;
-    player.mana = playerData.manaLevelOne;
-    player.currentMana = playerData.manaLevelOne;
-    player.force = playerData.forceLevelOne;
-    player.magie = playerData.magieLevelOne;
-    player.src = getSrc(player.name);
-    player.srcDos = getSrcDos(player.src);
-    player.srcPortrait = getSrcPortrait(player.src);
-    player.catClass = playerData.catClass;
-    player.evolution = playerData.evolution;
-    player.evolutionLevel = playerData.evolutionLevel;
-    for (var i = 0; i < level; i++) {
-        incrementerLevel(player);
-    }
-    if (player.gentil) {
-        initialiserEvolutionMenu(player);
+function evolution(potimon) {
+    var level = potimon.level;
+    var basePotimon = getBasePotimonByName(potimon.evolution);
+    potimon.name = basePotimon.name;
+    potimon.hp = getStatHp(basePotimon.hp, level);
+    potimon.attaque = getStat(basePotimon.attaque, level);
+    potimon.defence = getStat(basePotimon.defence, level);
+    potimon.specialAttaque = getStat(basePotimon.specialAttaque, level);
+    potimon.specialDefence = getStat(basePotimon.specialDefence, level);
+    potimon.speed = getStat(basePotimon.speed, level);
+    potimon.src = getSrc(basePotimon.name);
+    potimon.srcDos = getSrcDos(basePotimon.src);
+    potimon.srcPortrait = getSrcPortrait(basePotimon.src);
+    potimon.type = basePotimon.type;
+    potimon.evolution = basePotimon.evolution;
+    potimon.evolutionLevel = basePotimon.evolutionLevel;
+    if (potimon.gentil) {
+        initialiserEvolutionMenu(potimon);
     }
 
-    return player
+    return potimon
 }
