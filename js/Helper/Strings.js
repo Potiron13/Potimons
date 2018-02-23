@@ -11,21 +11,25 @@ const strZobi = 'zobi';
 const strZobiSanglant = 'zobiSanglant';
 
 // TYPE
+const strTypeAcier = 'acier';
+const strTypeCombat = 'combat';
+const strTypeDragon = 'dragon';
 const strTypeEau = 'eau';
 const strTypeElectrik = 'electrik';
+const strTypeFee = 'fee';
 const strTypeFeu = 'feu';
 const strTypeGlace = 'glace';
-const strTypeNormal = 'normal';
-/*const strTypeCombat = 'combat';
-const strTypeDragon = 'dragon';
 const strTypeInsecte = 'insecte';
+const strTypeNormal = 'normal';
 const strTypePlante = 'plante';
 const strTypePoison = 'poison';
 const strTypePsy = 'psy';
 const strTypeRoche = 'roche';
+const strTypeSol = 'sol';
 const strTypeSpectre = 'spectre';
+const strTypeTenebre = 'tenebre';
 const strTypeVol = 'vol';
-*/
+
 // DECRIPTION
 const strDescriptionPotiron = 'Aime griffer le canape et uriner dans les lits.';
 const strDescriptionPotitata = 'Un gros rat mechant.';
@@ -46,6 +50,11 @@ const strLanceFeuille = 'lanceFeuille';
 const strPoison = 'poison';
 const strJetDeVenin = 'jetDeVenin';
 const strBalayage = 'balayage';
+const strPotiball = 'potiball';
+
+// IN COMBAT
+const strSuperEfficace = "C'est super efficace !";
+const strPasEfficace = "Ce n'est pas tres efficace";
 
 // PATH
 const strPathImgMonstre = 'Images/Monsters';

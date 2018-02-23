@@ -59,3 +59,25 @@ function animateProjectil(player, target, skill, height, width) {
         $("#" + skill.name + "Img").remove();
     }, skill.duration)
 }
+
+function animateLancePotiball(player, target, potiball) {
+    var playerElement = $('#' + player.id);
+    var targetElement = $('#' + target.id);
+    var imgPotiball = document.createElement('img');
+    var duration = 1000;
+    imgPotiball.src = potiball.src;
+    imgPotiball.id = potiball.name + "Img"
+    imgPotiball.style="position:absolute";
+    imgPotiball.style.zIndex = "10";
+    imgPotiball.style.height = "10em";
+    imgPotiball.style.width = "10em";
+    playerElement.prepend(imgPotiball);
+    var jqueryImg = $('#' + imgPotiball.id);
+    jqueryImg.animate({
+        left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - jqueryImg.width()/2 + 'px',
+        top: targetElement.offset().top - playerElement.offset().top + targetElement.height()/2 - jqueryImg.height()/2 + 'px'
+    }, duration);
+
+
+    return duration;
+}

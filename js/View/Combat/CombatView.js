@@ -85,7 +85,7 @@ CombatView.prototype = {
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEquipe);
             if (index == 0) {
                 var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
-                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-6', 'Hp/Mana', labelRow);                
+                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-6', 'Hp/Mana', labelRow);
                 var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);
             }
             var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
@@ -268,4 +268,14 @@ CombatView.prototype = {
             }, 2000 * (index + 1));
         });
     },
+
+    displayQTE: function(parent){
+        var progress = displayElementOnParent('div', 'qteProgress', 'col-sm-6 progress', '', parent);
+        var bar = displayElementOnParent('div', 'qteBar', 'bar', '', progress);
+    },
+
+    removeQTE: function(intervalId){
+        clearInterval(intervalId);
+        $('#qteProgress').remove();
+    }
 }

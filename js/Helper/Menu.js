@@ -14,10 +14,9 @@ function initialiserEvolutionMenu(monster) {
                 displayElementOnParent('div', label + 'Label' + viewModel.id, 'col-sm-2', label, rowLabel);
                 displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-2', value, rowValue);
             }else {
-                var colImg = displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-2', '', rowValue);
-                console.log(colImg);
+                var colImg = displayElementOnParent('div', 'ValueImg' + viewModel.id, 'col-sm-2', '', rowValue);
                 var playerImg = document.createElement('img');
-                playerImg.src = value;
+                playerImg.src = value;                
                 colImg.append(playerImg);
             }
         }

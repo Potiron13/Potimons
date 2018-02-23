@@ -26,8 +26,11 @@ StartingScreenController.prototype = {
         }
         var startingPotion = cloneItem(fetchItem('smallPotion'));
         startingPotion.quantity = 5;
+        var startingPotiball = cloneItem(fetchItem(strPotiball));
+        startingPotiball.quantity = 5;
         this.listItem.push(startingPotion);
-        this.listEquipe.push(instancierInGamePotimon(strPotiron, 2, true), instancierInGamePotimon(strPotitata, 18, true));
+        this.listItem.push(startingPotiball);
+        this.listEquipe.push(instancierInGamePotimon(strPotipuce, 2, true));
         this.listCarte.push(generateCarte(0));
         this.worldMapController.init(this.listCarte, this.timeGame, this.userName);
         this.goOnline();

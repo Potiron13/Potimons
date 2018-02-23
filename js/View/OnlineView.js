@@ -25,11 +25,15 @@ OnlineView.prototype = {
         }
         var duelRow = displayElementOnParent('div', 'duelRow', 'row', '', duelCol);
         $.each(viewModels, function(index) {
+            var user = this;
+            var userRow = displayElementOnParent('div', 'userRow' + this.id, 'row', '', duelRow);
+            var userCol = displayElementOnParent('div', 'userCol' + this.id, 'col-sm-10', this.name, userRow);
             if (this.id != userId) {
-                var user = this;
-                var userRow = displayElementOnParent('div', 'userRow' + this.id, 'row', '', duelRow);
-                var userCol = displayElementOnParent('div', 'userCol' + this.id, 'col-sm-10', this.name, userRow);
                 displayButtons ('btnDuel' + this.id, 'Duel', 'BUTTON', function(){duelQuery(user)}, userRow);
+            }else {
+                userCol.css({
+                    'color' : 'green',
+                });
             }
         });
     },

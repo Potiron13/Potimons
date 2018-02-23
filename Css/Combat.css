@@ -71,6 +71,17 @@ body {
     cursor: crosshair;
 }
 
+#qteProgress {
+    background-color: grey;
+    float: right;      
+}
+#qteBar {
+    width: 1%;
+    height: 30px;
+    background-color: green;
+}
+
+
 @keyframes idle {
     50% { -webkit-transform: rotateZ(10deg); transform:rotateZ(10deg); }
     50% { -webkit-transform: rotateZ(-10deg); transform:rotateZ(-10deg); }

@@ -1,7 +1,7 @@
 
 class BasePotimon {
-    constructor(id, name, hp, mana, attaque, defence, specialAttaque, specialDefence, speed, type,
-         evolution, evolutionLevel, experienceDonnee, futureSkills){
+    constructor(id, name, hp, mana, attaque, defence, specialAttaque, specialDefence, speed, elementTypeId,
+         evolution, evolutionLevel, experienceDonnee, futureSkills, tauxDeCapture, description){
         this.id = id;
         this.name = name;
         this.hp = hp;
@@ -11,7 +11,7 @@ class BasePotimon {
         this.specialAttaque = specialAttaque;
         this.specialDefence = specialDefence;
         this.speed = speed;
-        this.type = type;
+        this.elementTypeId = elementTypeId;
         this.evolution = evolution;
         this.evolutionLevel = evolutionLevel;
         this.experienceDonnee = experienceDonnee;
@@ -19,6 +19,8 @@ class BasePotimon {
         this.srcDos = getSrcDos(this.src);
         this.srcPortrait = getSrcPortrait(this.src);
         this.futureSkills = futureSkills;
+        this.tauxDeCapture = tauxDeCapture;
+        this.description = description;
     }
 }
 
@@ -26,8 +28,8 @@ class Potimon extends BasePotimon {
     constructor(basePotimon, level, experience, currentHp, currentMana, gentil, skills, etat) {
         super(basePotimon.id, basePotimon.name, basePotimon.hp, basePotimon.mana, basePotimon.attaque,
              basePotimon.defence, basePotimon.specialAttaque, basePotimon.specialDefence, basePotimon.speed,
-             basePotimon.type, basePotimon.evolution, basePotimon.evolutionLevel, basePotimon.experienceDonnee,
-             basePotimon.futureSkills);
+             basePotimon.elementTypeId, basePotimon.evolution, basePotimon.evolutionLevel, basePotimon.experienceDonnee,
+             basePotimon.futureSkills, basePotimon.tauxDeCapture, basePotimon.description);
         this.hp = getStatHp(basePotimon.hp, level);
         this.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
         this.attaque = getStat(basePotimon.attaque, level);
@@ -85,6 +87,7 @@ function incrementerLevel(potimon){
     potimon.level += 1;
     var level = potimon.level;
     potimon.hp = getStatHp(basePotimon.hp, level);
+    potimon.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
     potimon.attaque = getStat(basePotimon.attaque, level);
     potimon.defence = getStat(basePotimon.defence, level);
     potimon.specialAttaque = getStat(basePotimon.specialAttaque, level);
@@ -168,6 +171,7 @@ function evolution(potimon) {
     var basePotimon = getBasePotimonByName(potimon.evolution);
     potimon.name = basePotimon.name;
     potimon.hp = getStatHp(basePotimon.hp, level);
+    potimon.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
     potimon.attaque = getStat(basePotimon.attaque, level);
     potimon.defence = getStat(basePotimon.defence, level);
     potimon.specialAttaque = getStat(basePotimon.specialAttaque, level);
@@ -176,12 +180,14 @@ function evolution(potimon) {
     potimon.src = getSrc(basePotimon.name);
     potimon.srcDos = getSrcDos(basePotimon.src);
     potimon.srcPortrait = getSrcPortrait(basePotimon.src);
-    potimon.type = basePotimon.type;
+    potimon.elementTypeId = basePotimon.elementTypeId;
     potimon.evolution = basePotimon.evolution;
     potimon.evolutionLevel = basePotimon.evolutionLevel;
+    potimon.description = basePotimon.description;
     if (potimon.gentil) {
         initialiserEvolutionMenu(potimon);
     }
+    GetMonstresCapture().push(potimon.name);
 
     return potimon
 }

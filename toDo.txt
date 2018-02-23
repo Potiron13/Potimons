@@ -1,11 +1,19 @@
 affichage :
-    -s'afficher soi-meme dans le chat
     -bug protrait lors de l'évolution
+    -systeme de log in
 
 contenu :
     -ajouter des potimons
     -ajouter des skills
+    -faire des cartes cohérentes
 
 balance :
     -revoir la fusion
-    -autoriser que les combats a nombre égal contre l'ordi
+    -QTE -> systeme de difficulté, design de la bar, comment ça impact les effets
+    -taux d'apparition -> modification du modèle
+
+serveur :
+    -données utilisateur en base, schema de base de données,
+    -systeme de log in
+    -calcul coté serveur?
+    -crypté les données

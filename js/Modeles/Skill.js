@@ -1,5 +1,5 @@
 class Skill {
-    constructor(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, effect) {
+    constructor(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, effect, difficulty, elementTypeId) {
         this.id = id;
         this.name = name;
         this.power = power;
@@ -11,6 +11,8 @@ class Skill {
         this.manaCost = manaCost;
         this.multiTarget = multiTarget;
         this.effect = effect;
+        this.difficulty = difficulty;
+        this.elementTypeId = elementTypeId;
     }
 }
 
@@ -39,19 +41,18 @@ class ViewModelSkill {
     }
 }
 
-var AllSkills = [new Skill(strGriffe, strGriffe, 40, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false),
-            new Skill(strBalayage, strBalayage, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, true),
-            new Skill(strCharge, strCharge, 3, 'corpsACorps', animateCharge, '', 1000, 0, false),
-            new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false),
-            new Skill(strFireBall, strFireBall, 40, 'magie', animateProjectil, strProjectil, 1000, 10, false),
-            new Skill(strLanceFlame, strLanceFlame, 2, 'magie', animateProjectil, strProjectil, 1000, 20, true),
-            new Skill(strLanceFeuille, strLanceFeuille, 3, 'magie', animateProjectil, strProjectil, 1000, 10, false),
-            new Skill(strAquaBall, strAquaBall, 2, 'magie', animateProjectil, strProjectil, 1000, 10, false),
-            new Skill(strChanter, strChanter, 2, 'corpsACorps', animateProjectil, strProjectil, 5000, 20, false),
-            new Skill(strHypercut, strHypercut, 3, 'corpsACorps', animateCorpsACorps, '', 5000, 0, false),
-            new Skill(strCapture, strCapture, 0, 'corpsACorps', animateProjectil, strProjectil, 1000, 0, false, 'Capture'),
-            new Skill(strJetDeVenin, strJetDeVenin, 0, 'magie', animateProjectil, strProjectil, 1000, 8, true, strPoison),
-            new Skill(strPoison, strPoison, 0, 'magie', animateProjectil, strProjectil, 1000, 4, false, strPoison)];
+var AllSkills = [new Skill(strGriffe, strGriffe, 40, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false, null, 1, 10),
+            new Skill(strBalayage, strBalayage, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, true, null, 3, 10),
+            new Skill(strCharge, strCharge, 3, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
+            new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false, null, 2, 10),
+            new Skill(strFireBall, strFireBall, 40, 'magie', animateProjectil, strProjectil, 1000, 10, false, null, 1, 7),
+            new Skill(strLanceFlame, strLanceFlame, 2, 'magie', animateProjectil, strProjectil, 1000, 20, true, null, 2, 7),
+            //new Skill(strLanceFeuille, strLanceFeuille, 3, 'magie', animateProjectil, strProjectil, 1000, 10, false, null, 1),
+            new Skill(strAquaBall, strAquaBall, 40, 'magie', animateProjectil, strProjectil, 1000, 10, false, null, 1, 4),
+            new Skill(strPotiball, strPotiball, 0, 'corpsACorps', animateProjectil, strProjectil, 1000, 0, false, 'Capture', 2),
+            //new Skill(strJetDeVenin, strJetDeVenin, 0, 'magie', animateProjectil, strProjectil, 1000, 8, true, strPoison, 2),
+            //new Skill(strPoison, strPoison, 0, 'magie', animateProjectil, strProjectil, 1000, 4, false, strPoison, 1)];
+        ];
 
 function fetchSkills(skillsId) {
     result = [];

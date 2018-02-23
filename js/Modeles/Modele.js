@@ -8,7 +8,6 @@ var Users = [];
 var UserName = '';
 var TimeGame = new Date(0, 0, 0, 0, 0, 0, 0);
 
-
 function SetUserName(userName) {
     UserName = userName;
 }
@@ -19,4 +18,8 @@ function GetUserName() {
 
 function GetListEquipe() {
     return Equipe;
+}
+
+function GetMonstresCapture(){
+    return MonstresCapture;
 }
