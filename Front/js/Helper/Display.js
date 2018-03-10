@@ -93,3 +93,30 @@ function createModal(id, titre) {
 
     return modalBody;
 }
+
+function createForm(id, inputList, parent) {
+    var form = displayElementOnParent('form', id, '', '', parent);
+    $.each(inputList, function(){
+        var fromGroup = displayElementOnParent('div', 'newUserForm', 'form-group', '', form);
+        var label = displayElementOnParent('label', this.id + 'Label' + 'Id', '', this.label, form);
+        var inputId = this.id;			
+        var input = displayElementOnParent('input', inputId, 'form-control', '', form);
+        input.attr('name', this.label);
+        input.attr('type', this.type);
+        label.attr('for', inputId);
+    });
+
+    return form;
+}
+
+function createNavBar(id, itemList, parent) {    
+    var navBar = displayElementOnParent('nav', id, 'navbar blueColor', '', parent);
+    var containerFluid = displayElementOnParent('div', 'containerFluid' + id, 'container-fluid', '', navBar);    
+    var ul = displayElementOnParent('ul', 'ulNavbarNav' + id, 'nav navbar-nav', '', containerFluid);
+    $.each(itemList, function(index){
+        var li = displayElementOnParent('li', 'li' + this.id, '', '', ul);
+        var a = displayElementOnParent('a', 'a' + this.id, '', this.label, li);
+        a.click(this.functionOnClick);
+    })
+
+}

@@ -15,11 +15,11 @@ PotidexController.prototype = {
 
     getPotidexViewModels: function() {
         result = [];
-        var controller = this;
+       /* var controller = this;
         $.each(basePotimonList, function(index){
             var capture = (controller.listMonstresCapture.find(x=>x == this.name)) ? true : false;
             result.push(new ViewModelPotidex(this, capture))
-        });
+        });*/
 
         return result;
     },

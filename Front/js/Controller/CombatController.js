@@ -24,23 +24,28 @@ CombatController.prototype = {
         $.each($('body').children(), function(index, child){
             child.remove();
         });
+        var controller = this;
         this.carte = carte;
         var nombreEnnemieAuCombat = this.listEquipe.length;
         this.listPlayer = this.listEquipe.filter(x=>x.currentHp > 0);
         this.listEnnemiesTotal = [];
         this.listEnnemies = [];
         this.listCapture = [];
-        for (var i = 0; i < nombreEnnemieAuCombat; i++) {
+        for (let i = 0; i < nombreEnnemieAuCombat; i++) {
             var level = entierAleatoire(carte.levelMin, carte.levelMax);
-            var indexEnnemieGenere = entierAleatoire(0, carte.listNomEnnemiePossible.length - 1);
-            var ennemie = instancierInGamePotimon(carte.listNomEnnemiePossible[indexEnnemieGenere], level, false);
-            this.listPlayer.push(ennemie);
-            this.listEnnemies.push(ennemie);
-            this.listEnnemiesTotal.push(ennemie);
-        }
-        this.listPlayer.sort(function(a, b){ return b.speed - a.speed});
-        this.listEnnemies.sort(function(a, b){ return b.speed - a.speed});
-        this.listEquipe.sort(function(a, b){ return b.speed - a.speed});
+            var indexEnnemieGenere = entierAleatoire(0, carte.listIdEnnemiePossible.length - 1);
+            instancierInGamePotimon(carte.listIdEnnemiePossible[indexEnnemieGenere], level, false).then(function(ennemie){
+                controller.listPlayer.push(ennemie);
+                controller.listEnnemies.push(ennemie);
+                controller.listEnnemiesTotal.push(ennemie);
+                controller.listPlayer.sort(function(a, b){ return b.speed - a.speed});
+                controller.listEnnemies.sort(function(a, b){ return b.speed - a.speed});
+                controller.listEquipe.sort(function(a, b){ return b.speed - a.speed});                        
+                if(i >= nombreEnnemieAuCombat - 1) {
+                    controller.combat();
+                }   
+            });        
+        }       
     },
 
     initDuel: function(user, carte, listPlayer, room) {
@@ -177,10 +182,9 @@ CombatController.prototype = {
         var controllerCombat = this;
         for (var i = 0; i < this.listEquipe.length; i++) {
             var player = this.listEquipe[i];
-
             // on bind les skills et les btn
             $.each(player.skills, function(j){
-                var skill = player.skills[j];
+                var skill = player.skills[j];                
                 var btn = $('#btn' + skill.id + player.id);
                 if (!(skill.id === 'capture' && controllerCombat.online === true)) {
                     btn.click( skill, (function(playerCopy) {
@@ -428,20 +432,14 @@ CombatController.prototype = {
         }
     },
 
-    calculateEffectiveness: function(cibleElementTypeId, skillElementTypeId){
+    calculateEffectiveness: function(listCibleElementTypeId, skillElementTypeId){
         var bonusElementType = 1;
-        var elementType = AllElementType.find(x=>x.id == cibleElementTypeId)
-        $.each(elementType.listWeaknessId, function(index) {
-            if (this == skillElementTypeId) {
-                bonusElementType = bonusElementType*2;
-            }
+        $.each(listCibleElementTypeId, function(index){
+            bonusElementType = bonusElementType*(AllElementTypeEfficacy.find(
+                x=>x.target_type_id == this.id && x.damage_type_id == skillElementTypeId
+            ).damage_factor/100);            
         });
-        $.each(elementType.listResistanceId, function(index){
-            if (this == skillElementTypeId) {
-                bonusElementType = bonusElementType/2;
-            }
-        });
-
+        
         return bonusElementType;
     },
 
@@ -516,6 +514,15 @@ CombatController.prototype = {
         return experienceGagnee;
     },
 
+    getPotifoulzGagnee: function(controllerCombat) {
+        var potiflouzGagnee = 0;
+        $.each(controllerCombat.listEnnemiesTotal, function(index) {
+            potiflouzGagnee += controllerCombat.calculPotiflouzGagnee(this, controllerCombat.listEquipe.map(x=>x.hp).reduce((accumulator, currentValue) => accumulator + currentValue)/controllerCombat.listEquipe.length, controllerCombat.online);
+        });
+
+        return potiflouzGagnee;
+    },
+
     calculExperienceGagnee: function(ennemie, online) {
         var onlineBonus = 1;
         if (online) {
@@ -523,6 +530,15 @@ CombatController.prototype = {
         }
 
         return  Math.round(onlineBonus*ennemie.experienceDonnee*ennemie.level/7);
+    },
+
+    calculPotiflouzGagnee: function(ennemie, playerMediumHp, online) {
+        var onlineBonus = 1;
+        if (online) {
+            onlineBonus = 1.5;
+        }
+
+        return  Math.round(onlineBonus*ennemie.level*ennemie.hp/(playerMediumHp + ennemie.hp) + ennemie.level);
     },
 
     getLootedItems: function(listEnnemiesTotal) {
@@ -540,12 +556,14 @@ CombatController.prototype = {
     },
 
     victoire: function(controllerCombat) {
-        var lootedItems = controllerCombat.getLootedItems(controllerCombat.listEnnemiesTotal);
+        /*var lootedItems = controllerCombat.getLootedItems(controllerCombat.listEnnemiesTotal);
         reformateItems(lootedItems);
         Array.prototype.push.apply(this.listItem, lootedItems)
-        this.listItem = reformateItems(this.listItem);
+        this.listItem = reformateItems(this.listItem);*/
+        var potiflouzGagnee = controllerCombat.getPotifoulzGagnee(controllerCombat);        
         var experienceGagnee = controllerCombat.getExperienceGagnee(controllerCombat);
-        controllerCombat.view.displayVictory(experienceGagnee, controllerCombat.getVictoryItemViewModel(lootedItems), controllerCombat.getEquipeVictoireViewModel());
+        SetPotiflouz(GetPotiflouz() + potiflouzGagnee);
+        controllerCombat.view.displayVictory(experienceGagnee, potiflouzGagnee,/*controllerCombat.getVictoryItemViewModel(lootedItems)*/ null, controllerCombat.getEquipeVictoireViewModel());
         setTimeout(function(){
             controllerCombat.incrementerExperience(controllerCombat, experienceGagnee);
             $.each(controllerCombat.listCapture, function(index) {
@@ -561,29 +579,34 @@ CombatController.prototype = {
 
         // a la fermeture de la modal
         $('#' + strModalMenuVictoire).on('hidden.bs.modal', function () {
-            if (controllerCombat.listCarte.length == controllerCombat.listCarte.findIndex(x=>x.id == controllerCombat.carte.id) + 1) {
-                controllerCombat.listCarte.push(generateCarte(controllerCombat.carte.id));
+            if ((controllerCombat.listCarte.length == controllerCombat.listCarte.findIndex(x=>x.id == controllerCombat.carte.id) + 1)
+                && controllerCombat.listCarte.length < AllCartes.length) {
+                controllerCombat.listCarte.push(AllCartes[controllerCombat.carte.id]);                            
+                SetCurrentCarteId(parseInt(controllerCombat.carte.id));
             }
             controllerCombat.initiliserWorldMap(controllerCombat.listCarte, controllerCombat.timeGame);
         });
     },
 
-    incrementerExperience: function(controllerCombat, experienceGagnee) {
+    incrementerExperience: function(controllerCombat, experienceGagnee) {        
         $.each(controllerCombat.listEquipe, function(index) {
             var experienceRestante = experienceGagnee;
-            do {
-                if ((this.experience + experienceRestante) < this.experienceNextLevel) {
-                    this.experience = this.experience + experienceRestante;
-                    experienceRestante = 0;
-                    updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);
-                }else {
-                    this.experience = this.experienceNextLevel;
-                    experienceRestante = experienceRestante - (this.experienceNextLevel - this.experience);
-                    if (this.experience >= this.experienceNextLevel) {
-                        controllerCombat.view.animateLevelUp(this, incrementerLevel(this));
-                    }
+            var player = this;
+            if ((this.experience + experienceRestante) < this.experienceNextLevel) {
+                this.experience = this.experience + experienceRestante;
+                experienceRestante = 0;
+                updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);                
+            }else {
+                this.experience = this.experienceNextLevel;
+                experienceRestante = experienceRestante - (this.experienceNextLevel - this.experience);
+                if (this.experience >= this.experienceNextLevel) {                                                
+                    incrementerLevel(player).then(function(learnedSkills){                                     
+                        controllerCombat.view.animateLevelUp(player, learnedSkills);
+                        updateProgressBar(controllerCombat.view.getProgressBar(player, strVictoire + 'Experience'), player.experience, player.experienceNextLevel);
+                        controllerCombat.incrementerExperience(controllerCombat, experienceRestante);                        
+                    });                   
                 }
-            } while (experienceRestante > 0);
+            }                 
         });
     },
 

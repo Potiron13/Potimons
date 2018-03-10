@@ -4,7 +4,8 @@ var WorldMapView = function () {
     this.displayPotidex = null;
     this.displayOnline = null;
     this.displayProfil = null;
-    this.initialiserSaveMenu = null;
+    this.displayShop = null;
+    this.sauvegarder = null;
     this.initialiserMainMenu = null;
     this.initialiserPotidex = null;
     this.initialiserOnline = null;
@@ -18,26 +19,25 @@ WorldMapView.prototype = {
             child.remove();
         });
         document.body.style.backgroundImage =  "url(Images/Maps/worldMap.png)";
-        this.initialiserSaveMenu.init();
         this.initialiserMainMenu.init();
         this.initialiserPotidex.init();
         this.initialiserOnline.init();
         this.initialiserProfil.init();
-        var btnMenu = displayButtons('btnOuvrirMainMenu', 'Menu', 'btn btn-primary btnMainMenu', this.displayMainMenu, $('body'));
-        var btnSaveMenu = displayButtons('btnOuvrirSaveMenu', 'Sauvegarder', 'btn btn-primary btnMainMenu', this.displaySaveMenu, $('body'));
-        var btnPotidex = displayButtons('btnOuvrirPotidex', 'Potidex', 'btn btn-primary btnMainMenu', this.displayPotidex, $('body'));
-        var btnOnline = displayButtons('btnGoOnline', 'Online', 'btn btn-primary btnMainMenu', this.displayOnline, $('body'));
-        var btnProfil = displayButtons('btnProfil', 'Profil', 'btn btn-primary btnMainMenu', this.displayProfil, $('body'));
+        this.initialiserShop.init();
+        var navBarcontainer = displayElementOnParent('div', 'navBarcontainer', 'container', '', $('body'));
+        var navItems = [
+            {label: 'Menu', id: 'liMenu', functionOnClick: this.displayMainMenu},
+            {label: 'Sauvegarder', id: 'liSauvegarder', functionOnClick: this.sauvegarder},
+            {label: 'Potidex', id: 'liPotidex', functionOnClick: this.displayPotidex},
+            {label: 'Online', id: 'liOnline', functionOnClick: this.displayOnline},
+            {label: 'Profil', id: 'liProfil', functionOnClick: this.displayProfil},
+            {label: 'Shop', id: 'liShop', functionOnClick: this.displayShop},
+        ]
+        var navBar = createNavBar('navBarWorldMap', navItems, navBarcontainer);
         var gameInfoRow = displayElementOnParent('div', 'gameInfoRow', 'row', '', $('body'));
         gameInfoRow.css({
             'color' : 'white'
         })
-        var timerRow = displayElementOnParent('div', 'timerRow', 'row', '', gameInfoRow);
-        var timerLabel = displayElementOnParent('div', 'timerLabel', 'col-sm-2', 'Temps de jeu : ', timerRow);
-        var timer = displayElementOnParent('div', 'timer', 'col-sm-2', '', timerRow);
-        var pseudoRow = displayElementOnParent('div', 'pseudoRow', 'row', '', gameInfoRow);
-        var pseudoLabel = displayElementOnParent('div', 'pseudoLabel', 'col-sm-2', 'Pseudo : ', pseudoRow);
-        var pseudo = displayElementOnParent('div', 'pseudo', 'col-sm-2', userName, pseudoRow);
         var seperationTopRow = displayElementOnParent('div', 'seperationTopRow', 'col-sm-12', '', $('body'));
         seperationTopRow.css({
             'height' : '20%',

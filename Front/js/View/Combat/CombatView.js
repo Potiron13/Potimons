@@ -193,7 +193,7 @@ CombatView.prototype = {
         document.body.style.textAlign = "center";
     },
 
-    displayVictory: function(experienceGagnee, itemsVictoireViewModels, equipeVictoireViewModel) {
+    displayVictory: function(experienceGagnee, potiflouzGagnee, itemsVictoireViewModels, equipeVictoireViewModel) {
         var idModal = strModalMenuVictoire;
         if ($('#' + idModal).length) {
             $('#' + idModal).empty();
@@ -201,6 +201,7 @@ CombatView.prototype = {
         var parent = createModal(idModal, 'Victoire !');
         var experienceRow = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'row', '', parent);
         var experienceLabelCol = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'col-sm-6', 'Experience gagnee : ' + experienceGagnee + 'xp', experienceRow);
+        var potiflouzLabelCol = displayElementOnParent('div', 'PotiflouzGagnee' + idModal, 'col-sm-6', 'Potiflouz gagnee : ' + potiflouzGagnee + '$', experienceRow);
         var separationRowExprienceItem = displayElementOnParent('div', 'rowVcitoireSeparationExprienceItem', 'row separation', '', parent);
         $.each(itemsVictoireViewModels, function(index) {
             var rowLabel = displayElementOnParent('div', 'Label' + itemsVictoireViewModels[index].id + idModal, 'row', '', parent);

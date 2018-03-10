@@ -24,6 +24,31 @@
   border-radius: 7px;
 }
 
+.blueColor{
+    border: solid 1px #424542;
+    box-shadow: 1px 1px #e7dfe7,
+                -1px -1px #e7dfe7,
+                1px -1px #e7dfe7,
+                -1px 1px #e7dfe7,
+                0 -2px #9c9a9c,
+                -2px 0 #7b757b,
+                0 2px #424542;
+    width: auto;
+    padding: 5px 10px;
+    background: #04009d;
+    background: -moz-linear-gradient(top,  #04009d 0%, #06004d 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#04009d), color-stop(100%,#06004d));
+    background: -webkit-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: -o-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: -ms-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: linear-gradient(to bottom,  #04009d 0%,#06004d 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#04009d', endColorstr='#06004d',GradientType=0 );
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    font-size: 2em;
+}
+
 .modal *{
   color: #eff1ff;
   text-shadow: 2px 2px #212421,
@@ -91,14 +116,6 @@
     right: 0;
     height: 5em;
     width: 15em;
-}
-
-input, select, textarea{
-    color: #45484c;
-}
-
-textarea:focus, input:focus {
-    color: #45484c;
 }
 
 .setHeight {

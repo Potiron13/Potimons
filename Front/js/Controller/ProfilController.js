@@ -9,6 +9,7 @@ ProfilController.prototype = {
     },
 
     displayProfil: function() {
+        this.view.render(GetUserName());      
         $('#profilModal').modal();
     },
 

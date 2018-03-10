@@ -14,7 +14,7 @@ MainMenuController.prototype = {
         this.view.displaySkills = this.displaySkills;
         this.view.displayDetails = this.displayDetails;
         this.view.displayReserve = this.displayReserve;
-        this.view.displayItems = this.displayItems;
+        this.view.displayItems = this.displayItems.bind(this);
         this.view.displayFusion = this.displayFusion.bind(this);
         this.view.dropOnRow = this.dropOnRow.bind(this);
         this.view.fuseTwoMonsters = this.fuseTwoMonsters.bind(this);
@@ -86,6 +86,7 @@ MainMenuController.prototype = {
     },
 
     displayItems: function() {
+        this.view.renderItemMenu(this.getItemMenuViewModel(), this.getPotionMenuViewModel());
         $('#' + strModalMenuItems).modal();
     },
 

@@ -1,5 +1,5 @@
 class Item {
-    constructor(id, name, usableInMenu, usableInCombat, quantity, effectInMenu, effectInCombat, category, amount) {
+    constructor(id, name, usableInMenu, usableInCombat, quantity, effectInMenu, effectInCombat, category, amount, price) {
         this.id = id;
         this.name = name;
         this.usableInMenu = usableInMenu;
@@ -9,7 +9,8 @@ class Item {
         this.effectInCombat= effectInCombat;
         this.category = category;
         this.amount = amount;
-        this.src = 'Images/Items/' + name + '.png';
+        this.src = 'Images/Items/' + name + '.gif';
+        this.price = price;
     }
 }
 
@@ -43,11 +44,11 @@ function cloneItem(item) {
 }
 
 var AllItems = [
-    new Item('smallPotion', 'petite potion', true, true, 1, potionHeal, potionHeal, 'Hp', 20),
-    new Item('mediumPotion', 'potion moyenne', true, true, 1, potionHeal, potionHeal, 'Hp', 40),
-    new Item('smallManaPotion', 'petite potion de mana', true, true, 1, potionMana, potionMana, 'Mana', 20),
-    new Item('potiball', 'potiball', false, true, 1, null, lancerPotiball, null, 'normal'),
-    new Item('superPotiball', 'super potiball', false, true, 1, null, lancerPotiball, null, 'super'),
+    new Item('smallPotion', 'petite potion', true, true, 1, potionHeal, potionHeal, 'Hp', 20, 200),
+    new Item('mediumPotion', 'potion moyenne', true, true, 1, potionHeal, potionHeal, 'Hp', 40, 500),
+    new Item('smallManaPotion', 'petite potion de mana', true, true, 1, potionMana, potionMana, 'Mana', 20, 350),
+    new Item('potiball', 'potiball', false, true, 1, null, lancerPotiball, null, 'normal', 500),
+    new Item('superPotiball', 'super potiball', false, true, 1, null, lancerPotiball, null, 'super', 1500),
 ]
 
 function fetchItems(itemsId) {

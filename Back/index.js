@@ -5,9 +5,16 @@ const io = require('socket.io')(http);
 const router = express.Router();
 const ioManager = require('./socket.js');
 const api = require('./api/routes.js')
+const connection = require('./database/connection.js');
 
 app.use(express.static('../Front'));
 app.use('/api', api)
+
+connection.init()
+    .then((res) => {
+        console.log('Connection success !');
+    })
+    .catch((err) => console.log(err))
 
 ioManager.init(io);
 io.on('connection', ioManager.handleSocket);

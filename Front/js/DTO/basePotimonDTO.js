@@ -1,7 +1,7 @@
 //(id, name, experienceDonnee, hp, attaque, defence, specialAttaque, specialDefence, speed, elementTypeId,
     //evolution, evolutionLevel, futureSkills, tauxDeCapture, description)
 
-function mapBasePotimon(basePotimonFromDataBase){
+function mapBasePotimon(basePotimonFromDataBase){  
     return new BasePotimon(
         basePotimonFromDataBase.baseExperience[0].id,
         basePotimonFromDataBase.baseExperience[0].identifier,
@@ -12,10 +12,11 @@ function mapBasePotimon(basePotimonFromDataBase){
         basePotimonFromDataBase.stats.find(x=>x.stat === 'special-attack').value,
         basePotimonFromDataBase.stats.find(x=>x.stat === 'special-defense').value,
         basePotimonFromDataBase.stats.find(x=>x.stat === 'speed').value,
-        'toto',
-        99,
-        [],
-        12,
-        'salut',
+        basePotimonFromDataBase.types.map(x=>({id: x.type_id})),
+        basePotimonFromDataBase.evolution[0].id,
+        basePotimonFromDataBase.evolution[0].minimum_level,
+        basePotimonFromDataBase.moves.map(x=>({skill: fetchSkill(x.id), requiredLevel: x.level})),
+        basePotimonFromDataBase.captureRate[0].capture_rate,
+        'description bidon'
     )
 }

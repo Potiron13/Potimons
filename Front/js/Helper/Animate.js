@@ -61,7 +61,7 @@ function animateProjectil(player, target, skill, height, width) {
 }
 
 function animateLancePotiball(player, target, potiball) {
-    var playerElement = $('#' + player.id);
+    var playerElement = $('#colonne' + player.id)
     var targetElement = $('#' + target.id);
     var imgPotiball = document.createElement('img');
     var duration = 1000;
@@ -69,9 +69,8 @@ function animateLancePotiball(player, target, potiball) {
     imgPotiball.id = potiball.name + "Img"
     imgPotiball.style="position:absolute";
     imgPotiball.style.zIndex = "10";
-    imgPotiball.style.height = "10em";
-    imgPotiball.style.width = "10em";
-    playerElement.prepend(imgPotiball);
+    imgPotiball.style.height = "10em";    
+    playerElement.append(imgPotiball);
     var jqueryImg = $('#' + imgPotiball.id);
     jqueryImg.animate({
         left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - jqueryImg.width()/2 + 'px',
