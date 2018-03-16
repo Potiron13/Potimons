@@ -1,11 +1,15 @@
+    -implementer debuff de stats en combat --> tester
+    -implementer buff --> tester
+    -bug misse
+    -secure sql inject
     -always data -> mysql
-    -systeme de log in --> sécurité, gestion des erreurs
+    -systeme de log in --> gestion des erreurs (gerer cas utilisateur existant...)
     -factoriser chargement partie
     -revoir la fusion
     -QTE -> systeme de difficulté, design de la bar, comment ça impact les effets
     -taux d'apparition -> modification du modèle
     -crypté les données
-    -mettre a jour les elements --> a tester    
+    -mettre a jour les elementsTypes --> a tester    
     -afficher les types dans detail
     -ajouter du contenu :        
         -ajouter des potimons
