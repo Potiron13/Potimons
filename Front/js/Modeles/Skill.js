@@ -1,18 +1,42 @@
 class Skill {
-    constructor(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, effect, difficulty, elementTypeId) {
+    constructor(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId) {
         this.id = id;
         this.name = name;
         this.power = power;
         this.type = type;
-        this.src = 'Images/Skills/' + name + '.png';
+        this.src = 'Images/Skills/' + id + '.gif';
         this.animation = animation;
         this.animationType = animationType;
         this.duration = duration;
         this.manaCost = manaCost;
         this.multiTarget = multiTarget;
-        this.effect = effect;
         this.difficulty = difficulty;
         this.elementTypeId = elementTypeId;
+        this.accuracy = accuracy;
+        this.targetId = targetId;
+    }
+}
+
+class EffectAlteration extends Skill {
+    constructor(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId, effect) {
+        super(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId)
+        this.effect = effect;
+    }
+}
+
+class Debuff extends Skill {
+    constructor(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId, stat, percentage) {
+        super(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId);
+        this.stat = stat;
+        this.percentage = percentage;
+    }
+}
+
+class Buff extends Skill {
+    constructor(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId, stat, percentage) {
+        super(id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId);
+        this.stat = stat;
+        this.percentage = percentage;
     }
 }
 
@@ -42,36 +66,28 @@ class ViewModelSkill {
 }
 
 var AllSkills = [
+    //id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId
     //carapuce
-    new Skill(33, strCharge, 400000, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(39, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(44, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(55, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(56, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(110, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(130, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(145, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    //salameche
-    new Skill(10, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(43, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(45, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(52, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(53, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(83, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(99, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(163, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
+    new Skill(33, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  1, 10, 1, 1),
+    new Debuff(39, strMimiQueue, 0, strCorpsACorps, animateCharge, '', 1000, 0, false,  1, 10, 1, 1, 'defence', 0.1),
+    new Skill(44, strMorsure, 60, strCorpsACorps, animateCorpsACorps, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(55, strPistoletAO, 40, strMagie, animateProjectil, '', 1000, 10, false,  1, 11, 1, 1),
+    new Skill(56, strHydroCanon, 110, strMagie, animateRay, '', 1000, 0, false,  2, 10, 0.8, 1),
+    new Buff(110, strRepli, 0, strCorpsACorps, animateCorpsACorps, '', 1000, 0, false,  2, 10, 1, 0, 'defence', 0.1),
+    new Skill(130, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(145, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
     //ratata
-    new Skill(98, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(116, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(158, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(162, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),   
+    new Skill(98, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(116, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(158, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(162, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),   
     // roucool
-    new Skill(16, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(17, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(18, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(28, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),   
-    new Skill(97, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),
-    new Skill(119, strCharge, 40, 'corpsACorps', animateCharge, '', 1000, 0, false, null, 2, 10),        
+    new Skill(16, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(17, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(18, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(28, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),   
+    new Skill(97, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
+    new Skill(119, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),        
     /*new Skill(strGriffe, strGriffe, 40, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false, null, 1, 10),
     new Skill(strBalayage, strBalayage, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, true, null, 3, 10),
     new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false, null, 2, 10),

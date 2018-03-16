@@ -38,7 +38,7 @@ function animateProjectil(player, target, skill, height, width) {
     var targetElement = $('#' + target.id);
     var imgMagie = document.createElement('img');
     imgMagie.src = skill.src;
-    imgMagie.id = skill.name + "Img"
+    imgMagie.id = skill.id + "Img"
     imgMagie.style="position:absolute";
     imgMagie.style.zIndex = "10";
     if (!width) {
@@ -56,7 +56,7 @@ function animateProjectil(player, target, skill, height, width) {
         top: targetElement.offset().top - playerElement.offset().top + targetElement.height()/2 - jqueryImg.height()/2 + 'px'
     }, skill.duration);
     setTimeout(function(){
-        $("#" + skill.name + "Img").remove();
+        $("#" + skill.id + "Img").remove();
     }, skill.duration)
 }
 
@@ -79,4 +79,36 @@ function animateLancePotiball(player, target, potiball) {
 
 
     return duration;
+}
+
+function animateRay(player, target, skill){
+    var playerElement = $('#colonne' + player.id)
+    var targetElement = $('#' + target.id);
+    var gifRay = document.createElement('img');
+    var duration = 1000;
+    var playerPosition = playerElement.offset();
+    var targetPosition = targetElement.offset()
+    gifRay.src = skill.src;
+    gifRay.id = skill.id + "Img"
+    gifRay.style="position:absolute";
+    gifRay.style.zIndex = "10";
+    var heightBetweenPlayers = Math.abs(targetPosition.top - playerPosition.top);    
+    var widthBetweenPlayers = Math.abs(targetPosition.left - playerPosition.left);    
+    var distanceBetweenPlayers =  Math.sqrt(Math.pow(heightBetweenPlayers, 2) + Math.pow(widthBetweenPlayers, 2));    
+    gifRay.style.height = distanceBetweenPlayers + 'px';    
+    playerElement.append(gifRay);
+    var jqueryImg = $('#' + gifRay.id);
+    jqueryImg.css({
+        position: 'absolute',
+        left : playerElement.width()/2 + playerPosition.left + jqueryImg.width() + 'px',
+        top : playerElement.height()/2 + playerPosition.top - jqueryImg.height() + 'px'
+    })
+    jqueryImg.css({
+        'transform' : 'rotate(' + Math.atan(heightBetweenPlayers/widthBetweenPlayers)*180 + 'deg)'
+    });
+    console.log(Math.atan(heightBetweenPlayers/widthBetweenPlayers)*180);
+    
+    setTimeout(function(){
+        $("#" + skill.id + "Img").remove();
+    }, skill.duration)
 }

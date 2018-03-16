@@ -151,7 +151,7 @@ CombatView.prototype = {
     displayBtnSkills : function (player, type, parent) {
         var skills = player.skills.filter(x=>x.type == type);
         $.each(skills, function(index) {
-            displayButtons( 'btn' + skills[index].id + player.id, skills[index].name, (skills[index].type == "magie") ? "col-sm-3 btn btn-danger btnCombat" : "col-sm-3 btn btn-success btnCombat",
+            displayButtons( 'btn' + skills[index].id + player.id, skills[index].name, "col-sm-3 btn btn-danger btnCombat",
             null, parent);
         });
     },

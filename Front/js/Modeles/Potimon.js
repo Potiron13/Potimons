@@ -67,7 +67,7 @@ function setSkillsByLevel(potimon, basePotimon, learnedSkills) {
     for (var i = 0; i < potimon.level; i++) {
         $.each(futureSkills, function(index){
             if (potimon.skills.filter(x=>x.id == futureSkills[index].skill.id).length == 0) {
-                if (futureSkills[index].requiredLevel <= potimon.level) {
+                if (futureSkills[index].requiredLevel <= potimon.level) {                 
                     potimon.skills.push(futureSkills[index].skill);
                     if (learnedSkills) {
                         learnedSkills.push(futureSkills[index].skill.name);

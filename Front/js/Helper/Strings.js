@@ -51,6 +51,14 @@ const strPoison = 'poison';
 const strJetDeVenin = 'jetDeVenin';
 const strBalayage = 'balayage';
 const strPotiball = 'potiball';
+const strMimiQueue = 'mimi queue';
+const strRepli = 'repli';
+const strPistoletAO = 'pistolet a eau';
+const strHydroCanon = 'hydro canon';
+
+// SKILLS TYPE
+const strCorpsACorps = 'corpsACorps'
+const strMagie = "magie"
 
 // IN COMBAT
 const strSuperEfficace = "C'est super efficace !";
