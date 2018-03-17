@@ -62,6 +62,34 @@ function instancierInGamePotimon(id, level, gentil) {
     });
 }
 
+function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {
+    var result = [];
+    var requests = [];
+    var levels = [];
+    for (let i = 0; i < data.length; i++) {
+        requests.push(getPotimonById(data[i].id));   
+        levels.push(data[i].level);                     
+    }
+    $.when.apply($, requests).done(function () {        
+        $.each(arguments, function (i, data) {
+            var inGamePotimon = {};
+            var basePotimon = mapBasePotimon(data);
+            inGamePotimon = new Potimon(basePotimon, levels[i], 0, 0, 0, false, [], null);        
+            inGamePotimon.currentHp = inGamePotimon.hp;
+            inGamePotimon.currentMana = inGamePotimon.mana;
+            inGamePotimon.id = guidGenerator();    
+            setSkillsByLevel(inGamePotimon, basePotimon);
+            controllerCombat.listPlayer.push(inGamePotimon);
+            controllerCombat.listEnnemies.push(inGamePotimon);
+            controllerCombat.listEnnemiesTotal.push(inGamePotimon);
+            controllerCombat.listPlayer.sort(function(a, b){ return b.speed - a.speed});
+            controllerCombat.listEnnemies.sort(function(a, b){ return b.speed - a.speed});
+            controllerCombat.listEquipe.sort(function(a, b){ return b.speed - a.speed});                     
+        });
+        controllerCombat.combat();
+    });
+}
+
 function setSkillsByLevel(potimon, basePotimon, learnedSkills) {    
     var futureSkills = basePotimon.futureSkills;    
     for (var i = 0; i < potimon.level; i++) {

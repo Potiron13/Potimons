@@ -1,6 +1,3 @@
-    -implementer debuff de stats en combat --> tester
-    -implementer buff --> tester
-    -bug misse
     -secure sql inject
     -always data -> mysql
     -systeme de log in --> gestion des erreurs (gerer cas utilisateur existant...)

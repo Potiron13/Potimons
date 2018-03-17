@@ -34,21 +34,13 @@ CombatController.prototype = {
         this.listEnnemiesTotal = [];
         this.listEnnemies = [];
         this.listCapture = [];
+        var data = [];
         for (let i = 0; i < nombreEnnemieAuCombat; i++) {
             var level = entierAleatoire(carte.levelMin, carte.levelMax);
             var indexEnnemieGenere = entierAleatoire(0, carte.listIdEnnemiePossible.length - 1);
-            instancierInGamePotimon(carte.listIdEnnemiePossible[indexEnnemieGenere], level, false).then(function(ennemie){
-                controller.listPlayer.push(ennemie);
-                controller.listEnnemies.push(ennemie);
-                controller.listEnnemiesTotal.push(ennemie);
-                controller.listPlayer.sort(function(a, b){ return b.speed - a.speed});
-                controller.listEnnemies.sort(function(a, b){ return b.speed - a.speed});
-                controller.listEquipe.sort(function(a, b){ return b.speed - a.speed});                        
-                if(i >= nombreEnnemieAuCombat - 1) {
-                    controller.combat();
-                }   
-            });        
-        }       
+            data.push({ id : carte.listIdEnnemiePossible[indexEnnemieGenere], level : level});   
+        }
+        instancierMultipleInGameEnnemiePotimon(data, this);
     },
 
     initDuel: function(user, carte, listPlayer, room) {
@@ -190,9 +182,7 @@ CombatController.prototype = {
         });
     },
 
-    combat : function() {
-        var listEnnemies = this.listEnnemies;
-        var _setSelectedEnnemie = this.setSelectedEnnemie;
+    combat : function() {        
         this.view.render(
             this.getEnnemiInfoViewModel(),
             this.getEquipeInfoViewModel(),

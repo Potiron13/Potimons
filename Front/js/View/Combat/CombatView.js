@@ -5,6 +5,7 @@ var CombatView = function () {
 CombatView.prototype = {
 
     render : function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName) {
+        console.log(listEnnemies);        
         document.body.style.backgroundImage =  "url(Images/Maps/" + mapName + ".png)";
         document.body.style.backgroundRepeat = "repeat-n";
         document.body.style.backgroundPosition = "center";

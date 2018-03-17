@@ -19,7 +19,7 @@ connection.init()
 ioManager.init(io);
 io.on('connection', ioManager.handleSocket);
 
-const port = process.env.ALWAYSDATA_HTTPD_PORT || 40;
+const port = process.env.ALWAYSDATA_HTTPD_PORT || 3000;
 const ip = process.env.ALWAYSDATA_HTTPD_IP || '0.0.0.0';
 http.listen(port, ip, function(){
     console.log('listening on *:' + port);
