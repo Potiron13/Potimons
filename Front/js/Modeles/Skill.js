@@ -71,7 +71,7 @@ var AllSkills = [
     new Skill(33, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  1, 10, 1, 1),
     new Debuff(39, strMimiQueue, 0, strCorpsACorps, animateCharge, '', 1000, 0, false,  1, 10, 1, 1, 'defence', 0.1),
     new Skill(44, strMorsure, 60, strCorpsACorps, animateCorpsACorps, '', 1000, 0, false,  2, 10, 1, 1),
-    new Skill(55, strPistoletAO, 40, strMagie, animateProjectil, '', 1000, 10, false,  1, 11, 1, 1),
+    new Skill(55, strPistoletAO, 40, strMagie, animateOverHead, '', 1500, 10, false,  1, 11, 1, 1),
     new Skill(56, strHydroCanon, 110, strMagie, animateRay, '', 1000, 0, false,  2, 10, 0.8, 1),
     new Buff(110, strRepli, 0, strCorpsACorps, animateCorpsACorps, '', 1000, 0, false,  2, 10, 1, 0, 'defence', 0.1),
     new Skill(130, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),

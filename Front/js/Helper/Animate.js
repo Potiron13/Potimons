@@ -118,44 +118,25 @@ function animateRay(player, target, skill){
     }, skill.duration)
 }
 
-
-/*
-function animateRay(player, target, skill){
-    var playerElement = $('#colonne' + player.id)
-    var targetElement = $('#' + target.id);
-    var gifRay = document.createElement('img');
-    var duration = 1000;
-    var playerPosition = playerElement.offset();
+function animateOverHead(player, target, skill) {    
+    var targetElement = $('#colonne' + target.id);
+    var gifOverHead = document.createElement('img');
+    var duration = 1500;    
     var targetPosition = targetElement.offset();
-    gifRay.src = skill.src;
-    gifRay.id = skill.id + "Img";
-    gifRay.style="position:absolute";
-    gifRay.style.zIndex = "0";
-    var heightBetweenPlayers = Math.abs(targetPosition.top + targetElement.height()/2 - playerPosition.top - playerElement.height()/2);    
-    var widthBetweenPlayers = Math.abs(targetPosition.left + targetElement.width()/2 - playerPosition.left - playerElement.width()/2);    
-    var distanceBetweenPlayers =  Math.sqrt(Math.pow(heightBetweenPlayers, 2) + Math.pow(widthBetweenPlayers, 2));    
-    gifRay.style.height = distanceBetweenPlayers + 'px';    
-    playerElement.prepend(gifRay);
-    var jqueryImg = $('#' + gifRay.id);
-    setTimeout(function(){
-        jqueryImg.css({
-            position: 'absolute',
-            left : playerElement.width()/2 + playerPosition.left + widthBetweenPlayers/2 - jqueryImg.width()/2 + 'px',
-            top : -(playerElement.height()/2 + playerPosition.top - heightBetweenPlayers/2 + jqueryImg.height()/2) + 'px',
-        });
-        jqueryImg.css({ 
-            'transform' : 'rotate(' + Math.atan(heightBetweenPlayers/widthBetweenPlayers)*180/Math.PI + 'deg)'
-        })
-        console.log(jqueryImg.width());
-        console.log(jqueryImg);
-        
-        console.log(heightBetweenPlayers);
-        console.log(widthBetweenPlayers);
-        console.log(Math.atan(heightBetweenPlayers/widthBetweenPlayers)*180/Math.PI);
-    }, 100)
-
-    
+    gifOverHead.src = skill.src;
+    gifOverHead.id = skill.id + "Img";
+    gifOverHead.style="position:absolute";
+    gifOverHead.style.zIndex = "10";    
+    gifOverHead.style.height = targetPosition.top + targetElement.height() + 'px';    
+    gifOverHead.style.width = '200px';    
+    targetElement.prepend(gifOverHead);
+    var jqueryImg = $('#' + gifOverHead.id);    
+    jqueryImg.css({
+        position: 'absolute',
+        left : targetElement.left + 'px',
+        top : targetElement.top + 'px',
+    });    
     setTimeout(function(){
         $("#" + skill.id + "Img").remove();
     }, skill.duration)
-}*/
+}
