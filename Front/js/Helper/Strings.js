@@ -55,6 +55,8 @@ const strMimiQueue = 'mimi queue';
 const strRepli = 'repli';
 const strPistoletAO = 'pistolet a eau';
 const strHydroCanon = 'hydro canon';
+const strCoupDeTete = 'coup de tete';
+const strBulleDO = "bulle d'O";
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

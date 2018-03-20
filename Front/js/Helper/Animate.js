@@ -118,7 +118,7 @@ function animateRay(player, target, skill){
     }, skill.duration)
 }
 
-function animateOverHead(player, target, skill) {    
+function animateEnnemieOverHead(player, target, skill) {    
     var targetElement = $('#colonne' + target.id);
     var gifOverHead = document.createElement('img');
     var duration = 1500;    
@@ -128,14 +128,41 @@ function animateOverHead(player, target, skill) {
     gifOverHead.style="position:absolute";
     gifOverHead.style.zIndex = "10";    
     gifOverHead.style.height = targetPosition.top + targetElement.height() + 'px';    
-    gifOverHead.style.width = '200px';    
+    gifOverHead.style.width = gifOverHead.style.height;    
     targetElement.prepend(gifOverHead);
-    var jqueryImg = $('#' + gifOverHead.id);    
-    jqueryImg.css({
-        position: 'absolute',
-        left : targetElement.left + 'px',
-        top : targetElement.top + 'px',
-    });    
+    var jqueryImg = $('#' + gifOverHead.id); 
+    setTimeout(function(){
+        jqueryImg.css({
+            position: 'absolute',
+            left : targetPosition.left - jqueryImg.width()/2 + 'px',
+            top : targetElement.top + 'px',
+        });
+    }, 10);
+    setTimeout(function(){
+        $("#" + skill.id + "Img").remove();
+    }, skill.duration)
+}
+
+function animatePlayerOverHead(player, target, skill) {    
+    var playerElement = $('#colonne' + player.id);
+    var gifOverHead = document.createElement('img');
+    var duration = 1500;    
+    var playerPosition = playerElement.offset();
+    gifOverHead.src = skill.src;
+    gifOverHead.id = skill.id + "Img";
+    gifOverHead.style="position:absolute";
+    gifOverHead.style.zIndex = "10";    
+    gifOverHead.style.height = playerElement.height() + 'px';    
+    gifOverHead.style.width = gifOverHead.style.height;    
+    playerElement.prepend(gifOverHead);
+    var jqueryImg = $('#' + gifOverHead.id); 
+    setTimeout(function(){
+        jqueryImg.css({
+            position: 'absolute',
+            left : playerPosition.left + playerElement.width()/2 - jqueryImg.width()/2 + 'px',
+            top : playerElement.top + 'px',
+        });
+    }, 10);
     setTimeout(function(){
         $("#" + skill.id + "Img").remove();
     }, skill.duration)
