@@ -98,11 +98,12 @@ function potionHeal(itemName, playerId, progressBar) {
     var potionUsed = Items.find(x=>x.name == itemName);
     potionUsed.quantity = potionUsed.quantity - 1;
     var playerToHeal = Equipe.find(x => x.id == playerId);
-    if (playerToHeal.hp - playerToHeal.currentHp > potionUsed.amount) {
+    heal(playerToHeal, potionUsed.amount);
+    /*if (playerToHeal.hp - playerToHeal.currentHp > potionUsed.amount) {
         playerToHeal.currentHp += potionUsed.amount;
     }else {
         playerToHeal.currentHp = playerToHeal.hp;
-    }
+    }*/
     updateProgressBar(progressBar, playerToHeal.currentHp, playerToHeal.hp);
 }
 

@@ -60,6 +60,10 @@ function animateProjectil(player, target, skill, height, width) {
     }, skill.duration)
 }
 
+function animateLeech(player, target, skill) {
+    animateProjectil(target, player, skill);
+}
+
 function animateLancePotiball(player, target, potiball) {
     var playerElement = $('#colonne' + player.id)
     var targetElement = $('#colonne' + target.id);
@@ -101,15 +105,25 @@ function animateRay(player, target, skill){
     setTimeout(function(){
         var left = 0;
         var top = 0;
-        var angle = 0;
+        var angle = Math.atan(widthBetweenPlayers/heightBetweenPlayers)*180/Math.PI;
         if(player.gentil === true){
-            left = playerElement.width()/2 + widthBetweenPlayers/2 - jqueryImg.width()/2;
-            top =  -(heightBetweenPlayers/2 + jqueryImg.height()/2 - playerElement.height()/2);
-            angle = Math.atan(widthBetweenPlayers/heightBetweenPlayers)*180/Math.PI;
+            if(targetPosition.left > playerPosition.left) {
+                left = playerElement.width()/2 + widthBetweenPlayers/2 - jqueryImg.width()/2;
+                top =  -(heightBetweenPlayers/2 + jqueryImg.height()/2 - playerElement.height()/2);                
+            }else {
+                left = playerElement.width()/2 - widthBetweenPlayers/2 - jqueryImg.width()/2;                
+                angle = angle - 90;
+            }        
         }else {
-            left = playerElement.width()/2 - widthBetweenPlayers/2 - jqueryImg.width()/2;
-            top =  -(-heightBetweenPlayers/2 + jqueryImg.height()/2 - playerElement.height()/2);
-            angle = Math.atan(widthBetweenPlayers/heightBetweenPlayers)*180/Math.PI + 180;
+            if(targetPosition.left <= playerPosition.left) {
+                left = playerElement.width()/2 - widthBetweenPlayers/2 - jqueryImg.width()/2;
+                top =  -(-heightBetweenPlayers/2 + jqueryImg.height()/2 - playerElement.height()/2);
+                angle = angle + 180;
+            }else {
+                left = playerElement.width()/2 + widthBetweenPlayers/2 - jqueryImg.width()/2;
+                top =  -(-heightBetweenPlayers/2 + jqueryImg.height()/2 - playerElement.height()/2);
+                angle = angle + 90;
+            }       
         }
         if(playerPosition.left > targetPosition.left){
             
@@ -129,7 +143,6 @@ function animateRay(player, target, skill){
         $("#" + skill.id + "Img").remove();
     }, skill.duration)
 }
-
 
 function animateOverHead(player, target, skill) {    
     var playerElement = $('#colonne' + player.id);

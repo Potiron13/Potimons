@@ -62,7 +62,11 @@ const strRugissement = "rugissement";
 const strFlammeche = "flammeche";
 const strTranche = "tranche";
 const strCoupDeQueue = "coup de queue";
-const strDanceFlamme = "danse flamme"
+const strDanceFlamme = "danse flamme";
+const strVampiGraine = "vampi-graines";
+const strLeech = "leech";
+const strFouetLiane = "fouet liane";
+const strPourdreDePoison = "poudre de poison";
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'
@@ -71,6 +75,7 @@ const strMagie = "magie"
 // IN COMBAT
 const strSuperEfficace = "C'est super efficace !";
 const strPasEfficace = "Ce n'est pas tres efficace";
+const strCriticalHit = "Coup critique !"
 
 // PATH
 const strPathImgMonstre = 'Images/Monsters';

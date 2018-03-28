@@ -1,7 +1,5 @@
-    -bug gif ray quand angle > 90°
-    -gérer la taille des pkm
     -description pkm
-    -coup critique
+    -potidex    
     -nettoyer les sources
     -secure sql inject
     -always data -> mysql
@@ -10,8 +8,7 @@
     -revoir la fusion
     -QTE -> systeme de difficulté, design de la bar, comment ça impact les effets
     -taux d'apparition -> modification du modèle
-    -crypté les données
-    -mettre a jour les elementsTypes --> a tester    
+    -crypté les données    
     -afficher les types dans detail
     -ajouter du contenu :        
         -ajouter des potimons

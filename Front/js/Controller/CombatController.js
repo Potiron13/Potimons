@@ -358,7 +358,7 @@ CombatController.prototype = {
         result.canPerformAttaque = canPerformAttaque;
         var outputs = [];
         if (canPerformAttaque) {
-            var effect = AllEffects.find(x=>x.name == skill.effect);
+            var effect = AllEffects.find(x=>x.id == skill.effect);
             var qteValue = entierAleatoire(50, 150)/100;
             if (source.gentil == true) {
                 qteValue = controllerCombat.getQTEValue();
@@ -367,6 +367,9 @@ CombatController.prototype = {
             $.each(listCible, function(index){
                 var tempStatCible = controllerCombat.tempStats.find(x=>x.id == this.id);
                 var output = {};
+                var attaque = 0;
+                var defence = 0;
+                var level = 0;
                 output.cibleId = this.id;                        
                 if(Math.random() < skill.accuracy*(tempStatSource.accuracy.value/tempStatCible.evasion.value)) {
                     output.cibleTouche = true;
@@ -376,15 +379,20 @@ CombatController.prototype = {
                 if (effect) {
                     output.changementEtatReussi = effect.calculReussite(this);
                     if (output.changementEtatReussi) {
-                        output.etat = skill.effect;
+                        output.etat = effect.name;
                     }
                 }
                 output.effectiveness = controllerCombat.calculateEffectiveness(this.elementTypeId, skill.elementTypeId);
+                output.isCriticalHit = controllerCombat.calculateCriticalHit(tempStatSource.speed.value);                
                 if (skill.type == 'corpsACorps') {
-                    output.dammage = Math.round(controllerCombat.calculateDammage(source.level, tempStatSource.attaque.value, tempStatCible.defence.value, skill.power, qteValue, output.effectiveness));
+                    attaque = tempStatSource.attaque.value;
+                    defence = tempStatCible.defence.value;
                 }else if (skill.type == 'magie') {
-                    output.dammage = Math.round(controllerCombat.calculateDammage(source.level, tempStatSource.specialAttaque.value, tempStatCible.specialDefence.value, skill.power, qteValue, output.effectiveness));
+                    attaque = tempStatSource.specialAttaque.value;
+                    defence = tempStatCible.specialDefence.value;                    
                 }
+                level = (output.isCriticalHit) ? source.level*2 : source.level; 
+                output.dammage = Math.round(controllerCombat.calculateDammage( level, tempStatSource.attaque.value, tempStatCible.defence.value, skill.power, qteValue, output.effectiveness));                
                 if(skill.constructor.name == 'Debuff') {
                     output.debuffStat = skill.stat;
                     output.debuffPercentage = skill.percentage*qteValue;
@@ -420,13 +428,6 @@ CombatController.prototype = {
                 $.each(attaqueResults.outputs, function(index){
                     var result = this;
                     var cible = controllerCombat.listPlayer.find(x=>x.id == this.cibleId)
-                    /*var textAttackDisplayEffectiveness = '';
-                    if (this.effectiveness > 1) {
-                        textAttackDisplayEffectiveness = strSuperEfficace;
-                    }else if (this.effectiveness < 1) {
-                        textAttackDisplayEffectiveness = strPasEfficace;
-                    }
-                    controllerCombat.animateTextAttackDisplay(textAttackDisplayEffectiveness, textAttackDisplayDelay, cible, controllerCombat);*/
                     if (this.cibleTouche === true) {
                         var textAttackDisplayChangementEtat = '';
                         if (this.changementEtatReussi == true) {
@@ -436,6 +437,11 @@ CombatController.prototype = {
                         }
                         controllerCombat.animateTextAttackDisplay(textAttackDisplayChangementEtat, textAttackDisplayDelay, cible, 'yellow', controllerCombat);
                         if (this.dammage > 0) {
+                            var textAttackDisplayCriticalHit = '';
+                            if (this.isCriticalHit === true) {
+                                textAttackDisplayCriticalHit = strCriticalHit;
+                            }
+                            controllerCombat.animateTextAttackDisplay(textAttackDisplayCriticalHit, textAttackDisplayDelay, cible, 'red', controllerCombat);
                             var fontColor = '';
                             if (this.effectiveness > 1) {
                                 fontColor = 'green';
@@ -514,6 +520,14 @@ CombatController.prototype = {
             result = result*(qteValue)*bonusType;
         }
         return result;
+    },
+
+    calculateCriticalHit: function(speed) {
+        if(entierAleatoire(0, 255) < speed/2) {
+            return true;
+        }
+             
+        return false;
     },
 
     applyAttaque: function(changementEtatReussi, etat, dammage, cible){
