@@ -359,6 +359,11 @@ CombatController.prototype = {
         var outputs = [];
         if (canPerformAttaque) {
             var effect = AllEffects.find(x=>x.name == skill.effect);
+            var qteValue = entierAleatoire(50, 150)/100;
+            if (source.gentil == true) {
+                qteValue = controllerCombat.getQTEValue();
+                controllerCombat.view.removeQTE(controllerCombat.intervalId);
+            }
             $.each(listCible, function(index){
                 var tempStatCible = controllerCombat.tempStats.find(x=>x.id == this.id);
                 var output = {};
@@ -373,11 +378,6 @@ CombatController.prototype = {
                     if (output.changementEtatReussi) {
                         output.etat = skill.effect;
                     }
-                }
-                var qteValue = entierAleatoire(50, 150)/100;
-                if (source.gentil == true) {
-                    qteValue = controllerCombat.getQTEValue();
-                    controllerCombat.view.removeQTE(controllerCombat.intervalId);
                 }
                 output.effectiveness = controllerCombat.calculateEffectiveness(this.elementTypeId, skill.elementTypeId);
                 if (skill.type == 'corpsACorps') {

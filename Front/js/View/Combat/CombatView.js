@@ -96,6 +96,9 @@ CombatView.prototype = {
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, 'col-sm-12', manaContainerRow);
             displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-2', viewModel.Niv, infoRow);
         });
+        colInfoEquipe.css({
+            top: $('#equipeCol').height() - colInfoEquipe.height() + 'px'
+        });
     },
 
     getProgressBar : function (player, type) {
@@ -108,8 +111,21 @@ CombatView.prototype = {
             var colonneSelector = displayElementOnParent('div', "colonneSelector" + listPlayer[index].id, 'col-sm-' + 12/listPlayer.length + ' noSelector', '', colonnePlayer);
             var colImage = displayElementOnParent('div', listPlayer[index].id, "col-sm-12 colonneIdle text-center", "", colonnePlayer);
             var playerImg = document.createElement('img');
+            var playerHeight = 0;
             playerImg.src =  listPlayer[index].gentil ? listPlayer[index].srcDos : listPlayer[index].src;
-            playerImg.style.height = '12em';
+            if(this.height >= 10 && this.height <= 25) {
+                playerHeight = this.height;
+            }else if (this.height <= 10){
+                playerHeight = 10;
+            }else {
+                playerHeight = 25;
+            }
+            playerImg.style.height = playerHeight + 'em';
+            setTimeout(function(){
+                colonnePlayer.css({
+                    top: $('#equipeCol').height() - colonnePlayer.height() + 'px'
+                });
+            },10)           
             colImage.append(playerImg);
         });
     },

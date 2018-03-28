@@ -68,14 +68,24 @@ class ViewModelSkill {
 var AllSkills = [
     //id, name, power, type, animation, animationType, duration, manaCost, multiTarget, difficulty, elementTypeId, accuracy, targetId
     //carapuce
-    new Skill(33, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  1, 10, 1, 1),
-    new Debuff(39, strMimiQueue, 0, strCorpsACorps, animateCharge, '', 1000, 0, false,  1, 10, 1, 1, 'defence', 0.1),
-    new Skill(44, strMorsure, 60, strCorpsACorps, animateCorpsACorps, '', 1000, 0, false,  2, 10, 1, 1),
-    new Skill(55, strPistoletAO, 40, strMagie, animateEnnemieOverHead, '', 1500, 10, false,  1, 11, 1, 1),
-    new Skill(56, strHydroCanon, 110, strMagie, animateRay, '', 1000, 0, false,  2, 10, 0.8, 1),
-    new Buff(110, strRepli, 0, strCorpsACorps, animatePlayerOverHead, '', 1000, 0, false,  2, 10, 1, 0, 'defence', 0.1),
-    new Skill(130, strCoupDeTete, 130, strCorpsACorps, animateEnnemieOverHead, '', 1000, 0, false,  2, 10, 1, 1),
-    new Debuff(145, strBulleDO, 40, strMagie, animateProjectil, '', 1000, 0, false,  2, 10, 1, 1, 'speed', 0.1),
+    new Skill(33, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  1, 1, 1, 1),
+    new Debuff(39, strMimiQueue, 0, strCorpsACorps, animateOverHeadWithSequence, '', 1000, 0, false,  1, 1, 1, 1, 'defence', 0.1),
+    new Skill(44, strMorsure, 60, strCorpsACorps, animateCorpsACorps, '', 1000, 0, false,  2, 1, 1, 1),
+    new Skill(55, strPistoletAO, 40, strMagie, animateOverHead, '', 1500, 5, false,  1, 11, 1, 1),
+    new Skill(56, strHydroCanon, 110, strMagie, animateRay, '', 1000, 0, false,  3, 10, 0.8, 1),
+    new Buff(110, strRepli, 0, strCorpsACorps, animateOverHeadWithSequence, '', 1000, 0, false,  2, 1, 1, 0, 'defence', 0.1),
+    new Skill(130, strCoupDeTete, 130, strCorpsACorps, animateOverHead, '', 1000, 0, false,  2, 1, 1, 1),
+    new Debuff(145, strBulleDO, 40, strMagie, animateProjectil, '', 1000, 0, false,  2, 11, 1, 1, 'speed', 0.1),
+    //salameche
+    new Skill(10, strGriffe, 40, strCorpsACorps, animateOverHead, '', 1000, 0, false,  1, 1, 1, 1),
+    new Debuff(43, strGrozyeux, 0, strCorpsACorps, animateOverHead, '', 1000, 0, false,  1, 1, 1, 1, 'defence', 0.1),
+    new Debuff(45, strRugissement, 0, strCorpsACorps, animateProjectil, '', 1000, 0, false,  1, 1, 1, 1, 'attaque', 0.1),
+    new Skill(52, strFlammeche, 40, strMagie, animateOverHead, '', 1500, 5, false,  1, 10, 1, 1),
+    new Skill(53, strLanceFlame, 90, strMagie, animateRay, '', 1000, 10, false,  2, 10, 1, 1),
+    new Skill(83, strDanceFlamme, 110, strMagie, animateProjectil, '', 1000, 20, false,  3, 10, 1, 1),
+    new Skill(99, strCoupDeQueue, 55, strCorpsACorps, animateOverHead, '', 1000, 0, false,  2, 1, 1, 1),
+    new Skill(163, strTranche, 70, strCorpsACorps, animateOverHead, '', 1000, 0, false,  1, 1, 1, 1),
+
     //ratata
     new Skill(98, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),
     new Skill(116, strCharge, 40, strCorpsACorps, animateCharge, '', 1000, 0, false,  2, 10, 1, 1),

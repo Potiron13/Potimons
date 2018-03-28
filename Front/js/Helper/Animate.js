@@ -83,9 +83,8 @@ function animateLancePotiball(player, target, potiball) {
 
 function animateRay(player, target, skill){
     var playerElement = $('#colonne' + player.id)
-    var targetElement = $('#' + target.id);
+    var targetElement = $('#colonne' + target.id);
     var gifRay = document.createElement('img');
-    var duration = 1000;
     var playerPosition = playerElement.offset();
     var targetPosition = targetElement.offset();
     gifRay.src = skill.src;
@@ -100,16 +99,29 @@ function animateRay(player, target, skill){
     playerElement.prepend(gifRay);
     var jqueryImg = $('#' + gifRay.id);
     setTimeout(function(){
+        var left = 0;
+        var top = 0;
+        var angle = 0;
+        if(player.gentil === true){
+            left = playerElement.width()/2 + widthBetweenPlayers/2 - jqueryImg.width()/2;
+            top =  -(heightBetweenPlayers/2 + jqueryImg.height()/2 - playerElement.height()/2);
+            angle = Math.atan(widthBetweenPlayers/heightBetweenPlayers)*180/Math.PI;
+        }else {
+            left = playerElement.width()/2 - widthBetweenPlayers/2 - jqueryImg.width()/2;
+            top =  -(-heightBetweenPlayers/2 + jqueryImg.height()/2 - playerElement.height()/2);
+            angle = Math.atan(widthBetweenPlayers/heightBetweenPlayers)*180/Math.PI + 180;
+        }
+        if(playerPosition.left > targetPosition.left){
+            
+        }
         jqueryImg.css({
             position: 'absolute',
-            left : playerElement.width()/2 + playerPosition.left + widthBetweenPlayers/2 - jqueryImg.width()/2 + 'px',
-            top : -(heightBetweenPlayers/2 + jqueryImg.height()/2 - playerElement.height()/2) + 'px',
+            left : left + 'px',
+            top : top + 'px',
         });
         jqueryImg.css({ 
-            'transform' : 'rotate(' + Math.atan(widthBetweenPlayers/heightBetweenPlayers)*180/Math.PI + 'deg)'
+            'transform' : 'rotate(' + angle + 'deg)'
         })
-        console.log(heightBetweenPlayers);
-        console.log(widthBetweenPlayers);
         
     }, 10)
 
@@ -118,52 +130,69 @@ function animateRay(player, target, skill){
     }, skill.duration)
 }
 
-function animateEnnemieOverHead(player, target, skill) {    
+
+function animateOverHead(player, target, skill) {    
+    var playerElement = $('#colonne' + player.id);
     var targetElement = $('#colonne' + target.id);
-    var gifOverHead = document.createElement('img');
-    var duration = 1500;    
+    var gifOverHead = document.createElement('img');    
+    var playerPosition = playerElement.offset();
     var targetPosition = targetElement.offset();
     gifOverHead.src = skill.src;
     gifOverHead.id = skill.id + "Img";
     gifOverHead.style="position:absolute";
     gifOverHead.style.zIndex = "10";    
-    gifOverHead.style.height = targetPosition.top + targetElement.height() + 'px';    
+    gifOverHead.style.height = targetElement.height() + 'px';    
     gifOverHead.style.width = gifOverHead.style.height;    
     targetElement.prepend(gifOverHead);
     var jqueryImg = $('#' + gifOverHead.id); 
     setTimeout(function(){
         jqueryImg.css({
             position: 'absolute',
-            left : targetPosition.left - jqueryImg.width()/2 + 'px',
+            left : targetElement.width()/2 - jqueryImg.width()/2 + 'px',
             top : targetElement.top + 'px',
-        });
+        });        
     }, 10);
     setTimeout(function(){
         $("#" + skill.id + "Img").remove();
     }, skill.duration)
 }
 
-function animatePlayerOverHead(player, target, skill) {    
+function animateOverHeadWithSequence(player, target, skill) {    
     var playerElement = $('#colonne' + player.id);
-    var gifOverHead = document.createElement('img');
-    var duration = 1500;    
+    var targetElement = $('#colonne' + target.id);
+    var gifOverHead = document.createElement('img');     
     var playerPosition = playerElement.offset();
-    gifOverHead.src = skill.src;
+    var targetPosition = targetElement.offset();
+    var imgFormat = '.png';
+    gifOverHead.src = skill.src.replace('.gif', '/') + '0' + imgFormat;
     gifOverHead.id = skill.id + "Img";
     gifOverHead.style="position:absolute";
     gifOverHead.style.zIndex = "10";    
-    gifOverHead.style.height = playerElement.height() + 'px';    
+    gifOverHead.style.height = targetElement.height() + 'px';    
     gifOverHead.style.width = gifOverHead.style.height;    
-    playerElement.prepend(gifOverHead);
+    targetElement.prepend(gifOverHead);
     var jqueryImg = $('#' + gifOverHead.id); 
     setTimeout(function(){
         jqueryImg.css({
             position: 'absolute',
-            left : playerPosition.left + playerElement.width()/2 - jqueryImg.width()/2 + 'px',
-            top : playerElement.top + 'px',
+            left : targetElement.width()/2 - jqueryImg.width()/2 + 'px',
+            top : targetElement.top + 'px',
         });
+        playSeq(1,1,30,50,gifOverHead, skill.src.replace('.gif', '/'), imgFormat)
     }, 10);
     setTimeout(function(){
         $("#" + skill.id + "Img").remove();
     }, skill.duration)
+}
+
+function playSeq(firstframe, currentframe, lastframe, milliseconds, image, imagename, imageformat){
+    var played = false;
+    if(!played){
+        player = setInterval(function(){
+            image.src = imagename+currentframe+imageformat; 
+            currentframe++;
+            if(currentframe == lastframe+1) currentframe = firstframe;
+        }, milliseconds);
+        played = true;
+    }
 }

@@ -10,7 +10,7 @@ function selectPokemonStats(id) {
 
 function selectPokemonBaseExperience(id) {    
     var con = connection.getConnection();
-    var sql = "SELECT pokemon.id, pokemon.identifier, pokemon.base_experience from pokemon where id = " + id;
+    var sql = "SELECT pokemon.id, pokemon.identifier, pokemon.base_experience, pokemon.height from pokemon where id = " + id;
     return con.query(sql);
 }
 

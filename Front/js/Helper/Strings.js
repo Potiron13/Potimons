@@ -38,7 +38,7 @@ const strDescriptionPotitatac = 'Un tres gros rat mechant.';
 // SKILLS
 const strGriffe = 'griffe';
 const strFireBall = 'fireBall';
-const strLanceFlame = 'lanceFlame'
+const strLanceFlame = 'lance-flame'
 const strAquaBall = 'aquaBall';
 const strMorsure = 'morsure';
 const strCharge = 'charge';
@@ -57,6 +57,12 @@ const strPistoletAO = 'pistolet a eau';
 const strHydroCanon = 'hydro canon';
 const strCoupDeTete = 'coup de tete';
 const strBulleDO = "bulle d'O";
+const strGrozyeux = "groz'yeux";
+const strRugissement = "rugissement";
+const strFlammeche = "flammeche";
+const strTranche = "tranche";
+const strCoupDeQueue = "coup de queue";
+const strDanceFlamme = "danse flamme"
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

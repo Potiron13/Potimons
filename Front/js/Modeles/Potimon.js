@@ -1,7 +1,7 @@
 
 class BasePotimon {
     constructor(id, name, experienceDonnee,hp, attaque, defence, specialAttaque, specialDefence, speed, elementTypeId,
-         evolution, evolutionLevel, futureSkills, tauxDeCapture, description){
+         evolution, evolutionLevel, futureSkills, tauxDeCapture, description, height){
         this.id = id;
         this.name = name;
         this.hp = hp;
@@ -20,6 +20,7 @@ class BasePotimon {
         this.futureSkills = futureSkills;
         this.tauxDeCapture = tauxDeCapture;
         this.description = description;
+        this.height = height;
     }
 }
 
@@ -28,7 +29,7 @@ class Potimon extends BasePotimon {
         super(basePotimon.id, basePotimon.name, basePotimon.experienceDonnee, basePotimon.hp,
              basePotimon.attaque, basePotimon.defence, basePotimon.specialAttaque, basePotimon.specialDefence, 
              basePotimon.speed, basePotimon.elementTypeId, basePotimon.evolution, basePotimon.evolutionLevel, 
-             basePotimon.futureSkills, basePotimon.tauxDeCapture, basePotimon.description);
+             basePotimon.futureSkills, basePotimon.tauxDeCapture, basePotimon.description, basePotimon.height);
         this.hp = getStatHp(basePotimon.hp, level);
         this.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
         this.attaque = getStat(basePotimon.attaque, level);
