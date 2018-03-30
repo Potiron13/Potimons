@@ -245,7 +245,7 @@ MainMenuView.prototype = {
             btnSoigner.css({
                 'margin-left' : '2em'
             })
-            if (viewModels[index].CurrentHp <= 0 || viewModels[index].CurrentHp == viewModels[index].Hp) {
+            if (viewModels[index].CurrentHp == viewModels[index].Hp) {
                 btnSoigner.prop( "disabled", true );
             }else {
                 btnSoigner.prop( "disabled", false );

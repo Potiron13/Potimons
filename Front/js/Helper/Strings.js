@@ -72,6 +72,16 @@ const strCroissance = "croissance";
 const strPoudreDodo = "poudre dodo";
 const strDodo = "dodo";
 const strLanceSoleil = "lance-soleil";
+const strViveAttaque = "vive-attaque";
+const strPuissance = "puissance";
+const strCrocDeMort = "croc de mort";
+const strCrocFatal = "croc fatal";
+const strTornade = "tornade";
+const strCyclone = "cyclone";
+const strJetDeSable = "jet de sable";   
+const strHate = "hâte";
+const strMiroir = "miroir";
+const strCruAile = "crue-aile";
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

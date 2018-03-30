@@ -18,25 +18,25 @@ function effectPoison(ennemie, controllerCombat) {
     controllerCombat.animateTextAttackDisplay(poisonDammage, poisonDelay, ennemie, 'yellow', controllerCombat)
 }
 
-function effectVampiGraine(ennemie, controllerCombat) {   
+function effectVampiGraine(infectedPlayer, controllerCombat) {   
     var delay = 2000;
-    var dammage = Math.round(ennemie.hp/16);
+    var dammage = Math.round(infectedPlayer.hp/16);
     var skill = fetchSkill(250);
-    ennemie.currentHp = ennemie.currentHp - dammage;
-    controllerCombat.animateTextAttackDisplay(dammage, delay, ennemie, '', controllerCombat);
-    $.each(controllerCombat.getListEquipe(), function(index){      
+    infectedPlayer.currentHp = infectedPlayer.currentHp - dammage;
+    controllerCombat.animateTextAttackDisplay(dammage, delay, infectedPlayer, '', controllerCombat);
+    console.log(controllerCombat.listPlayer.filter(x=>x.currentHp > 0 && x.gentil != infectedPlayer.gentil));
+    $.each(controllerCombat.listPlayer.filter(x=>x.currentHp > 0 && x.gentil != infectedPlayer.gentil), function(index){ 
         var player = this;  
-        skill.animation(this, ennemie, fetchSkill(250));        
+        skill.animation(this, infectedPlayer, fetchSkill(250));        
         setTimeout(function(){
             heal(player, dammage);
             controllerCombat.animateTextAttackDisplay(dammage, delay, player, 'green', controllerCombat);
-        }, skill.duration)       
+        }, skill.duration);
     });
 }
 
 function effectDodo(ennemie, controllerCombat) {    
-    var delay = 2000;    
-    controllerCombat.animateTextAttackDisplay('zzZZzzZz', delay, ennemie, '', controllerCombat);
+    
 }
 
 var AllEffects = [    

@@ -4,7 +4,7 @@ var CombatView = function () {
 
 CombatView.prototype = {
 
-    render : function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName) {        
+    render : function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName, online) {        
         document.body.style.backgroundImage =  "url(Images/Maps/" + mapName + ".png)";
         document.body.style.backgroundRepeat = "repeat-n";
         document.body.style.backgroundPosition = "center";
@@ -23,7 +23,7 @@ CombatView.prototype = {
         var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-8', '', equipeContainer);
         this.displayPlayerList(listEquipe, equipeCol);
         this.displayEquipeInfo(viewModelInfoEquipe, equipeContainer);
-        this.displaySkillsNavBar(listEquipe, listItem, bottomRow);
+        this.displaySkillsNavBar(listEquipe, listItem, online, bottomRow);
     },
 
     displayTargetCursor : function () {
@@ -64,16 +64,18 @@ CombatView.prototype = {
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEnnemie);
             if (index == 0) {
                 var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
-                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaColInfo', 'col-sm-6', 'Hp/Mana', labelRow);
+                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaColInfo', 'col-sm-4', 'Hp/Mana', labelRow);
                 var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);
+                var labelEtatCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Etat', labelRow);
             }
             var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
-            var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-6', '', infoRow);
+            var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-4', '', infoRow);
             var hpContainerRow = displayElementOnParent('div', viewModel.id + 'hpContainerRow', 'row', '', valueHpManaCol);
             var manaContainerRow = displayElementOnParent('div', viewModel.id + 'manaContainerRow', 'row', '', valueHpManaCol);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Hp', viewModel.CurrentHp, viewModel.Hp, 'col-sm-12 clearMargin', hpContainerRow);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, 'col-sm-12', manaContainerRow);
             displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-2', viewModel.Niv, infoRow);
+            displayElementOnParent('div', viewModel.id + 'valueEtatCol', 'col-sm-2', viewModel.Etat, infoRow);
         });
     },
 
@@ -85,16 +87,18 @@ CombatView.prototype = {
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEquipe);
             if (index == 0) {
                 var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
-                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-6', 'Hp/Mana', labelRow);
+                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-4', 'Hp/Mana', labelRow);
                 var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);
+                var labelEtatCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Etat', labelRow);
             }
             var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
-            var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-6', '', infoRow);
+            var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-4', '', infoRow);
             var hpContainerRow = displayElementOnParent('div', viewModel.id + 'hpContainerRow', 'row', '', valueHpManaCol);
             var manaContainerRow = displayElementOnParent('div', viewModel.id + 'manaContainerRow', 'row', '', valueHpManaCol);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Hp', viewModel.CurrentHp, viewModel.Hp, 'col-sm-12 clearMargin', hpContainerRow);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, 'col-sm-12', manaContainerRow);
             displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-2', viewModel.Niv, infoRow);
+            displayElementOnParent('div', viewModel.id + 'valueEtatCol', 'col-sm-2', viewModel.Etat, infoRow);
         });
         colInfoEquipe.css({
             top: $('#equipeCol').height() - colInfoEquipe.height() + 'px'
@@ -130,14 +134,16 @@ CombatView.prototype = {
         });
     },
 
-    displaySkillsNavBar : function(listPlayer, listItem, parent) {
+    displaySkillsNavBar : function(listPlayer, listItem, online, parent) {
         for (var i = 0; i < listPlayer.length; i++) {
             var player = listPlayer[i];
             var playerSkillsNavBarRow = displayElementOnParent('div', player.id + 'SkillsNavBarRow', "row", "", parent);
             var ulElement = displayElementOnParent('ul', player.id + 'SkillsNavBarUl', 'nav nav-tabs', '', playerSkillsNavBarRow);
             this.displayTab(player, 'Attaque', '#corpsACorps', true, ulElement, playerSkillsNavBarRow, this.displayBtnSkills);
             this.displayTab(player, 'Magie', '#magie', false, ulElement, playerSkillsNavBarRow, this.displayBtnSkills);
-            this.displayTab(player, 'Objets', '#objet', false, ulElement, playerSkillsNavBarRow, this.displayBtnItems, listItem);
+            if(online === false) {
+                this.displayTab(player, 'Objets', '#objet', false, ulElement, playerSkillsNavBarRow, this.displayBtnItems, listItem);
+            }            
             this.hideSkillNavBar(player.id);
         }
     },
@@ -251,6 +257,12 @@ CombatView.prototype = {
         });
 
         $('#' + idModal).modal();
+    },
+
+    updateEtat: function(players) {
+        $.each(players, function(){
+            $('#' + this.id + 'valueEtatCol').html(this.etat);
+        })
     },
 
     animateLevelUp(player, learnedSkills){

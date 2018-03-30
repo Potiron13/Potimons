@@ -1,7 +1,9 @@
-    -dodo : faire un skill qui faire zzz et passer sont tour
+    -gif jet de sable
+    -rendre indisponible les objets en multi
+    -afficher altérations d'états en combat --> mettre des images
     -description pkm
     -potidex    
-    -nettoyer les sources
+    -nettoyer les sources (code mort + facto)
     -secure sql inject
     -always data -> mysql
     -systeme de log in --> gestion des erreurs (gerer cas utilisateur existant...)
@@ -15,6 +17,7 @@
         -ajouter des potimons
         -ajouter des skills
         -faire des cartes cohérentes
+    -gérer la mort des potimons
 
 var repli = fetchSkill(130)
 var player = {id : '927aa551-90d3-59ff-2a57-f9985d89d208'}

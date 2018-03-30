@@ -7,10 +7,11 @@ class ViewModelInfoEnnemie {
         this.Mana = ennemie.mana;
         this.CurrentMana = ennemie.currentMana;
         this.Niv = ennemie.level;
+        this.Etat = ennemie.etat;
     }
 }
 
-function skillChoisi(skills) {
+function skillChoisi(skills, etat) {
     var ennemieSkills = [];
     var sum = (skills.length + 1)*(skills.length/2);
     $.each(skills, function(index) {

@@ -186,6 +186,7 @@ class ViewModelInfoPlayer {
         this.Mana = player.mana;
         this.CurrentMana = player.currentMana;
         this.Niv = player.level;
+        this.Etat = player.etat;
     }
 }
 
