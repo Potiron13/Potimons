@@ -1,3 +1,4 @@
+    -dodo : faire un skill qui faire zzz et passer sont tour
     -description pkm
     -potidex    
     -nettoyer les sources

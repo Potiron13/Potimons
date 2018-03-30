@@ -67,6 +67,11 @@ const strVampiGraine = "vampi-graines";
 const strLeech = "leech";
 const strFouetLiane = "fouet liane";
 const strPourdreDePoison = "poudre de poison";
+const strTrancheHerbe = "tranch'herbe";
+const strCroissance = "croissance";
+const strPoudreDodo = "poudre dodo";
+const strDodo = "dodo";
+const strLanceSoleil = "lance-soleil";
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

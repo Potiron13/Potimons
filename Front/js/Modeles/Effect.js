@@ -6,27 +6,8 @@ class Effect {
         this.effect = effect;
     }
 }
-/*
-function effectCapture(ennemie, controllerCombat) {
-    controllerCombat.sortirPlayerCombat(ennemie, controllerCombat);
-    ennemie.gentil = true;
-    if (controllerCombat.listReserve.length < 9) {
-        controllerCombat.listCapture.push(ennemie);
-    }else {
-        alert('La reserve est pleine, le monstre est relache.');
-    }
-}
-*/
-function calculPoison(ennemie) {
-    var rand = entierAleatoire(1, 100)
-    if (rand <= 50 ) {
-        return true;
-    }
 
-    return false;
-}
-
-function calculVampiGraine(ennemie) {
+function pureEffect() {
     return true;
 }
 
@@ -53,7 +34,13 @@ function effectVampiGraine(ennemie, controllerCombat) {
     });
 }
 
+function effectDodo(ennemie, controllerCombat) {    
+    var delay = 2000;    
+    controllerCombat.animateTextAttackDisplay('zzZZzzZz', delay, ennemie, '', controllerCombat);
+}
+
 var AllEffects = [    
-    new Effect(1, strPoison, calculPoison, effectPoison),
-    new Effect(2, strVampiGraine, calculVampiGraine, effectVampiGraine),
+    new Effect(1, strPoison, pureEffect, effectPoison),
+    new Effect(2, strVampiGraine, pureEffect, effectVampiGraine),
+    new Effect(3, strDodo, pureEffect, effectDodo),
 ];
