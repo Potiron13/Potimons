@@ -141,13 +141,19 @@ CombatController.prototype = {
                 controllerCombat.sortirPlayerCombat(this, controllerCombat);
             });
             player = controllerCombat.listPlayer[0];     
-            if(player) {
-                // passer le tour
-                if (effect.id === 3) {
-                    controllerCombat.animateTextAttackDisplay('zzZZZzzz', 2000, player, '', controllerCombat);
+            if(player) {                
+                if (effect.name === strDodo || effect.name === strConfusion) {
+                    // dodo, confusion
+                    var textAttackDisplay = '';
+                    if(effect.name === strDodo) {
+                        textAttackDisplay = 'zzZZZzzz';
+                    }else if(effect.name === strConfusion) {
+                        textAttackDisplay = player.name + ' est confu';
+                    }
+                    controllerCombat.animateTextAttackDisplay(textAttackDisplay, 2000, player, '', controllerCombat);
                     controllerCombat.listPlayer.push(controllerCombat.listPlayer.shift());
-                    controllerCombat.gererTourParTour(controllerCombat);
-                }else {
+                    controllerCombat.gererTourParTour(controllerCombat);                    
+                }else  {
                     controllerCombat.enablePlayerTurn(controllerCombat, player);
                 }
             }                
@@ -549,7 +555,7 @@ CombatController.prototype = {
     applyAttaque: function(changementEtatReussi, etat, dammage, cible){
         if (changementEtatReussi) {
             cible.etat = etat;
-        }else if(cible.etat === strDodo){
+        }else if(cible.etat === strDodo || cible.etat === strConfusion){
             cible.etat = '';
         }
         cible.currentHp = cible.currentHp - dammage;

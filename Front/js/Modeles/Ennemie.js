@@ -11,7 +11,7 @@ class ViewModelInfoEnnemie {
     }
 }
 
-function skillChoisi(skills, etat) {
+function skillChoisi(skills) {
     var ennemieSkills = [];
     var sum = (skills.length + 1)*(skills.length/2);
     $.each(skills, function(index) {

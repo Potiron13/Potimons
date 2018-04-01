@@ -82,6 +82,10 @@ const strJetDeSable = "jet de sable";
 const strHate = "hâte";
 const strMiroir = "miroir";
 const strCruAile = "crue-aile";
+const strSecretion = "secretion"
+const strArmure = "armure";
+const strConfusion = "confusion";
+const strRafalePsy = "rafale psy";
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

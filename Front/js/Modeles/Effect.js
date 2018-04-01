@@ -11,11 +11,29 @@ function pureEffect() {
     return true;
 }
 
+function faibleChance() {
+    if(entierAleatoire(1, 100) <= 10) {
+        return true;
+    }
+
+    return false;
+}
+
 function effectPoison(ennemie, controllerCombat) {
     var poisonDammage = Math.round(ennemie.hp/10);
     var poisonDelay = 2000;
     ennemie.currentHp = ennemie.currentHp - poisonDammage;
     controllerCombat.animateTextAttackDisplay(poisonDammage, poisonDelay, ennemie, 'yellow', controllerCombat)
+}
+
+function effectConfusion(player, controllerCombat) {
+    if(entierAleatoire(0,1) > 0) {
+        var tempStatPlayer = controllerCombat.tempStats.find(x=>x.id == player.id);
+        var dammage = controllerCombat.calculateDammage(player.level, tempStatPlayer.attaque.value, tempStatPlayer.defence.value, 40, 1, 1)
+        var delay = 2000;
+        player.currentHp = player.currentHp - dammage;
+        controllerCombat.animateTextAttackDisplay(dammage, delay, ennemie, '', controllerCombat)
+    }    
 }
 
 function effectVampiGraine(infectedPlayer, controllerCombat) {   
@@ -35,12 +53,10 @@ function effectVampiGraine(infectedPlayer, controllerCombat) {
     });
 }
 
-function effectDodo(ennemie, controllerCombat) {    
-    
-}
-
 var AllEffects = [    
     new Effect(1, strPoison, pureEffect, effectPoison),
     new Effect(2, strVampiGraine, pureEffect, effectVampiGraine),
-    new Effect(3, strDodo, pureEffect, effectDodo),
+    new Effect(3, strDodo, pureEffect, null),
+    new Effect(4, strConfusion, pureEffect, effectConfusion),
+    new Effect(5, strConfusion, faibleChance, effectConfusion),
 ];
