@@ -86,6 +86,13 @@ const strSecretion = "secretion"
 const strArmure = "armure";
 const strConfusion = "confusion";
 const strRafalePsy = "rafale psy";
+const strSuperSonic = "super sonic";
+const strParaSpore = "para spore";
+const strParalysie = "paralysie";
+const strChocMental = "choc-mental";
+const strDardVenin = "dard-venin";
+const strFurie = "furie";
+const strDoubleDard = "double-dard"
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

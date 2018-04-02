@@ -135,28 +135,33 @@ CombatController.prototype = {
         var player = controllerCombat.listPlayer[0];
         var effect = AllEffects.find(x=>x.name == player.etat);
         if (effect) {
-            effect.effect(player, controllerCombat);       
-            var listPlayerKilled = controllerCombat.getListPlayer().filter(x=>x.currentHp <= 0);
-            $.each(listPlayerKilled, function(index){
-                controllerCombat.sortirPlayerCombat(this, controllerCombat);
-            });
-            player = controllerCombat.listPlayer[0];     
-            if(player) {                
-                if (effect.name === strDodo || effect.name === strConfusion) {
-                    // dodo, confusion
-                    var textAttackDisplay = '';
-                    if(effect.name === strDodo) {
-                        textAttackDisplay = 'zzZZZzzz';
-                    }else if(effect.name === strConfusion) {
-                        textAttackDisplay = player.name + ' est confu';
+            setTimeout(function(){
+                effect.effect(player, controllerCombat);       
+                var listPlayerKilled = controllerCombat.getListPlayer().filter(x=>x.currentHp <= 0);
+                $.each(listPlayerKilled, function(index){
+                    controllerCombat.sortirPlayerCombat(this, controllerCombat);
+                });
+                player = controllerCombat.listPlayer[0];     
+                if(player) {                
+                    if (effect.name === strDodo || effect.name === strConfusion || effect.name === strParalysie) {                    
+                        setTimeout(function(){
+                            var textAttackDisplay = '';
+                            if(effect.name === strDodo) {
+                                textAttackDisplay = 'zzZZZzzz';
+                            }else if(effect.name === strConfusion) {
+                                textAttackDisplay = player.name + ' est confu';
+                            }else if(effect.name === strParalysie) {
+                                textAttackDisplay = player.name + ' est paralyse';
+                            }
+                            controllerCombat.animateTextAttackDisplay(textAttackDisplay, 2000, player, '', controllerCombat);
+                            controllerCombat.listPlayer.push(controllerCombat.listPlayer.shift());
+                            controllerCombat.gererTourParTour(controllerCombat);                    
+                        }, 1000);                
+                    }else {
+                        controllerCombat.enablePlayerTurn(controllerCombat, player);
                     }
-                    controllerCombat.animateTextAttackDisplay(textAttackDisplay, 2000, player, '', controllerCombat);
-                    controllerCombat.listPlayer.push(controllerCombat.listPlayer.shift());
-                    controllerCombat.gererTourParTour(controllerCombat);                    
-                }else  {
-                    controllerCombat.enablePlayerTurn(controllerCombat, player);
                 }
-            }                
+            }, 500)                    
         }else {
             if (player) {
                 controllerCombat.enablePlayerTurn(controllerCombat, player);
@@ -455,7 +460,7 @@ CombatController.prototype = {
                         if (this.changementEtatReussi == true) {
                             textAttackDisplayChangementEtat = this.etat;
                         }else if (this.changementEtatReussi == false) {
-                            textAttackDisplayChangementEtat = 'Echec';
+                            textAttackDisplayChangementEtat = '';
                         }
                         controllerCombat.animateTextAttackDisplay(textAttackDisplayChangementEtat, textAttackDisplayDelay, cible, 'yellow', controllerCombat);
                         if (this.dammage > 0) {
@@ -555,7 +560,7 @@ CombatController.prototype = {
     applyAttaque: function(changementEtatReussi, etat, dammage, cible){
         if (changementEtatReussi) {
             cible.etat = etat;
-        }else if(cible.etat === strDodo || cible.etat === strConfusion){
+        }else if(cible.etat === strDodo || cible.etat === strConfusion || cible.etat === strParalysie){
             cible.etat = '';
         }
         cible.currentHp = cible.currentHp - dammage;
