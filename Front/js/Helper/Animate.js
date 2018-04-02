@@ -51,6 +51,9 @@ function animateProjectil(player, target, skill, height, width) {
     imgMagie.style.width = width + "em";
     playerElement.prepend(imgMagie);
     var jqueryImg = $('#' + imgMagie.id);
+    if(player.gentil === false) {
+        //jqueryImg.css({'transform' : 'rotate('+ 180 +'deg)'});
+    }
     jqueryImg.animate({
         left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - jqueryImg.width()/2 + 'px',
         top: targetElement.offset().top - playerElement.offset().top + targetElement.height()/2 - jqueryImg.height()/2 + 'px'

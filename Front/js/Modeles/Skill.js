@@ -103,7 +103,7 @@ var AllSkills = [
     new Skill(17, strCruAile, 60, strCorpsACorps, animateOverHead, '', 1000, 0, false,  2, 3, 1, 1),
     new Debuff(18, strCyclone, 40, strMagie, animateProjectil, '', 1000, 20, true,  2, 10, 1, 1, 'evasion', 0.1),
     new Debuff(28, strJetDeSable, 0, strMagie, animateOverHead, '', 1000, 10, false,  2, 10, 1, 1, 'accuracy', 0.1),   
-    new Buff(97, strHate, 0, strMagie, animateOverHead, '', 1000, 20, false,  2, 10, 1, 0, 'accuracy', 0.2),
+    new Buff(97, strHate, 0, strMagie, animateOverHeadWithSequence, '', 1000, 20, false,  2, 10, 1, 0, 'accuracy', 0.2),
     new Buff(119, strMiroir, 0, strMagie, animateOverHead, '', 1000, 30, true,  2, 10, 1, 0, 'specialDefence', 0.2),     
     // chenipan
     new Debuff(81, strSecretion, 0, strCorpsACorps, animateProjectil, '', 1000, 0, false,  1, 10, 1, 1, 'evasion', 0.1),
@@ -113,12 +113,13 @@ var AllSkills = [
     new EffectAlteration(78, strParaSpore, 0, strMagie, animateOverHead, '', 1000, 10, false, 2, 12, 1, 1, 6),
     new EffectAlteration(93, strChocMental, 50, strMagie, animateOverHead, '', 1000, 5, false, 2, 14, 1, 1, 5),
     // aspicot
-    new EffectAlteration(15, strDardVenin, 15, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 4, 1, 1, 7),
+    new EffectAlteration(40, strDardVenin, 15, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 4, 1, 1, 7),
     new Skill(31, strFurie, 60, strCorpsACorps, animateProjectil, '', 1000, 0, false, 2, 1, 1, 1),   
     new EffectAlteration(41, strDoubleDard, 50, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 4, 1, 1, 8),
+    new Skill(42, strDardNuee, 90, strCorpsACorps, animateProjectil, '', 1000, 0, true, 3, 7, 1, 1),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false,  1, 1, 1, 1),
-    new Skill(251, strDodo, 0, strMagie, animateOverHead, '', 1000, 0, false,  1, 1, 1, 0),
+    //new Skill(251, strDodo, 0, strMagie, animateOverHead, '', 1000, 0, false,  1, 1, 1, 0),
     /*new Skill(strGriffe, strGriffe, 40, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false, null, 1, 10),
     new Skill(strBalayage, strBalayage, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, true, null, 3, 10),
     new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false, null, 2, 10),

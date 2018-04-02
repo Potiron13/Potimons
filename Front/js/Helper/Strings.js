@@ -92,7 +92,8 @@ const strParalysie = "paralysie";
 const strChocMental = "choc-mental";
 const strDardVenin = "dard-venin";
 const strFurie = "furie";
-const strDoubleDard = "double-dard"
+const strDoubleDard = "double-dard";
+const strDardNuee = "dard-nuee";
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'
