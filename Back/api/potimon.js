@@ -44,4 +44,10 @@ router.get("/typeEfficacity", function(req, res) {
     });
 });
 
+router.get("/potimonPotidex", function(req, res) {
+    potimon.selectPotidexPotimon().then(function(result){
+        res.json(result);
+    });
+});
+
 module.exports = router;

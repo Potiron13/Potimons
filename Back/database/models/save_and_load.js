@@ -2,15 +2,15 @@ const connection = require('../connection.js');
 
 function saveGameInfo(data) {
     var con = connection.getConnection();
-    var sql = "REPLACE INTO save_game_info (user_id, game_time, current_carte_id, potiflouz) " + 
-               "VALUES (" + data.userId + ", '" + data.gameTime + "', '" + data.currentCarteId + "', " + data.potiflouz + ");";         
+    var sql = "REPLACE INTO save_game_info (user_id, game_time, current_carte_id, potiflouz, potimon_capture) " + 
+               "VALUES (" + data.userId + ", '" + data.gameTime + "', '" + data.currentCarteId + "', " + data.potiflouz + ", '" + data.potimonCapture + "');";         
                                 
     return con.query(sql);
 }
 
 function loadGameInfo(data) {
     var con = connection.getConnection();
-    var sql = "SELECT game_time, current_carte_id, potiflouz FROM save_game_info " +
+    var sql = "SELECT game_time, current_carte_id, potiflouz, potimon_capture FROM save_game_info " +
                 "where user_id = " + data.userId;                            
 
     return con.query(sql);

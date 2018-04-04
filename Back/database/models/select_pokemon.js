@@ -48,6 +48,12 @@ function selectTypeEfficacy () {
     return con.query(sql);
 }
 
+function selectPotidexPotimon() {
+    var con = connection.getConnection();
+    var sql = "SELECT id, identifier FROM potimondb.pokemon;";
+    return con.query(sql);
+}
+
 module.exports = {
     selectPokemonStats,
     selectPokemonBaseExperience,
@@ -56,4 +62,5 @@ module.exports = {
     selectPokemonEvolution,
     selectPokemonCaptureRate,
     selectTypeEfficacy,
+    selectPotidexPotimon,
 }
