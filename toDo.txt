@@ -1,15 +1,11 @@
-    -gif jet de sable
-    -rendre indisponible les objets en multi
-    -afficher altérations d'états en combat --> mettre des images
-    -description pkm
-    -potidex    
+    -bug potidex pop up
+    -rendre indisponible les objets en multi            
     -nettoyer les sources (code mort + facto)
     -secure sql inject
     -always data -> mysql
     -systeme de log in --> gestion des erreurs (gerer cas utilisateur existant...)
     -factoriser chargement partie
-    -revoir la fusion
-    -QTE -> systeme de difficulté, design de la bar, comment ça impact les effets
+    -revoir la fusion    
     -taux d'apparition -> modification du modèle
     -crypté les données    
     -afficher les types dans detail

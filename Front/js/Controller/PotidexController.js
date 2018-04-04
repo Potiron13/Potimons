@@ -1,26 +1,30 @@
-var PotidexController = function (view, listMonstresCapture) {
-    this.view = view;
-    this.listMonstresCapture = listMonstresCapture;
+var PotidexController = function (view) {
+    this.view = view;    
 };
 
 PotidexController.prototype = {
 
     init: function() {
-        this.view.render(this.getPotidexViewModels());
+        var controller = this;
+        $.get("/api/potimon/potimonPotidex").then(function(potimonPotidex){ 
+            SetPotidexMonstres(potimonPotidex);               
+            controller.view.render(controller.handlePotimonCapture(potimonPotidex));
+        });
+            
     },
 
     displayPotidex: function() {
+        this.view.render(this.handlePotimonCapture(GetPotidexMonstres()));
         $('#' + strModalPotidex).modal();
     },
 
-    getPotidexViewModels: function() {
-        result = [];
-       /* var controller = this;
-        $.each(basePotimonList, function(index){
-            var capture = (controller.listMonstresCapture.find(x=>x == this.name)) ? true : false;
+    handlePotimonCapture: function(potimonPotidex) {
+        var result = [];
+        var potimonCapture = GetMonstresCapture();
+        $.each(potimonPotidex, function(index){
+            var capture = (potimonCapture.find(x=>x == this.id)) ? true : false;                
             result.push(new ViewModelPotidex(this, capture))
-        });*/
-
+        });
         return result;
     },
 }

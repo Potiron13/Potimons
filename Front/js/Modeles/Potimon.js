@@ -56,15 +56,14 @@ function instancierInGamePotimon(id, level, gentil) {
         inGamePotimon = new Potimon(basePotimon, level, 0, 0, 0, gentil, [], null);        
         inGamePotimon.currentHp = inGamePotimon.hp;
         inGamePotimon.currentMana = inGamePotimon.mana;
-        inGamePotimon.id = guidGenerator();    
+        inGamePotimon.id = guidGenerator();
         setSkillsByLevel(inGamePotimon, basePotimon);
 
         return inGamePotimon;
     });
 }
 
-function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {
-    var result = [];
+function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {    
     var requests = [];
     var levels = [];
     for (let i = 0; i < data.length; i++) {
@@ -92,11 +91,11 @@ function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {
 }
 
 function setSkillsByLevel(potimon, basePotimon, learnedSkills) {    
-    var futureSkills = basePotimon.futureSkills;    
-    for (var i = 0; i < potimon.level; i++) {
-        $.each(futureSkills, function(index){
-            if (potimon.skills.filter(x=>x.id == futureSkills[index].skill.id).length == 0) {
-                if (futureSkills[index].requiredLevel <= potimon.level) {                 
+    var futureSkills = basePotimon.futureSkills;     
+    for (var i = 0; i < potimon.level; i++) {              
+        $.each(futureSkills, function(index){                
+            if (potimon.skills.filter(x=>x.id == futureSkills[index].skill.id).length === 0) {
+                if (futureSkills[index].requiredLevel <= potimon.level) {                                                                                  
                     potimon.skills.push(futureSkills[index].skill);
                     if (learnedSkills) {
                         learnedSkills.push(futureSkills[index].skill.name);
@@ -138,8 +137,8 @@ function incrementerLevel(potimon){
     });
 }
 
-function getSrc(name){
-     return strPathImgMonstre + '/' + name + '.gif';
+function getSrc(id){
+     return strPathImgMonstre + '/' + id + '.gif';
 }
 
 function getSrcDos(src){
@@ -222,6 +221,6 @@ function evolution(potimon) {
         if (potimon.gentil) {
             initialiserEvolutionMenu(potimon);
         }
-        GetMonstresCapture().push(potimon.name);        
+        AddPotimonCapture(potimon.baseId);        
     });
 }

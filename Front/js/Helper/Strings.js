@@ -94,6 +94,15 @@ const strDardVenin = "dard-venin";
 const strFurie = "furie";
 const strDoubleDard = "double-dard";
 const strDardNuee = "dard-nuee";
+const strEclair = "eclair";
+const strCageEclair = "cage-eclair";
+const strTonnerre = "tonnerre";
+const strMeteor = "meteor";
+const strJetPierre = "jet-pierre";
+const strSecousse = "secousse";
+const strBouleArmure = "boule d'armure";
+const strDestruction = "destruction";
+const strExplosion = "explosion";
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

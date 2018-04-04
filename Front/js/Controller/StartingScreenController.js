@@ -1,3 +1,4 @@
+
 var StartingScreenController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture, listUser) {
     this.view = view;
     this.listEquipe = listEquipe;
@@ -9,6 +10,7 @@ var StartingScreenController = function (view, listEquipe, listReserve, listItem
     this.userId;
     this.listMonstresCapture = listMonstresCapture;
     this.worldMapController = new WorldMapController(new WorldMapView(), this.listEquipe, this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture);
+    this.StarterChoiceController = new StarterChoiceController(new StarterChoiceView());
 };
 
 StartingScreenController.prototype = {
@@ -21,6 +23,10 @@ StartingScreenController.prototype = {
     },
 
     newGame: function() {
+        this.StarterChoiceController.init(this.newGameInit.bind(this));
+    },
+
+    newGameInit: function(potimon) {
         var controller = this;
         var startingPotion = cloneItem(fetchItem('smallPotion'));
         startingPotion.quantity = 5;
@@ -28,39 +34,36 @@ StartingScreenController.prototype = {
         startingPotiball.quantity = 5;
         this.listItem.push(startingPotion);
         this.listItem.push(startingPotiball);
-        instancierInGamePotimon(7, 2, true).then(function(potimon){
-            controller.listEquipe.push(potimon);
-            controller.listCarte.push(AllCartes[0]);
-            controller.worldMapController.init(controller.listCarte, controller.timeGame, controller.userName);
-            controller.goOnline();
-        });        
+        controller.listEquipe.push(potimon);
+        AddPotimonCapture(potimon.baseId);
+        controller.listCarte.push(AllCartes[0]);
+        controller.worldMapController.init(controller.listCarte, controller.timeGame, controller.userName);
+        controller.goOnline();
     },
 
     loadGame: function() {
         var controller = this;
         const userId = GetUserId();
         $.when(            
-            $.get("/api/saveAndLoad/loadEquipe", {userId: userId}),   
+            $.get("/api/saveAndLoad/loadEquipe", {userId: userId}),               
             $.get("/api/saveAndLoad/loadGameInfo", {userId: userId}),
-            $.get("api/saveAndLoad/loadItem", {userId: userId})       
-        ).then(function(a, b, c){
-            var equipeAjaxResult = a[0][0];
+            $.get("api/saveAndLoad/loadItem", {userId: userId}),
+            $.get("/api/saveAndLoad/loadReserve", {userId: userId}),
+        ).then(function(a, b, c, d){              
+            var equipeAjaxResult = a[0];            
             var gameInfoAjaxResult = b[0][0];
-            var itemAjaxResult = c[0][0];   
-            if(equipeAjaxResult) {
-                var potimonsId = equipeAjaxResult.potimons_id.split(',');
-                var potimonsLevels = equipeAjaxResult.potimons_level.split(',');
-                var potimonsCurrentHp = equipeAjaxResult.potimons_current_hp.split(',');
-                var potimonsCurrentMana = equipeAjaxResult.potimons_current_mana.split(',');
-                var potimonsExperience = equipeAjaxResult.potimons_experience.split(',');
+            var itemAjaxResult = c[0][0];    
+            var reserveAjaxResult = d[0];            
+            if(equipeAjaxResult.length > 0) {
                 var currentCarteId = gameInfoAjaxResult.current_carte_id;
                 var timeGameSplit = gameInfoAjaxResult.game_time.split(':');
                 var potiflouz = gameInfoAjaxResult.potiflouz;
+                var potimonCapture = gameInfoAjaxResult.potimon_capture.split(',');
                 var timeGameDate = new Date();
                 timeGameDate.setHours(timeGameSplit[0]);
                 timeGameDate.setMinutes(timeGameSplit[1]);
                 timeGameDate.setSeconds(timeGameSplit[2]);
-                controller.timeGame = timeGameDate;
+                controller.timeGame = timeGameDate;                                      
                 SetTimeGame(timeGameDate);
                 SetPotiflouz(potiflouz);
                 var itemsName = itemAjaxResult.items_name.split(',');
@@ -69,29 +72,78 @@ StartingScreenController.prototype = {
                     var item = cloneItem(fetchItemByName(itemsName[j]));
                     item.quantity = quantities[j];
                     Items.push(item);
+                }                
+                var requests = [];                       
+                var requestsSkills = []; 
+                var ids = [];                      
+                for (let i = 0; i < equipeAjaxResult.length; i++) {
+                    requests.push(getPotimonById(equipeAjaxResult[i].potimon_id));                                                    
                 }
-                for (let index = 0; index < potimonsId.length; index++) {
-                    instancierInGamePotimon(potimonsId[index], parseInt(potimonsLevels[index]), true).then(function(potimon){
-                        potimon.currentHp = parseInt(potimonsCurrentHp[index]);
-                        potimon.currentMana = parseInt(potimonsCurrentMana[index]);
-                        potimon.experience = parseInt(potimonsExperience[index]);
-                        controller.listEquipe.push(potimon);                    
-                        if(index >= potimonsId.length - 1) {                        
+                $.when.apply($, requests).done(function () {       
+                    $.each(arguments, function (i, data) {
+                        controller.fillPotimon(data, i, equipeAjaxResult, ids, controller);  
+                    });
+                    requests = [];
+                    for (let i = 0; i < reserveAjaxResult.length; i++) {
+                        requests.push(getPotimonById(reserveAjaxResult[i].potimon_id));                                                    
+                    }
+                    $.when.apply($, requests).done(function () {
+                        $.each(arguments, function (i, data) {
+                            controller.fillPotimon(data, i, reserveAjaxResult, ids, controller);                                             
+                        });
+                        requests = [];
+                        for (let i = 0; i < ids.length; i++) {
+                            requests.push($.get("/api/saveAndLoad/loadSkills", {potimonGameId: ids[i]}));                                                 
+                        }
+                        $.when.apply($, requests).done(function () {  
+                            if(ids.length > 1) {
+                                $.each(arguments, function (i, data) {                                    
+                                    controller.fillPotimonSkill(data[0], controller);                                                                                                                       
+                                });
+                            }else {
+                                controller.fillPotimonSkill(arguments[0], controller);
+                            }                            
                             for (let i = 0; i < currentCarteId + 1; i++) {   
                                 controller.listCarte.push(AllCartes[i])
                                 SetCurrentCarteId(currentCarteId);                 
-                            }
-                            controller.getListReserve(controller);
+                            }                      
+                            $.each(potimonCapture, function(){
+                                GetMonstresCapture().push(parseInt(this));                                
+                            });        
                             controller.worldMapController.init(controller.listCarte, controller.timeGame, controller.userName);
                             controller.goOnline();
-                        }       
-                    });
-                }
+                        });                      
+                    });                    
+                });            
             }else {
                 controller.newGame();
             }
         });       
         
+    },
+
+    fillPotimonSkill: function(skillTab, controller){
+        if(skillTab.length > 0) {
+            var potimon = controller.listEquipe.find(x=>x.id === skillTab[0].potimon_game_id) || controller.listReserve.find(x=>x.id === skillTab[0].potimon_game_id);
+            $.each(skillTab, function(index) {
+                if(!potimon.skills.find(x=>x.id == this.skill_id)) {
+                    potimon.skills.push(fetchSkill(this.skill_id));
+                }                                                                                                        
+            });
+        }         
+    },
+
+    fillPotimon: function(data, i, ajaxResult, ids, controller) {
+        var inGamePotimon = {};
+        var basePotimon = mapBasePotimon(data);
+        inGamePotimon = new Potimon(basePotimon, ajaxResult[i].potimon_level, 0, 0, 0, false, [], null);        
+        inGamePotimon.currentHp = ajaxResult[i].potimon_current_hp;
+        inGamePotimon.currentMana = ajaxResult[i].potimon_current_mana;
+        inGamePotimon.id = ajaxResult[i].potimon_game_id;
+        inGamePotimon.gentil = true;
+        setSkillsByLevel(inGamePotimon, basePotimon); 
+        controller.listEquipe.push(inGamePotimon);        
+        ids.push(inGamePotimon.id);                                        
     },
 
     newUser: function(){
@@ -147,31 +199,6 @@ StartingScreenController.prototype = {
             $('#' + idModal).modal('hide');		
         });						
         $('#' + idModal).modal();
-    },
-
-    getListReserve: function(controller){
-        $.when(
-            $.get("/api/saveAndLoad/loadReserve", {userId: GetUserId()})                        
-        ).then(function(a){        
-            var potimonsId = a[0].potimons_id.split(',');
-            var potimonsLevels = a[0].potimons_level.split(',');
-            var potimonsCurrentHp = a[0].potimons_current_hp.split(',');
-            var potimonsCurrentMana = a[0].potimons_current_mana.split(',');
-            var potimonsExperience = a[0].potimons_experience.split(',');            
-            for (let index = 0; index < potimonsId.length; index++) {
-                if(potimonsId[index]) {
-                    instancierInGamePotimon(potimonsId[index], parseInt(potimonsLevels[index]), true).then(function(potimon){
-                        potimon.currentHp = parseInt(potimonsCurrentHp[index]);
-                        potimon.currentMana = parseInt(potimonsCurrentMana[index]);
-                        potimon.experience = parseInt(potimonsExperience[index]);
-                        controller.listReserve.push(potimon);                    
-                        if(index >= potimonsId.length - 1) {                        
-                            controller.worldMapController.mainMenuController.init();                        
-                        }
-                    });
-                }                
-            }
-        })
     },
 
     goOnline: function() {

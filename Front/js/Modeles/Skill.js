@@ -82,7 +82,8 @@ var AllSkills = [
     new Debuff(45, strRugissement, 0, strCorpsACorps, animateProjectil, '', 1000, 0, false,  1, 1, 1, 1, 'attaque', 0.1),
     new Skill(52, strFlammeche, 40, strMagie, animateOverHead, '', 1500, 5, false,  1, 10, 1, 1),
     new Skill(53, strLanceFlame, 90, strMagie, animateRay, '', 1000, 10, false,  2, 10, 1, 1),
-    new Skill(83, strDanceFlamme, 110, strMagie, animateProjectil, '', 1000, 20, false,  3, 10, 0.85, 1),
+    new Skill(83, strDanceFlamme, 110, strMagie, animateProjectilWithSequence, '', 1000, 20, false,  3, 10, 0.85, 1),
+    //new Skill(83, strDanceFlamme, 110, strMagie, animateProjectil, '', 1000, 20, false,  3, 10, 0.85, 1),
     new Skill(99, strCoupDeQueue, 55, strCorpsACorps, animateOverHead, '', 1000, 0, false,  2, 1, 1, 1),
     new Skill(163, strTranche, 70, strCorpsACorps, animateOverHead, '', 1000, 0, false,  3, 1, 1, 1),
     //bulbizar
@@ -117,6 +118,17 @@ var AllSkills = [
     new Skill(31, strFurie, 60, strCorpsACorps, animateProjectil, '', 1000, 0, false, 2, 1, 1, 1),   
     new EffectAlteration(41, strDoubleDard, 50, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 4, 1, 1, 8),
     new Skill(42, strDardNuee, 90, strCorpsACorps, animateProjectil, '', 1000, 0, true, 3, 7, 1, 1),
+    // pikachu
+    new EffectAlteration(84, strEclair, 40, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 13, 1, 1, 9),
+    new EffectAlteration(86, strCageEclair, 0, strMagie, animateOverHead, '', 1000, 10, false, 2, 13, 1, 1, 6),
+    new EffectAlteration(87 , strTonnerre, 110, strCorpsACorps, animateOverHead, '', 1000, 20, false, 1, 13, 0.7, 1, 9),
+    new Skill(129, strMeteor, 60, strMagie, animateProjectil, '', 1000, 10, true, 2, 1, 1, 1),
+    // racaillou
+    new Skill(88, strJetPierre, 50, strCorpsACorps, animateProjectil, '', 1000, 0, false, 1, 6, 0.9, 1),   
+    new Skill(89, strSecousse, 100, strMagie, animateOverHead, '', 1000, 20, false, 1, 5, 1, 1),   
+    new Buff(111, strBouleArmure, 0, strMagie, animateOverHead, '', 1000, 5, false,  2, 1, 1, 0, 'defence', 0.2),
+    new Skill(120, strDestruction, 200, strCorpsACorps, animateOverHead, '', 1000, 0, false,  3, 1, 1, 1),
+    new Skill(153, strExplosion, 250, strCorpsACorps, animateOverHead, '', 1000, 0, true,  3, 1, 1, 1),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false,  1, 1, 1, 1),
     //new Skill(251, strDodo, 0, strMagie, animateOverHead, '', 1000, 0, false,  1, 1, 1, 0),

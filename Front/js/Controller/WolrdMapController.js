@@ -24,7 +24,7 @@ WorldMapController.prototype = {
         this.view.initialiserOnline = this.onlineController;
         this.view.initialiserProfil = this.profilController;        
         this.view.initialiserShop = this.shopController;    
-        this.view.displayPotidex = this.potidexController.displayPotidex.bind(this);
+        this.view.displayPotidex = this.potidexController.displayPotidex.bind(this.potidexController);
         this.view.displayMainMenu = this.mainMenuController.displayMainMenu.bind(this);        
         this.view.displayOnline = this.onlineController.displayOnline.bind(this);
         this.view.displayProfil = this.profilController.displayProfil.bind(this.profilController);
@@ -64,36 +64,79 @@ WorldMapController.prototype = {
         var equipe = GetListEquipe();
         var reserve = GetListReserve();
         var controller = this;
-        $.get("/api/saveAndLoad/saveEquipe", 
-            {   
-                potimonsId : equipe.map(x=>x.baseId).join(),
-                potimonsLevel : equipe.map(x=>x.level).join(),
-                potimonsCurrentHp : equipe.map(x=>x.currentHp).join(),
-                potimonsCurrentMana : equipe.map(x=>x.currentMana).join(),
-                potimonsExperience : equipe.map(x=>x.experience).join(),
-                userId : GetUserId(),
-            }
-        ).then(function(a) {
+        $.get("/api/saveAndLoad/deleteEquipe", {userId : GetUserId()})
+        .then(function(){
+            $.get("/api/saveAndLoad/deleteSkills", {userId : GetUserId()})
+            .then(function(){
+                $.each(equipe, function(index) {
+                    var player = this;
+                    $.get("/api/saveAndLoad/saveEquipe", 
+                        {   
+                            potimonId : player.baseId,
+                            potimonGameId : player.id,
+                            potimonLevel : player.level,
+                            potimonCurrentHp : player.currentHp,
+                            potimonCurrentMana : player.currentMana,
+                            potimonExperience : player.experience,
+                            userId : GetUserId(),
+                        }
+                    ).then(function(a) {
 
-        });
-        $.get("/api/saveAndLoad/saveReserve", 
-            {   
-                potimonsId : reserve.map(x=>x.baseId).join(),
-                potimonsLevel : reserve.map(x=>x.level).join(),
-                potimonsCurrentHp : reserve.map(x=>x.currentHp).join(),
-                potimonsCurrentMana : reserve.map(x=>x.currentMana).join(),
-                potimonsExperience : reserve.map(x=>x.experience).join(),
-                userId : GetUserId(),                
-            }
-        ).then(function(a) {
-
-        });
+                    });
+                    $.each(player.skills, function(index) {
+                        var skill = this;
+                        $.get("/api/saveAndLoad/saveSkills", 
+                            {   
+                                potimonGameId : player.id,
+                                skillId : skill.id,                       
+                                userId : GetUserId(),                
+                            }
+                        ).then(function(a) {
+                
+                        });
+                    });                
+                });
+                $.get("/api/saveAndLoad/deleteReserve", {userId : GetUserId()})
+                .then(function(){
+                    $.each(reserve, function(index){
+                        var player = this;
+                        $.get("/api/saveAndLoad/saveReserve", 
+                            {   
+                                potimonId : player.baseId,
+                                potimonGameId : player.id,
+                                potimonLevel : player.level,
+                                potimonCurrentHp : player.currentHp,
+                                potimonCurrentMana : player.currentMana,
+                                potimonExperience : player.experience,
+                                userId : GetUserId(),                
+                            }
+                        ).then(function(a) {
+            
+                        });
+                        $.each(player.skills, function(index) {
+                            var skill = this;
+                            $.get("/api/saveAndLoad/saveSkills", 
+                                {   
+                                    potimonGameId : player.id,
+                                    skillId : skill.id,                       
+                                    userId : GetUserId(),                
+                                }
+                            ).then(function(a) {
+                    
+                            });
+                        }); 
+                    }) 
+                });
+            });
+            
+        })                          
         $.get("/api/saveAndLoad/saveGameInfo", 
             {   
                 gameTime: GetTimeGame().toTimeString().split(' ')[0],
                 currentCarteId: GetCurrentCarteId(),
                 userId : GetUserId(),   
-                potiflouz : GetPotiflouz(),             
+                potiflouz : GetPotiflouz(),       
+                potimonCapture : GetMonstresCapture().join(','),
             }
         ).then(function(a) {
 

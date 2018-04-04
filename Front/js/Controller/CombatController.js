@@ -133,45 +133,47 @@ CombatController.prototype = {
 
     gererTourParTour: function (controllerCombat){
         var player = controllerCombat.listPlayer[0];
-        var effect = AllEffects.find(x=>x.name == player.etat);
-        if (effect) {
-            setTimeout(function(){
-                effect.effect(player, controllerCombat);       
-                var listPlayerKilled = controllerCombat.getListPlayer().filter(x=>x.currentHp <= 0);
-                $.each(listPlayerKilled, function(index){
-                    controllerCombat.sortirPlayerCombat(this, controllerCombat);
-                });
-                player = controllerCombat.listPlayer[0];     
-                if(player) {                
-                    if (effect.name === strDodo || effect.name === strConfusion || effect.name === strParalysie) {                    
-                        setTimeout(function(){
-                            var textAttackDisplay = '';
-                            if(effect.name === strDodo) {
-                                textAttackDisplay = 'zzZZZzzz';
-                            }else if(effect.name === strConfusion) {
-                                textAttackDisplay = player.name + ' est confu';
-                            }else if(effect.name === strParalysie) {
-                                textAttackDisplay = player.name + ' est paralyse';
-                            }
-                            controllerCombat.animateTextAttackDisplay(textAttackDisplay, 2000, player, '', controllerCombat);
-                            controllerCombat.listPlayer.push(controllerCombat.listPlayer.shift());
-                            controllerCombat.gererTourParTour(controllerCombat);                    
-                        }, 1000);                
-                    }else {
-                        controllerCombat.enablePlayerTurn(controllerCombat, player);
+        if(player) {
+            var effect = AllEffects.find(x=>x.name == player.etat);
+            if (effect) {
+                setTimeout(function(){
+                    effect.effect(player, controllerCombat);       
+                    var listPlayerKilled = controllerCombat.getListPlayer().filter(x=>x.currentHp <= 0);
+                    $.each(listPlayerKilled, function(index){
+                        controllerCombat.sortirPlayerCombat(this, controllerCombat);
+                    });
+                    player = controllerCombat.listPlayer[0];     
+                    if(player) {                
+                        if (effect.name === strDodo || effect.name === strConfusion || effect.name === strParalysie) {                    
+                            setTimeout(function(){
+                                var textAttackDisplay = '';
+                                if(effect.name === strDodo) {
+                                    textAttackDisplay = 'zzZZZzzz';
+                                }else if(effect.name === strConfusion) {
+                                    textAttackDisplay = player.name + ' est confu';
+                                }else if(effect.name === strParalysie) {
+                                    textAttackDisplay = player.name + ' est paralyse';
+                                }
+                                controllerCombat.animateTextAttackDisplay(textAttackDisplay, 2000, player, '', controllerCombat);
+                                controllerCombat.listPlayer.push(controllerCombat.listPlayer.shift());
+                                controllerCombat.gererTourParTour(controllerCombat);                    
+                            }, 1000);                
+                        }else {
+                            controllerCombat.enablePlayerTurn(controllerCombat, player);
+                        }
                     }
+                }, 500)                    
+            }else {
+                if (player) {
+                    controllerCombat.enablePlayerTurn(controllerCombat, player);
                 }
-            }, 500)                    
-        }else {
-            if (player) {
-                controllerCombat.enablePlayerTurn(controllerCombat, player);
             }
-        }        
-        controllerCombat.view.displayFuturActions(controllerCombat.listPlayer, $('#' + strBottomRow));            
-        controllerCombat.view.updateEtat(controllerCombat.listPlayer);
-        if(controllerCombat.listEnnemies.length == 0) {
-            controllerCombat.victoire(controllerCombat);
-        }
+            controllerCombat.view.displayFuturActions(controllerCombat.listPlayer, $('#' + strBottomRow));            
+            controllerCombat.view.updateEtat(controllerCombat.listPlayer);
+            if(controllerCombat.listEnnemies.length == 0) {
+                controllerCombat.victoire(controllerCombat);
+            }
+        }                
         if(controllerCombat.getListEquipe().length == 0) {
             controllerCombat.view.displayGameOver();
         }
@@ -452,6 +454,11 @@ CombatController.prototype = {
             });
             var intervalAttaqueDelay = setTimeout(function() {
                 var textAttackDisplayDelay = 2000;
+                // auto-destruction
+                if(skill.id === 120 || skill.id === 153) {
+                    source.currentHp = 0;
+                    controllerCombat.sortirPlayerCombat(source, controllerCombat);
+                }
                 $.each(attaqueResults.outputs, function(index){
                     var result = this;
                     var cible = controllerCombat.listPlayer.find(x=>x.id == this.cibleId)
@@ -563,7 +570,7 @@ CombatController.prototype = {
         }else if(cible.etat === strDodo || cible.etat === strConfusion || cible.etat === strParalysie){
             cible.etat = '';
         }
-        cible.currentHp = cible.currentHp - dammage;
+        cible.currentHp = cible.currentHp - dammage;        
     },
 
     applyDebuff: function(cible, debuffStat, debuffPercentage, controllerCombat){        
@@ -708,7 +715,7 @@ CombatController.prototype = {
             $.each(controllerCombat.listCapture, function(index) {
                 if (controllerCombat.listEquipe.length <= 2 ) {
                     controllerCombat.listEquipe.push(this);
-                    controllerCombat.listMonstresCapture.push(this.name)
+                    AddPotimonCapture(this.baseId);
                 }else {
                     controllerCombat.listReserve.push(controllerCombat.listCapture[index]);
                 }

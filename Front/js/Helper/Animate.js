@@ -63,6 +63,32 @@ function animateProjectil(player, target, skill, height, width) {
     }, skill.duration)
 }
 
+function animateProjectilWithSequence(player, target, skill) {
+    var playerElement = $('#' + player.id);
+    var targetElement = $('#' + target.id);
+    var imgMagie = document.createElement('img');
+    var imgFormat = '.png';
+    imgMagie.src = skill.src.replace('.gif', '/') + '0' + imgFormat;    
+    imgMagie.id = skill.id + "Img"
+    imgMagie.style="position:absolute";
+    imgMagie.style.zIndex = "10";
+    imgMagie.style.height = 10 + "em";
+    imgMagie.style.width = 10 + "em";
+    playerElement.prepend(imgMagie);
+    var jqueryImg = $('#' + imgMagie.id);
+    if(player.gentil === false) {
+        jqueryImg.css({'transform' : 'rotate('+ 180 +'deg)'});
+    }
+    jqueryImg.animate({
+        left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - jqueryImg.width()/2 + 'px',
+        top: targetElement.offset().top - playerElement.offset().top + targetElement.height()/2 - jqueryImg.height()/2 + 'px'
+    }, skill.duration);
+    playSeq(1,1,30,50,imgMagie, skill.src.replace('.gif', '/'), imgFormat);
+    setTimeout(function(){
+        $("#" + skill.id + "Img").remove();
+    }, skill.duration)
+}
+
 function animateLeech(player, target, skill) {
     animateProjectil(target, player, skill);
 }

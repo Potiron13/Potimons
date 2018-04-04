@@ -4,6 +4,7 @@ var Reserve = [];
 var Fusion = [];
 var Cartes = [];
 var MonstresCapture = [];
+var PotidexMonstres = [];
 var Users = [];
 var UserName = '';
 var UserID = 0;
@@ -11,6 +12,14 @@ var TimeGame = new Date(0, 0, 0, 0, 0, 0, 0);
 var CurrentCarteId = 0;
 var Potiflouz = 500;
 var ItemInShop = AllItems;
+
+function SetPotidexMonstres(list){
+    PotidexMonstres = list;
+}
+
+function GetPotidexMonstres(){
+    return PotidexMonstres;
+}
 
 function SetUserName(userName) {
     UserName = userName;
@@ -30,6 +39,10 @@ function GetListReserve(){
 
 function GetMonstresCapture(){
     return MonstresCapture;
+}
+
+function AddPotimonCapture(id) {
+    MonstresCapture.push(id);
 }
 
 function GetUserId() {
