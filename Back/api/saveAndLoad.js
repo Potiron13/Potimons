@@ -26,6 +26,36 @@ router.get('/loadEquipe', function(req, res) {
     })
 });
 
+router.get('/deleteEquipe', function(req, res) {
+    saveAndLoad.deleteEquipe(req.query).then(function(result){
+        res.json(result);
+    })
+});
+
+router.get('/deleteReserve', function(req, res) {
+    saveAndLoad.deleteReserve(req.query).then(function(result){
+        res.json(result);
+    })
+});
+
+router.get('/deleteSkills', function(req, res) {
+    saveAndLoad.deleteSkills(req.query).then(function(result){
+        res.json(result);
+    })
+});
+
+router.get('/saveSkills', function(req, res) {
+    saveAndLoad.saveSkills(req.query).then(function(result){
+        res.json(result);
+    })
+});
+
+router.get('/loadSkills', function(req, res) {
+    saveAndLoad.loadSkills(req.query).then(function(result){
+        res.json(result);
+    })
+});
+
 router.get('/saveReserve', function(req, res) {
     saveAndLoad.saveReserve(req.query).then(function(result){
         res.json(result);

@@ -18,35 +18,71 @@ function loadGameInfo(data) {
 
 function saveEquipe(data) {
     var con = connection.getConnection();
-    var sql = "REPLACE INTO save_equipe (user_id, potimons_id, potimons_level, potimons_current_hp, potimons_current_mana, potimons_experience) " + 
-               "VALUES (" + data.userId + ", '" + data.potimonsId + "', '" + data.potimonsLevel + "', '" + 
-               data.potimonsCurrentHp + "', '" + data.potimonsCurrentMana + "', '" + data.potimonsExperience + "');";                                                 
+    var sql = "REPLACE INTO save_equipe (user_id, potimon_id, potimon_game_id, potimon_level, potimon_current_hp, potimon_current_mana, potimon_experience) " + 
+               "VALUES (" + data.userId + ", " + data.potimonId +  ", '" + data.potimonGameId + "', " + data.potimonLevel + ", " + 
+               data.potimonCurrentHp + ", " + data.potimonCurrentMana + ", " + data.potimonExperience + ");";                                                 
+                                
+    return con.query(sql);
+}
+
+function deleteEquipe(data) {
+    var con = connection.getConnection();
+    var sql = "DELETE FROM save_equipe WHERE user_id = " + data.userId;                                     
+                                
+    return con.query(sql);
+}
+
+function deleteReserve(data) {
+    var con = connection.getConnection();
+    var sql = "DELETE FROM save_reserve WHERE user_id = " + data.userId;                                     
+                                
+    return con.query(sql);
+}
+
+function deleteSkills(data) {
+    var con = connection.getConnection();
+    var sql = "DELETE FROM save_skills WHERE user_id = " + data.userId;                                     
+                                
+    return con.query(sql);
+}
+
+function saveSkills(data) {
+    var con = connection.getConnection();
+    var sql = "REPLACE INTO save_skills (potimon_game_id, skill_id, user_id) " + 
+               "VALUES ('" + data.potimonGameId + "', " + data.skillId + ", " + data.userId + ");";                                                 
                             
     return con.query(sql);
 }
 
-function loadEquipe(data) {
+function loadSkills(data) {
     var con = connection.getConnection();
-    var sql = "SELECT potimons_id, potimons_level, potimons_current_hp, potimons_current_mana," +
-                " potimons_experience FROM save_equipe " +
-                "where user_id = " + data.userId;                
+    var sql = "SELECT save_skills.potimon_game_id, save_skills.skill_id FROM save_skills where save_skills.potimon_game_id = '" + data.potimonGameId + "'";                
+
+    return con.query(sql);
+}
+
+function loadEquipe(data) {
+    var con = connection.getConnection();     
+    var sql = "SELECT save_equipe.potimon_id, save_equipe.potimon_game_id, save_equipe.potimon_level, save_equipe.potimon_current_hp, save_equipe.potimon_current_mana, " +  
+                "save_equipe.potimon_experience FROM potimondb.save_equipe " +                 
+                "where user_id = " + data.userId;            
 
     return con.query(sql);
 }
 
 function saveReserve(data) {
     var con = connection.getConnection();    
-    var sql = "REPLACE INTO save_reserve (user_id, potimons_id, potimons_level, potimons_current_hp, potimons_current_mana, potimons_experience) " + 
-               "VALUES (" + data.userId + ", '" + data.potimonsId + "', '" + data.potimonsLevel + "', '" + 
-               data.potimonsCurrentHp + "', '" + data.potimonsCurrentMana + "', '" + data.potimonsExperience + "');";                                    
+    var sql = "REPLACE INTO save_reserve (user_id, potimon_id, potimon_game_id, potimon_level, potimon_current_hp, potimon_current_mana, potimon_experience) " + 
+               "VALUES (" + data.userId + ", " + data.potimonId + ", '" + data.potimonGameId + "', " + data.potimonLevel + ", " + 
+               data.potimonCurrentHp + ", " + data.potimonCurrentMana + ", " + data.potimonExperience + ");";                                    
                
     return con.query(sql);
 }
 
 function loadReserve(data) {
     var con = connection.getConnection();
-    var sql = "SELECT potimons_id, potimons_level, potimons_current_hp, potimons_current_mana," +
-                " potimons_experience FROM save_reserve " +
+    var sql = "SELECT potimon_id, potimon_game_id, potimon_level, potimon_current_hp, potimon_current_mana," +
+                " potimon_experience FROM save_reserve " +
                 "where user_id = " + data.userId;
 
     return con.query(sql);
@@ -77,4 +113,9 @@ module.exports = {
     loadGameInfo,
     saveItem,
     loadItem,
+    saveSkills,
+    loadSkills,
+    deleteEquipe,
+    deleteReserve,
+    deleteSkills,
 }
