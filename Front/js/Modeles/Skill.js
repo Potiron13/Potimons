@@ -112,7 +112,7 @@ var AllSkills = [
     new EffectAlteration(48, strSuperSonic, 0, strMagie, animateOverHead, '', 1000, 10, false, 2, 1, 0.55, 1, 4),
     new EffectAlteration(60, strRafalePsy, 65, strMagie, animateRay, '', 1000, 10, false, 2, 14, 1, 1, 5),
     new EffectAlteration(78, strParaSpore, 0, strMagie, animateOverHead, '', 1000, 10, false, 2, 12, 1, 1, 6),
-    new EffectAlteration(93, strChocMental, 50, strMagie, animateOverHead, '', 1000, 5, false, 2, 14, 1, 1, 5),
+    new EffectAlteration(93, strChocMental, 50, strMagie, animateOverHead, '', 1000, 0, false, 2, 14, 1, 1, 5),
     // aspicot
     new EffectAlteration(40, strDardVenin, 15, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 4, 1, 1, 7),
     new Skill(31, strFurie, 60, strCorpsACorps, animateProjectil, '', 1000, 0, false, 2, 1, 1, 1),   
@@ -129,19 +129,12 @@ var AllSkills = [
     new Buff(111, strBouleArmure, 0, strMagie, animateOverHead, '', 1000, 5, false,  2, 1, 1, 0, 'defence', 0.2),
     new Skill(120, strDestruction, 200, strCorpsACorps, animateOverHead, '', 1000, 0, false,  3, 1, 1, 1),
     new Skill(153, strExplosion, 250, strCorpsACorps, animateOverHead, '', 1000, 0, true,  3, 1, 1, 1),
+    // onix
+    new Skill(20, strConstriction, 50, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 1, 0.8, 1),
+    new Debuff(103, strHurlement, 0, strMagie, animateOverHead, '', 1000, 10, false,  2, 1, 0.85, 1, 'defence', 0.2),
+    new Skill(21, strPlaquage, 80, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 1, 0.75, 1),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false,  1, 1, 1, 1),
-    //new Skill(251, strDodo, 0, strMagie, animateOverHead, '', 1000, 0, false,  1, 1, 1, 0),
-    /*new Skill(strGriffe, strGriffe, 40, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false, null, 1, 10),
-    new Skill(strBalayage, strBalayage, 1, 'corpsACorps', animateCorpsACorps, '', 1000, 0, true, null, 3, 10),
-    new Skill(strMorsure, strMorsure, 2, 'corpsACorps', animateCorpsACorps, '', 1000, 0, false, null, 2, 10),
-    new Skill(strFireBall, strFireBall, 40, 'magie', animateProjectil, strProjectil, 1000, 10, false, null, 1, 7),
-    new Skill(strLanceFlame, strLanceFlame, 2, 'magie', animateProjectil, strProjectil, 1000, 20, true, null, 2, 7),
-    //new Skill(strLanceFeuille, strLanceFeuille, 3, 'magie', animateProjectil, strProjectil, 1000, 10, false, null, 1),
-    new Skill(strAquaBall, strAquaBall, 40, 'magie', animateProjectil, strProjectil, 1000, 10, false, null, 1, 4),
-    new Skill(strPotiball, strPotiball, 0, 'corpsACorps', animateProjectil, strProjectil, 1000, 0, false, 'Capture', 2),*/
-    //new Skill(strJetDeVenin, strJetDeVenin, 0, 'magie', animateProjectil, strProjectil, 1000, 8, true, strPoison, 2),
-    //new Skill(strPoison, strPoison, 0, 'magie', animateProjectil, strProjectil, 1000, 4, false, strPoison, 1)];
 ];
 
 function fetchSkills(skillsId) {

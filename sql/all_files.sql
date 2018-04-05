@@ -48,7 +48,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:55
+-- Dump completed on 2018-04-05  8:54:56
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -111,7 +111,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:53
+-- Dump completed on 2018-04-05  8:54:54
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -164,7 +164,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:54
+-- Dump completed on 2018-04-05  8:54:55
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -232,7 +232,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:55
+-- Dump completed on 2018-04-05  8:54:56
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -287,7 +287,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:57
+-- Dump completed on 2018-04-05  8:54:58
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -353,7 +353,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:53
+-- Dump completed on 2018-04-05  8:54:54
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -404,7 +404,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:57
+-- Dump completed on 2018-04-05  8:54:58
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -455,7 +455,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:56
+-- Dump completed on 2018-04-05  8:54:57
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -482,12 +482,13 @@ DROP TABLE IF EXISTS `save_equipe`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `save_equipe` (
   `user_id` int(11) NOT NULL,
-  `potimons_id` varchar(45) DEFAULT NULL,
-  `potimons_level` varchar(45) DEFAULT NULL,
-  `potimons_current_hp` varchar(45) DEFAULT NULL,
-  `potimons_current_mana` varchar(45) DEFAULT NULL,
-  `potimons_experience` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  `potimon_level` int(11) DEFAULT NULL,
+  `potimon_current_hp` int(11) DEFAULT NULL,
+  `potimon_current_mana` int(11) DEFAULT NULL,
+  `potimon_experience` int(11) DEFAULT NULL,
+  `potimon_game_id` varchar(45) NOT NULL,
+  `potimon_id` int(11) NOT NULL,
+  PRIMARY KEY (`potimon_game_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -497,7 +498,7 @@ CREATE TABLE `save_equipe` (
 
 LOCK TABLES `save_equipe` WRITE;
 /*!40000 ALTER TABLE `save_equipe` DISABLE KEYS */;
-INSERT INTO `save_equipe` VALUES (1,'16,7,16','5,6,2','17,20,9','17,19,13','143,108,0'),(2,'7','2','12','13','14'),(6,'7','60','10','13','7');
+INSERT INTO `save_equipe` VALUES (13,2,14,13,0,'03cb8ab3-e4d4-8dba-858c-b666248890c5',7),(10,2,14,13,0,'0440a1d9-94f3-4c66-4f1a-2d026f5edc5b',7),(6,85,100,40,25,'1',74),(12,2,14,13,0,'152eb8ee-6a3a-07ba-1be6-8524d5a125ec',4),(6,85,100,30,25,'2',74),(8,2,14,13,0,'21a68121-9513-c626-b063-c528c484b0a5',7),(7,4,18,16,0,'9237455f-0483-372a-69c1-937c2a15defb',7),(9,2,14,13,0,'d54ed23c-86fe-9123-0654-b6ec59c49cf9',4);
 /*!40000 ALTER TABLE `save_equipe` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -510,7 +511,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:56
+-- Dump completed on 2018-04-05  8:54:57
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -540,6 +541,7 @@ CREATE TABLE `save_game_info` (
   `game_time` varchar(45) DEFAULT NULL,
   `current_carte_id` int(11) DEFAULT NULL,
   `potiflouz` int(11) DEFAULT NULL,
+  `potimon_capture` longtext,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -550,7 +552,7 @@ CREATE TABLE `save_game_info` (
 
 LOCK TABLES `save_game_info` WRITE;
 /*!40000 ALTER TABLE `save_game_info` DISABLE KEYS */;
-INSERT INTO `save_game_info` VALUES (1,'00:09:15',1,139),(2,'00:01:19',1,3),(6,'00:01:29',1,501);
+INSERT INTO `save_game_info` VALUES (1,'00:09:15',1,139,NULL),(2,'00:01:19',1,3,NULL),(6,'00:25:26',1,603,''),(7,'00:01:28',1,506,NULL),(8,'00:00:11',0,500,NULL),(9,'00:00:11',0,500,NULL),(10,'00:00:03',0,500,NULL),(12,'00:00:07',0,500,'undefined'),(13,'00:00:05',0,500,'7');
 /*!40000 ALTER TABLE `save_game_info` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -563,7 +565,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:58
+-- Dump completed on 2018-04-05  8:54:59
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -602,7 +604,7 @@ CREATE TABLE `save_item` (
 
 LOCK TABLES `save_item` WRITE;
 /*!40000 ALTER TABLE `save_item` DISABLE KEYS */;
-INSERT INTO `save_item` VALUES (1,'petite potion,potiball','7,2'),(2,'petite potion,potiball','5,6'),(6,'petite potion,potiball','5,5');
+INSERT INTO `save_item` VALUES (1,'petite potion,potiball','7,2'),(2,'petite potion,potiball','5,6'),(6,'petite potion,potiball','0,5'),(7,'petite potion,potiball','5,5'),(8,'petite potion,potiball','5,5'),(9,'petite potion,potiball','5,5'),(10,'petite potion,potiball','5,5'),(12,'petite potion,potiball','5,5'),(13,'petite potion,potiball','5,5');
 /*!40000 ALTER TABLE `save_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -615,7 +617,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:53
+-- Dump completed on 2018-04-05  8:54:54
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -642,12 +644,13 @@ DROP TABLE IF EXISTS `save_reserve`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `save_reserve` (
   `user_id` int(11) NOT NULL,
-  `potimons_id` varchar(45) DEFAULT NULL,
-  `potimons_level` varchar(45) DEFAULT NULL,
-  `potimons_current_hp` varchar(45) DEFAULT NULL,
-  `potimons_current_mana` varchar(45) DEFAULT NULL,
-  `potimons_experience` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  `potimon_level` int(11) DEFAULT NULL,
+  `potimon_current_hp` int(11) DEFAULT NULL,
+  `potimon_current_mana` int(11) DEFAULT NULL,
+  `potimon_experience` int(11) DEFAULT NULL,
+  `potimon_game_id` varchar(45) NOT NULL,
+  `potimon_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`potimon_game_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -657,7 +660,6 @@ CREATE TABLE `save_reserve` (
 
 LOCK TABLES `save_reserve` WRITE;
 /*!40000 ALTER TABLE `save_reserve` DISABLE KEYS */;
-INSERT INTO `save_reserve` VALUES (1,'','','','',''),(2,'','','','',''),(3,'','','','',''),(6,'','','','','');
 /*!40000 ALTER TABLE `save_reserve` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -670,7 +672,58 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:56
+-- Dump completed on 2018-04-05  8:54:57
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+--
+-- Host: localhost    Database: potimondb
+-- ------------------------------------------------------
+-- Server version	5.7.21-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `save_skills`
+--
+
+DROP TABLE IF EXISTS `save_skills`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `save_skills` (
+  `potimon_game_id` varchar(45) NOT NULL,
+  `skill_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `save_skills`
+--
+
+LOCK TABLES `save_skills` WRITE;
+/*!40000 ALTER TABLE `save_skills` DISABLE KEYS */;
+INSERT INTO `save_skills` VALUES ('2',45,6),('2',84,6),('2',86,6),('2',87,6),('2',97,6),('2',98,6),('2',129,6),('1',45,6),('1',84,6),('1',86,6),('1',87,6),('1',97,6),('1',98,6),('1',129,6),('21a68121-9513-c626-b063-c528c484b0a5',33,8),('21a68121-9513-c626-b063-c528c484b0a5',39,8),('9237455f-0483-372a-69c1-937c2a15defb',33,7),('9237455f-0483-372a-69c1-937c2a15defb',39,7),('d54ed23c-86fe-9123-0654-b6ec59c49cf9',10,9),('d54ed23c-86fe-9123-0654-b6ec59c49cf9',45,9),('0440a1d9-94f3-4c66-4f1a-2d026f5edc5b',33,10),('0440a1d9-94f3-4c66-4f1a-2d026f5edc5b',39,10),('152eb8ee-6a3a-07ba-1be6-8524d5a125ec',10,12),('152eb8ee-6a3a-07ba-1be6-8524d5a125ec',45,12),('03cb8ab3-e4d4-8dba-858c-b666248890c5',33,13),('03cb8ab3-e4d4-8dba-858c-b666248890c5',39,13);
+/*!40000 ALTER TABLE `save_skills` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-04-05  8:54:53
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -723,7 +776,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:55
+-- Dump completed on 2018-04-05  8:54:56
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -774,7 +827,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:57
+-- Dump completed on 2018-04-05  8:54:59
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -826,7 +879,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:54
+-- Dump completed on 2018-04-05  8:54:55
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -877,7 +930,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:52
+-- Dump completed on 2018-04-05  8:54:53
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: potimondb
@@ -910,7 +963,7 @@ CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -919,7 +972,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('go','go','go','2018-03-10 08:48:34',1),('Dedou','dedou@gmail.com','dedou','2018-03-10 10:38:21',2),('toto','toto','toto','2018-03-11 08:47:34',3),('qsdfjkn','zf:n','sdklj','2018-03-11 08:49:06',4),('\"\'(-è_çàoihgf','\'(-è_çà)ç_èrtdjhk','_èç-\'(\"è-_çuiygfc','2018-03-11 08:49:31',5),('tyty','tyty','tyty','2018-03-12 16:07:05',6);
+INSERT INTO `users` VALUES ('go','go','go','2018-03-10 08:48:34',1),('Dedou','dedou@gmail.com','dedou','2018-03-10 10:38:21',2),('toto','toto','toto','2018-03-11 08:47:34',3),('qsdfjkn','zf:n','sdklj','2018-03-11 08:49:06',4),('\"\'(-è_çàoihgf','\'(-è_çà)ç_èrtdjhk','_èç-\'(\"è-_çuiygfc','2018-03-11 08:49:31',5),('tyty','tyty','tyty','2018-03-12 16:07:05',6),('te','te','te','2018-04-03 13:54:07',7),('ty','ty','ty','2018-04-03 14:18:05',8),('az','az','az','2018-04-04 07:37:44',9),('aq','aq','aq','2018-04-04 12:15:27',10),('er','er','er','2018-04-04 12:25:35',11),('qs','qs','qs','2018-04-04 14:04:30',12),('ui','ui','ui','2018-04-04 14:10:50',13);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -932,4 +985,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:52
+-- Dump completed on 2018-04-05  8:54:53

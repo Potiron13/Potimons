@@ -4,7 +4,7 @@ var CombatView = function () {
 
 CombatView.prototype = {
 
-    render : function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName, online) {        
+    render : function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName, online, arene) {        
         document.body.style.backgroundImage =  "url(Images/Maps/" + mapName + ".png)";
         document.body.style.backgroundRepeat = "repeat-n";
         document.body.style.backgroundPosition = "center";
@@ -23,7 +23,7 @@ CombatView.prototype = {
         var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-8', '', equipeContainer);
         this.displayPlayerList(listEquipe, equipeCol);
         this.displayEquipeInfo(viewModelInfoEquipe, equipeContainer);
-        this.displaySkillsNavBar(listEquipe, listItem, online, bottomRow);
+        this.displaySkillsNavBar(listEquipe, listItem, online, arene, bottomRow);
     },
 
     displayTargetCursor : function () {
@@ -111,37 +111,39 @@ CombatView.prototype = {
 
     displayPlayerList : function (listPlayer, parent) {
         $.each(listPlayer, function(index){
-            var colonnePlayer = displayElementOnParent('div', "colonne" + listPlayer[index].id, 'col-sm-' + 12/listPlayer.length, '', parent);
-            var colonneSelector = displayElementOnParent('div', "colonneSelector" + listPlayer[index].id, 'col-sm-' + 12/listPlayer.length + ' noSelector', '', colonnePlayer);
-            var colImage = displayElementOnParent('div', listPlayer[index].id, "col-sm-12 colonneIdle text-center", "", colonnePlayer);
+            var player = this;
+            var colonnePlayer = displayElementOnParent('div', "colonne" + player.id, 'col-sm-' + 12/listPlayer.length, '', parent);
+            var colonneSelector = displayElementOnParent('div', "colonneSelector" + player.id, 'col-sm-' + 12/listPlayer.length + ' noSelector', '', colonnePlayer);
+            var colImage = displayElementOnParent('div', player.id, "col-sm-12 colonneIdle text-center", "", colonnePlayer);
             var playerImg = document.createElement('img');
             var playerHeight = 0;
-            playerImg.src =  listPlayer[index].gentil ? listPlayer[index].srcDos : listPlayer[index].src;
-            if(this.height >= 10 && this.height <= 25) {
+            playerImg.src =  player.gentil ? player.srcDos : player.src;
+            if(this.height >= 10 && this.height <= 15) {
                 playerHeight = this.height;
             }else if (this.height <= 10){
                 playerHeight = 10;
             }else {
-                playerHeight = 25;
+                playerHeight = 15;
             }
             playerImg.style.height = playerHeight + 'em';
             setTimeout(function(){
+                var colId = (player.gentil === true) ? 'equipeCol' : 'colonneEnnemies';
                 colonnePlayer.css({
-                    top: $('#equipeCol').height() - colonnePlayer.height() + 'px'
+                    top: $('#' + colId).height() - colonnePlayer.height() + 'px'
                 });
             },10)           
             colImage.append(playerImg);
         });
     },
 
-    displaySkillsNavBar : function(listPlayer, listItem, online, parent) {
+    displaySkillsNavBar : function(listPlayer, listItem, online, arene, parent) {
         for (var i = 0; i < listPlayer.length; i++) {
             var player = listPlayer[i];
             var playerSkillsNavBarRow = displayElementOnParent('div', player.id + 'SkillsNavBarRow', "row", "", parent);
             var ulElement = displayElementOnParent('ul', player.id + 'SkillsNavBarUl', 'nav nav-tabs', '', playerSkillsNavBarRow);
             this.displayTab(player, 'Attaque', '#corpsACorps', true, ulElement, playerSkillsNavBarRow, this.displayBtnSkills);
             this.displayTab(player, 'Magie', '#magie', false, ulElement, playerSkillsNavBarRow, this.displayBtnSkills);
-            if(online === false) {
+            if(online === false && arene === false) {
                 this.displayTab(player, 'Objets', '#objet', false, ulElement, playerSkillsNavBarRow, this.displayBtnItems, listItem);
             }            
             this.hideSkillNavBar(player.id);

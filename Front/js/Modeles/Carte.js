@@ -1,33 +1,40 @@
 class Carte {
-    constructor(id, nombreMaximumEnnemie, listIdEnnemiePossible, levelMin, levelMax, name) {
+    constructor(id, nombreMaximumEnnemie, listEnnemiePossible, levelMin, levelMax, name, arene) {
         this.id = id;
         this.nombreMaximumEnnemie = nombreMaximumEnnemie;
-        this.listIdEnnemiePossible = listIdEnnemiePossible;
+        this.listEnnemiePossible = listEnnemiePossible;
         this.levelMin = levelMin;
         this.levelMax = levelMax;
         this.name = name;
         this.jouable = false;
+        this.arene = arene;
     }
 }
 
 var AllTerrain = [
-    'plaine',
+    strPlaine,
     'marais',
-    'foret',
+    strForet,
     'volcan',
     'lune',
     'kaverneKarout',
+    strArenePierre
 ];
 
 var plaine = [
-    16,
-    19,    
+    {id: 16, tauxApparition: 50},
+    {id: 19, tauxApparition: 50},
 ]
 
 var foret = [
-    10,
-    13,
-    25    
+    {id: 10, tauxApparition: 40},
+    {id: 13, tauxApparition: 55},
+    {id: 25, tauxApparition: 5},
+]
+
+var arenePierre = [
+    {id: 74, tauxApparition: 50},
+    {id: 95, tauxApparition: 50},
 ]
 
 function generateCarte (lastCarteId, allPotimonId) {    
@@ -46,6 +53,15 @@ function generateCarteOnline(){
 }
 
 var AllCartes = [
-    new Carte('1', 3, plaine, 1, 4, 'plaine'),
-    new Carte('2', 3, foret, 4, 8, 'foret'),
+    new Carte('1', 3, plaine, 1, 4, strPlaine, false),
+    new Carte('2', 3, foret, 4, 8, strForet, false),
+    new Carte('3', 2, arenePierre, 12, 14, strArenePierre, true),
 ]
+
+function monstreApparu(monsters) {
+    var i, sum=0, r=Math.random()*100;
+    for (i in monsters) {
+      sum += monsters[i].tauxApparition;      
+      if (r <= sum) return monsters[i].id;
+    }
+}

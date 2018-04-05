@@ -24,12 +24,13 @@ DROP TABLE IF EXISTS `save_equipe`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `save_equipe` (
   `user_id` int(11) NOT NULL,
-  `potimons_id` varchar(45) DEFAULT NULL,
-  `potimons_level` varchar(45) DEFAULT NULL,
-  `potimons_current_hp` varchar(45) DEFAULT NULL,
-  `potimons_current_mana` varchar(45) DEFAULT NULL,
-  `potimons_experience` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  `potimon_level` int(11) DEFAULT NULL,
+  `potimon_current_hp` int(11) DEFAULT NULL,
+  `potimon_current_mana` int(11) DEFAULT NULL,
+  `potimon_experience` int(11) DEFAULT NULL,
+  `potimon_game_id` varchar(45) NOT NULL,
+  `potimon_id` int(11) NOT NULL,
+  PRIMARY KEY (`potimon_game_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,7 +40,7 @@ CREATE TABLE `save_equipe` (
 
 LOCK TABLES `save_equipe` WRITE;
 /*!40000 ALTER TABLE `save_equipe` DISABLE KEYS */;
-INSERT INTO `save_equipe` VALUES (1,'16,7,16','5,6,2','17,20,9','17,19,13','143,108,0'),(2,'7','2','12','13','14'),(6,'7','60','10','13','7');
+INSERT INTO `save_equipe` VALUES (13,2,14,13,0,'03cb8ab3-e4d4-8dba-858c-b666248890c5',7),(10,2,14,13,0,'0440a1d9-94f3-4c66-4f1a-2d026f5edc5b',7),(6,85,100,40,25,'1',74),(12,2,14,13,0,'152eb8ee-6a3a-07ba-1be6-8524d5a125ec',4),(6,85,100,30,25,'2',74),(8,2,14,13,0,'21a68121-9513-c626-b063-c528c484b0a5',7),(7,4,18,16,0,'9237455f-0483-372a-69c1-937c2a15defb',7),(9,2,14,13,0,'d54ed23c-86fe-9123-0654-b6ec59c49cf9',4);
 /*!40000 ALTER TABLE `save_equipe` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:56
+-- Dump completed on 2018-04-05  8:54:57

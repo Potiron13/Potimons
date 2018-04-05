@@ -103,6 +103,14 @@ const strSecousse = "secousse";
 const strBouleArmure = "boule d'armure";
 const strDestruction = "destruction";
 const strExplosion = "explosion";
+const strConstriction = "constriction";
+const strHurlement = "hurlement";
+const strPlaquage = "plaquage";
+
+// CARTES
+const strPlaine = 'plaine';
+const strForet = 'foret';
+const strArenePierre = 'arenePierre';
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

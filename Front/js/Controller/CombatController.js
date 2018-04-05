@@ -19,6 +19,7 @@ var CombatController = function (view, listEquipe, listReserve, listItem, initil
     this.tempStats = [];
     this.buffs = [];
     this.debuffs = [];
+    this.arene = false;
 };
 
 CombatController.prototype = {
@@ -29,17 +30,26 @@ CombatController.prototype = {
         });
         var controller = this;
         this.carte = carte;
+        this.arene = carte.arene;
         var nombreEnnemieAuCombat = this.getListEquipe().length;
         this.listPlayer = this.getListEquipe();
         this.listEnnemiesTotal = [];
         this.listEnnemies = [];
         this.listCapture = [];
         var data = [];
-        for (let i = 0; i < nombreEnnemieAuCombat; i++) {
-            var level = entierAleatoire(carte.levelMin, carte.levelMax);
-            var indexEnnemieGenere = entierAleatoire(0, carte.listIdEnnemiePossible.length - 1);
-            data.push({ id : carte.listIdEnnemiePossible[indexEnnemieGenere], level : level});   
-        }
+        if (this.arene === true) {
+            $.each(carte.listEnnemiePossible, function(index){
+                var level = entierAleatoire(carte.levelMin, carte.levelMax);
+                data.push({ id : carte.listEnnemiePossible[index].id, level : level});
+            });
+        }else {
+            for (let i = 0; i < nombreEnnemieAuCombat; i++) {
+                var level = entierAleatoire(carte.levelMin, carte.levelMax);
+                data.push({ id : monstreApparu(carte.listEnnemiePossible), level : level});   
+                console.log(data);
+                
+            }
+        }        
         instancierMultipleInGameEnnemiePotimon(data, this);
     },
 
@@ -289,7 +299,7 @@ CombatController.prototype = {
             });
 
             // on bind les items et les btn
-            if (controllerCombat.online == false) {
+            if (controllerCombat.online == false && controllerCombat.arene === false ) {
                 $.each(controllerCombat.getCombatUsableItems(), function(index) {
                     var item = this;
                     var btn = $('#btn' + item.id + player.id);

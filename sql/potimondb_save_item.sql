@@ -36,7 +36,7 @@ CREATE TABLE `save_item` (
 
 LOCK TABLES `save_item` WRITE;
 /*!40000 ALTER TABLE `save_item` DISABLE KEYS */;
-INSERT INTO `save_item` VALUES (1,'petite potion,potiball','7,2'),(2,'petite potion,potiball','5,6'),(6,'petite potion,potiball','5,5');
+INSERT INTO `save_item` VALUES (1,'petite potion,potiball','7,2'),(2,'petite potion,potiball','5,6'),(6,'petite potion,potiball','0,5'),(7,'petite potion,potiball','5,5'),(8,'petite potion,potiball','5,5'),(9,'petite potion,potiball','5,5'),(10,'petite potion,potiball','5,5'),(12,'petite potion,potiball','5,5'),(13,'petite potion,potiball','5,5');
 /*!40000 ALTER TABLE `save_item` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:53
+-- Dump completed on 2018-04-05  8:54:54

@@ -24,12 +24,13 @@ DROP TABLE IF EXISTS `save_reserve`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `save_reserve` (
   `user_id` int(11) NOT NULL,
-  `potimons_id` varchar(45) DEFAULT NULL,
-  `potimons_level` varchar(45) DEFAULT NULL,
-  `potimons_current_hp` varchar(45) DEFAULT NULL,
-  `potimons_current_mana` varchar(45) DEFAULT NULL,
-  `potimons_experience` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  `potimon_level` int(11) DEFAULT NULL,
+  `potimon_current_hp` int(11) DEFAULT NULL,
+  `potimon_current_mana` int(11) DEFAULT NULL,
+  `potimon_experience` int(11) DEFAULT NULL,
+  `potimon_game_id` varchar(45) NOT NULL,
+  `potimon_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`potimon_game_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,7 +40,6 @@ CREATE TABLE `save_reserve` (
 
 LOCK TABLES `save_reserve` WRITE;
 /*!40000 ALTER TABLE `save_reserve` DISABLE KEYS */;
-INSERT INTO `save_reserve` VALUES (1,'','','','',''),(2,'','','','',''),(3,'','','','',''),(6,'','','','','');
 /*!40000 ALTER TABLE `save_reserve` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 18:53:56
+-- Dump completed on 2018-04-05  8:54:57
