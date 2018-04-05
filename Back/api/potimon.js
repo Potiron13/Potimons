@@ -50,4 +50,10 @@ router.get("/potimonPotidex", function(req, res) {
     });
 });
 
+router.get("/selectTypes", function(req, res) {
+    potimon.selectTypes().then(function(result){
+        res.json(result);
+    });
+});
+
 module.exports = router;

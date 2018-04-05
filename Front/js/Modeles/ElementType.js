@@ -6,10 +6,14 @@ class ElementTypeEfficacy {
     }
 }
 
-AllElementTypeEfficacy = [];
-
 function getAllElementTypeEfficacy(){
     $.get("api/potimon/typeEfficacity").then(function(a){
         AllElementTypeEfficacy = a;
+    })
+}
+
+function getAllElementIdentifier(){    
+    $.get("api/potimon/selectTypes").then(function(a){        
+        AllTypes = a;
     })
 }

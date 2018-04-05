@@ -12,6 +12,8 @@ var TimeGame = new Date(0, 0, 0, 0, 0, 0, 0);
 var CurrentCarteId = 0;
 var Potiflouz = 500;
 var ItemInShop = AllItems;
+var AllTypes = [];
+var AllElementTypeEfficacy = [];
 
 function SetPotidexMonstres(list){
     PotidexMonstres = list;

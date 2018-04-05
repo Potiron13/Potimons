@@ -93,28 +93,26 @@ MainMenuView.prototype = {
     },
 
     renderPlayerDetailMenu : function(viewModel) {
-            var idModal = strModalDetails + viewModel.id;
-            if ($('#' + idModal).length) {
-                $('#' + idModal).empty();
+        var idModal = strModalDetails + viewModel.id;
+        if ($('#' + idModal).length) {
+            $('#' + idModal).empty();
+        }
+        var parent = createModal(idModal, 'Details');
+        var rowPlayerDetail = displayElementOnParent('div', 'rowPlayer' + viewModel.id + idModal, 'row', '', parent)
+        var colPlayerDetail = displayElementOnParent('div', 'colPlayer' + viewModel.id + idModal, 'col-sm-6', '', rowPlayerDetail)
+        $.each(viewModel, function(label, value) {                                
+            if (label != 'src' && label != 'id') {
+                var rowDetail = displayElementOnParent('div', 'Label' + viewModel.id + idModal + label, 'row', '', colPlayerDetail);
+                displayElementOnParent('div', label + 'Label', 'col-sm-6', label, rowDetail);
+                displayElementOnParent('div', label + 'Value', 'col-sm-6', value, rowDetail);
+            }else if( label == 'src'){
+                var colImg = displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-6', '', rowPlayerDetail);
+                var playerImg = document.createElement('img');
+                playerImg.src = value;
+                playerImg.style = 'width : 100%';
+                colImg.append(playerImg);
             }
-            var parent = createModal(idModal, 'Details');
-            var rowPlayerDetail = displayElementOnParent('div', 'rowPlayer' + viewModel.id + idModal, 'row', '', parent)
-            var colPlayerDetail = displayElementOnParent('div', 'colPlayer' + viewModel.id + idModal, 'col-sm-6', '', rowPlayerDetail)
-            $.each(viewModel, function(label, value) {
-                if (label != 'id') {
-                    if (label != 'src') {
-                        var rowDetail = displayElementOnParent('div', 'Label' + viewModel.id + idModal + label, 'row', '', colPlayerDetail);
-                        displayElementOnParent('div', label + 'Label', 'col-sm-6', label, rowDetail);
-                        displayElementOnParent('div', label + 'Value', 'col-sm-6', value, rowDetail);
-                    }else {
-                        var colImg = displayElementOnParent('div', label + 'Value' + viewModel.id, 'col-sm-6', '', rowPlayerDetail);
-                        var playerImg = document.createElement('img');
-                        playerImg.src = value;
-                        playerImg.style = 'width : 100%';
-                        colImg.append(playerImg);
-                    }
-                }
-            });
+        });
     },
 
     renderReserveMenu : function(viewModelsEquipe, viewModelsReserve) {

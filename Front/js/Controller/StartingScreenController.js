@@ -20,6 +20,7 @@ StartingScreenController.prototype = {
         this.view.logIn = this.logIn.bind(this);
         this.view.render(); 
         getAllElementTypeEfficacy();
+        getAllElementIdentifier();
     },
 
     newGame: function() {
