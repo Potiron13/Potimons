@@ -1,14 +1,8 @@
-    -bug drag n drop
     -bug potidex pop up    
-    -nettoyer les sources (code mort + facto)
-    -secure sql inject
-    -always data -> mysql
-    -systeme de log in --> gestion des erreurs (gerer cas utilisateur existant...)
-    -factoriser chargement partie
+    -nettoyer les sources (code mort + facto)    
+    -always data -> mysql    
     -revoir la fusion    
-    -taux d'apparition -> modification du modèle
-    -crypté les données    
-    -afficher les types dans detail
+    -crypté les données        
     -ajouter du contenu :        
         -ajouter des potimons
         -ajouter des skills

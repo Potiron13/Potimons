@@ -45,9 +45,7 @@ CombatController.prototype = {
         }else {
             for (let i = 0; i < nombreEnnemieAuCombat; i++) {
                 var level = entierAleatoire(carte.levelMin, carte.levelMax);
-                data.push({ id : monstreApparu(carte.listEnnemiePossible), level : level});   
-                console.log(data);
-                
+                data.push({ id : monstreApparu(carte.listEnnemiePossible), level : level});      
             }
         }        
         instancierMultipleInGameEnnemiePotimon(data, this);
@@ -141,7 +139,7 @@ CombatController.prototype = {
         return this.listItem.filter(x => x.usableInCombat == true);
     },
 
-    gererTourParTour: function (controllerCombat){
+    gererTourParTour: function (controllerCombat){        
         var player = controllerCombat.listPlayer[0];
         if(player) {
             var effect = AllEffects.find(x=>x.name == player.etat);
@@ -199,27 +197,43 @@ CombatController.prototype = {
         }
     },
 
-    initTempStats: function(){
-        var controller = this;
-        this.tempStats = [];
-        $.each(this.getListPlayer(), function(index) {
-            var player = this;          
-            controller.tempStats.push(
-                {
-                    accuracy : {value : 1, debuffCount : 0, buffCount : 0}, 
-                    evasion : {value : 1, debuffCount : 0, buffCount : 0}, 
-                    attaque : {value : player.attaque, debuffCount : 0, buffCount : 0},
-                    defence : {value : player.defence, debuffCount : 0, buffCount : 0},
-                    specialAttaque : {value : player.specialAttaque, debuffCount : 0, buffCount : 0},
-                    specialDefence : {value : player.specialDefence, debuffCount : 0, buffCount : 0},
-                    speed : {value : player.speed, debuffCount : 0, buffCount : 0},
-                    id : player.id 
-                }
-            );            
-        });
+    getInitialTempStat(player) {
+        return {
+            accuracy : {value : 1, debuffCount : 0, buffCount : 0}, 
+            evasion : {value : 1, debuffCount : 0, buffCount : 0}, 
+            attaque : {value : player.attaque, debuffCount : 0, buffCount : 0},
+            defence : {value : player.defence, debuffCount : 0, buffCount : 0},
+            specialAttaque : {value : player.specialAttaque, debuffCount : 0, buffCount : 0},
+            specialDefence : {value : player.specialDefence, debuffCount : 0, buffCount : 0},
+            speed : {value : player.speed, debuffCount : 0, buffCount : 0},
+            id : player.id 
+        }
     },
 
-    combat : function() {        
+    resetTempStat(player, tempStats) {
+        var initialValues = [
+            1, 1, player.attaque, player.defence, player.specialAttaque, player.specialDefence, player.speed
+        ];        
+        var stats = [
+            'accuracy',
+            'evasion',
+            'attaque',
+            'defence',
+            'specialAttaque',
+            'specialDefence',
+            'speed',
+        ]
+        var tempStat = tempStats.find(x=>x.id === player.id);        
+        var count = 0;
+        for (let index = 0; index < stats.length; index++) {        
+            tempStat[stats[index]].value = initialValues[index];
+            tempStat[stats[index]].debuffCount = 0;
+            tempStat[stats[index]].buffCount = 0;            
+        }
+    },
+
+    combat : function() {      
+        this.tempStats = [];  
         this.view.render(
             this.getEnnemiInfoViewModel(),
             this.getEquipeInfoViewModel(),
@@ -231,7 +245,9 @@ CombatController.prototype = {
             this.online,
         );
         var controllerCombat = this;
-        this.initTempStats();
+        $.each(this.getListPlayer(), function(index) {            
+            controllerCombat.tempStats.push(controllerCombat.getInitialTempStat(this));     
+        });
         var equipe = this.getListEquipe();
         for (var i = 0; i < equipe.length; i++) {
             var player = equipe[i];
@@ -432,6 +448,7 @@ CombatController.prototype = {
                 }
                 level = (output.isCriticalHit) ? source.level*2 : source.level; 
                 output.dammage = Math.round(controllerCombat.calculateDammage( level, tempStatSource.attaque.value, tempStatCible.defence.value, skill.power, qteValue, output.effectiveness));                
+                controllerCombat.handleSpecialSkills(skill, this, source);
                 if(skill.constructor.name == 'Debuff') {
                     output.debuffStat = skill.stat;
                     output.debuffPercentage = skill.percentage*qteValue;
@@ -446,6 +463,13 @@ CombatController.prototype = {
         }
 
         return result;
+    },
+
+    handleSpecialSkills(skill, cible, source) {
+        if(skill.id === 162) {
+            // croc fatal
+            output.dammage = Math.round(cible.currentHp/2);
+        }
     },
 
     attaque: function(attaqueResults, sourceId, skillId, controllerCombat) {
@@ -463,9 +487,9 @@ CombatController.prototype = {
                 skill.animation(source, cible, skill);
             });
             var intervalAttaqueDelay = setTimeout(function() {
-                var textAttackDisplayDelay = 2000;
-                // auto-destruction
+                var textAttackDisplayDelay = 2000;                                
                 if(skill.id === 120 || skill.id === 153) {
+                    // auto-destruction
                     source.currentHp = 0;
                     controllerCombat.sortirPlayerCombat(source, controllerCombat);
                 }
@@ -523,6 +547,15 @@ CombatController.prototype = {
                             controllerCombat.applyAttaque(this.changementEtatReussi, this.etat, this.dammage, player);
                         }
                         controllerCombat.applyAttaque(this.changementEtatReussi, this.etat, this.dammage, cible);
+                        if(skill.id === 141) {
+                            // absorb
+                            var healingAmount = Math.round(this.dammage/2);
+                            heal(source, healingAmount);
+                            controllerCombat.animateTextAttackDisplay(healingAmount, textAttackDisplayDelay, source, 'green', controllerCombat);
+                        }else if(skill.id === 114) {
+                            // dissipation                             
+                            controllerCombat.resetTempStat(cible, controllerCombat.tempStats);
+                        }
                     } else if (this.cibleTouche === false) {
                         setTimeout(function(){
                             controllerCombat.animateTextAttackDisplay('missed !', textAttackDisplayDelay, cible, 'red', controllerCombat);
@@ -587,10 +620,10 @@ CombatController.prototype = {
         var tempStat = controllerCombat.tempStats.find(x=>x.id == cible.id);
         if (tempStat[debuffStat].debuffCount < 3) {                        
             tempStat[debuffStat].value = Math.round(tempStat[debuffStat].value*(1 - debuffPercentage));
-            tempStat[debuffStat].debuffCount += 1;            
-
+            tempStat[debuffStat].debuffCount += 1;                        
             return true;
-        }
+        }        
+        
 
         return false;
     },

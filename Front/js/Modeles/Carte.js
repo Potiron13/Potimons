@@ -11,6 +11,19 @@ class Carte {
     }
 }
 
+class Arene {
+    constructor(id){
+        this.id = id;
+    }
+}
+
+class Terrain extends Arene {
+    constructor(id, tauxApparition) {
+        super(id);
+        this.tauxApparition = tauxApparition;
+    }
+}
+
 var AllTerrain = [
     strPlaine,
     'marais',
@@ -22,19 +35,27 @@ var AllTerrain = [
 ];
 
 var plaine = [
-    {id: 16, tauxApparition: 50},
-    {id: 19, tauxApparition: 50},
+    new Terrain(16,50),
+    new Terrain(19,50),
 ]
 
 var foret = [
-    {id: 10, tauxApparition: 40},
-    {id: 13, tauxApparition: 55},
-    {id: 25, tauxApparition: 5},
+    new Terrain(10, 40),
+    new Terrain(13, 55),
+    new Terrain(25, 5),
+]
+
+var kaverneKarout = [
+    new Terrain(74, 25),
+    new Terrain(41, 54),
+    new Terrain(46, 15),
+    new Terrain(35, 6),
 ]
 
 var arenePierre = [
-    {id: 74, tauxApparition: 50},
-    {id: 95, tauxApparition: 50},
+    new Arene(74),
+    new Arene(74),
+    new Arene(95),
 ]
 
 function generateCarte (lastCarteId, allPotimonId) {    

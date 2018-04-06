@@ -133,6 +133,10 @@ var AllSkills = [
     new Skill(20, strConstriction, 50, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 1, 0.8, 1),
     new Debuff(103, strHurlement, 0, strMagie, animateOverHead, '', 1000, 10, false,  2, 1, 0.85, 1, 'defence', 0.2),
     new Skill(21, strPlaquage, 80, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 1, 0.75, 1),
+    // nosferapti
+    new Skill(141, strAbsorb, 80, strCorpsACorps, animateLeech, '', 1000, 0, false, 1, 7, 1, 1),
+    new EffectAlteration(109, strRayonFolie, 0, strMagie, animateRay, '', 1000, 10, false, 2, 8, 1, 1, 4),
+    new Skill(114, strBrume, 0, strMagie, animateOverHead, '', 1000, 0, false, 1, 15, 1, 1),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false,  1, 1, 1, 1),
 ];

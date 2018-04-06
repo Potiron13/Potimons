@@ -59,8 +59,7 @@ function effectVampiGraine(infectedPlayer, controllerCombat) {
     var dammage = Math.round(infectedPlayer.hp/16);
     var skill = fetchSkill(250);
     infectedPlayer.currentHp = infectedPlayer.currentHp - dammage;
-    controllerCombat.animateTextAttackDisplay(dammage, delay, infectedPlayer, '', controllerCombat);
-    console.log(controllerCombat.listPlayer.filter(x=>x.currentHp > 0 && x.gentil != infectedPlayer.gentil));
+    controllerCombat.animateTextAttackDisplay(dammage, delay, infectedPlayer, '', controllerCombat);    
     $.each(controllerCombat.listPlayer.filter(x=>x.currentHp > 0 && x.gentil != infectedPlayer.gentil), function(index){ 
         var player = this;  
         skill.animation(this, infectedPlayer, fetchSkill(250));        

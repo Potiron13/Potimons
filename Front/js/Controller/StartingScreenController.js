@@ -160,13 +160,23 @@ StartingScreenController.prototype = {
                         ];											
         var form = createForm('NewUserForm', inputList, modalBody);
         var btnSubmit = displayElementOnParent('button', 'btnSubmitNewUser', 'btn btn-default', 'Soumettre', modalBody);
-        btnSubmit.click(function(){       
-            $.get('/api/users/insertUser', {
-                userName: $('#' + inputList[0].id).val(),
-                email: $('#' + inputList[1].id).val(),
-                password: $('#' + inputList[2].id).val(),
-            })
-            $('#' + idModal).modal('hide');									
+        btnSubmit.click(function(){    
+            $.ajax({
+                url: '/api/users/insertUser', 
+                data: {
+                    userName: $('#' + inputList[0].id).val(),
+                    email: $('#' + inputList[1].id).val(),
+                    password: $('#' + inputList[2].id).val(),
+                },
+                type: 'get',
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    alert(XMLHttpRequest.responseText);               
+                },
+                success: function(data){
+                    alert('Inscription réussie !')              
+                    $('#' + idModal).modal('hide');
+                }
+            });
         });						
         $('#' + idModal).modal();
     },
@@ -189,15 +199,16 @@ StartingScreenController.prototype = {
                 userName: $('#' + inputList[0].id).val(),                
                 password: $('#' + inputList[1].id).val(),
             }).then(function(a){
-                if(a[0]) {
+                if(a[0]) {                    
                     if(a[0].user_id) {                        
                         SetUserId(a[0].user_id);
                         SetUserName($('#' + inputList[0].id).val());
                         controller.loadGame();                  
                     }              
+                }else {
+                    alert("Pseudo et/ou mot de passe non trouvé.")
                 }            
-            })
-            $('#' + idModal).modal('hide');		
+            })            		
         });						
         $('#' + idModal).modal();
     },

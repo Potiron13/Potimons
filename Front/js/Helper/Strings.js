@@ -106,6 +106,9 @@ const strExplosion = "explosion";
 const strConstriction = "constriction";
 const strHurlement = "hurlement";
 const strPlaquage = "plaquage";
+const strAbsorb = "absorb";
+const strRayonFolie = "rayon-folie";
+const strBrume = "brûme";
 
 // CARTES
 const strPlaine = 'plaine';
