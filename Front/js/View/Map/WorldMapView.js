@@ -5,16 +5,17 @@ var WorldMapView = function () {
     this.displayOnline = null;
     this.displayProfil = null;
     this.displayShop = null;
-    this.sauvegarder = null;
+    this.displaySaveMenu = null;
     this.initialiserMainMenu = null;
     this.initialiserPotidex = null;
     this.initialiserOnline = null;
     this.initialiserProfil = null;
+    this.initialiserSaveMenu = null;
 }
 
 WorldMapView.prototype = {
 
-    render : function (listCarte, userName){
+    render : function (listCarte){
         $.each($('body').children(), function(index, child){
             child.remove();
         });
@@ -24,10 +25,11 @@ WorldMapView.prototype = {
         this.initialiserOnline.init();
         this.initialiserProfil.init();
         this.initialiserShop.init();
+        this.initialiserSaveMenu.init();
         var navBarcontainer = displayElementOnParent('div', 'navBarcontainer', 'container', '', $('body'));
         var navItems = [
             {label: 'Menu', id: 'liMenu', functionOnClick: this.displayMainMenu},
-            {label: 'Sauvegarder', id: 'liSauvegarder', functionOnClick: this.sauvegarder},
+            {label: 'Sauvegarder', id: 'liSauvegarder', functionOnClick: this.displaySaveMenu},
             {label: 'Potidex', id: 'liPotidex', functionOnClick: this.displayPotidex},
             {label: 'Online', id: 'liOnline', functionOnClick: this.displayOnline},
             {label: 'Profil', id: 'liProfil', functionOnClick: this.displayProfil},
@@ -56,14 +58,12 @@ WorldMapView.prototype = {
         })
         var seperationTopBtnRow = displayElementOnParent('div', 'seperationTopBtnRow', 'col-sm-12', '', jumbotron);
         seperationTopBtnRow.css({
-            'height': '20%',
+            'height': '20%'
         })
         var btnRow = displayElementOnParent('div', 'btnLauchCombatRow', 'row', '', jumbotron);
         $.each(listCarte, function() {
             var btnLauchCombat = displayButtons('btnLauchCombat' + this.id, 'niveau ' + this.levelMin + ' - ' + this.levelMax, 'btn btn-danger col-sm-4', null, btnRow);
-            btnLauchCombat.css({
-                'height': '20%',
-            });
+            btnLauchCombat.css({height: '20%'});          
         });
     },
 

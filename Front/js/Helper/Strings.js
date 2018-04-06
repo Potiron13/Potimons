@@ -109,11 +109,13 @@ const strPlaquage = "plaquage";
 const strAbsorb = "absorb";
 const strRayonFolie = "rayon-folie";
 const strBrume = "brûme";
+const strSpore = "spore";
 
 // CARTES
 const strPlaine = 'plaine';
 const strForet = 'foret';
 const strArenePierre = 'arenePierre';
+const strKaverneKarout = 'kaverneKarout';
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'
@@ -156,6 +158,7 @@ const strNewGameRow = 'newGameRow';
 const strLoadGameModal = 'loadGameModal';
 const strModalMenuFusionTwoMonster = 'modalMenuFusionTwoMonsters';
 const strBtnFusionner = 'btnFusionner';
+const strSaveMenu = 'saveMenuModal';
 
 
 //DOM classes

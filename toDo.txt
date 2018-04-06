@@ -1,4 +1,5 @@
     -bug potidex pop up    
+    -afficher expérience sous forme de progress bar dans detail
     -nettoyer les sources (code mort + facto)    
     -always data -> mysql    
     -revoir la fusion    
@@ -9,8 +10,3 @@
         -faire des cartes cohérentes
     -gérer la mort des potimons
     -retravailler l'affichage
-
-var repli = fetchSkill(130)
-var player = {id : '927aa551-90d3-59ff-2a57-f9985d89d208'}
-var target = {id : '60109bc6-ef46-520d-fd74-f41ec36ef3c6'}
-animatePlayerOverHead(player, target, repli )

@@ -30,8 +30,7 @@ CombatController.prototype = {
         });
         var controller = this;
         this.carte = carte;
-        this.arene = carte.arene;
-        var nombreEnnemieAuCombat = this.getListEquipe().length;
+        this.arene = carte.arene;        
         this.listPlayer = this.getListEquipe();
         this.listEnnemiesTotal = [];
         this.listEnnemies = [];
@@ -43,7 +42,7 @@ CombatController.prototype = {
                 data.push({ id : carte.listEnnemiePossible[index].id, level : level});
             });
         }else {
-            for (let i = 0; i < nombreEnnemieAuCombat; i++) {
+            for (let i = 0; i < carte.nombreEnnemie; i++) {
                 var level = entierAleatoire(carte.levelMin, carte.levelMax);
                 data.push({ id : monstreApparu(carte.listEnnemiePossible), level : level});      
             }
@@ -243,6 +242,7 @@ CombatController.prototype = {
             this.getCombatUsableItems(),
             this.carte.name,
             this.online,
+            this.arene,
         );
         var controllerCombat = this;
         $.each(this.getListPlayer(), function(index) {            
@@ -768,11 +768,18 @@ CombatController.prototype = {
 
         // a la fermeture de la modal
         $('#' + strModalMenuVictoire).on('hidden.bs.modal', function () {
-            if ((controllerCombat.listCarte.length == controllerCombat.listCarte.findIndex(x=>x.id == controllerCombat.carte.id) + 1)
-                && controllerCombat.listCarte.length < AllCartes.length) {
-                controllerCombat.listCarte.push(AllCartes[controllerCombat.carte.id]);                            
-                SetCurrentCarteId(parseInt(controllerCombat.carte.id));
-            }
+            var nextCarte = AllCartes.find(x=>x.id === controllerCombat.carte.id + 1);                                                        
+            if(nextCarte && !controllerCombat.listCarte.find(x=>x.id === nextCarte.id)) {
+                if(nextCarte.arene) {
+                    if(nextCarte.id > GetCurrentCarteId()) {
+                        controllerCombat.listCarte.push(AllCartes[controllerCombat.carte.id + 1]);                            
+                        SetCurrentCarteId(parseInt(controllerCombat.carte.id + 1));    
+                    }   
+                } else {
+                    controllerCombat.listCarte.push(AllCartes[controllerCombat.carte.id + 1]);                            
+                    SetCurrentCarteId(parseInt(controllerCombat.carte.id + 1));
+                }                
+            }                
             controllerCombat.initiliserWorldMap(controllerCombat.listCarte, controllerCombat.timeGame);
         });
     },

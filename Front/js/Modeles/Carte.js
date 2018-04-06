@@ -1,7 +1,7 @@
 class Carte {
-    constructor(id, nombreMaximumEnnemie, listEnnemiePossible, levelMin, levelMax, name, arene) {
+    constructor(id, nombreEnnemie, listEnnemiePossible, levelMin, levelMax, name, arene) {
         this.id = id;
-        this.nombreMaximumEnnemie = nombreMaximumEnnemie;
+        this.nombreEnnemie = nombreEnnemie;
         this.listEnnemiePossible = listEnnemiePossible;
         this.levelMin = levelMin;
         this.levelMax = levelMax;
@@ -30,7 +30,7 @@ var AllTerrain = [
     strForet,
     'volcan',
     'lune',
-    'kaverneKarout',
+    strKaverneKarout,
     strArenePierre
 ];
 
@@ -74,9 +74,10 @@ function generateCarteOnline(){
 }
 
 var AllCartes = [
-    new Carte('1', 3, plaine, 1, 4, strPlaine, false),
-    new Carte('2', 3, foret, 4, 8, strForet, false),
-    new Carte('3', 2, arenePierre, 12, 14, strArenePierre, true),
+    new Carte(0, 1, plaine, 1, 4, strPlaine, false),
+    new Carte(1, 3, foret, 4, 8, strForet, false),
+    new Carte(2, 3, arenePierre, 12, 14, strArenePierre, true),
+    new Carte(3, 3, kaverneKarout, 10, 13, strKaverneKarout, false),
 ]
 
 function monstreApparu(monsters) {
