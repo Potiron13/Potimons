@@ -30,7 +30,7 @@ WorldMapView.prototype = {
         var navItems = [
             {label: 'Menu', id: 'liMenu', functionOnClick: this.displayMainMenu},
             {label: 'Sauvegarder', id: 'liSauvegarder', functionOnClick: this.displaySaveMenu},
-            {label: 'Potidex', id: 'liPotidex', functionOnClick: this.displayPotidex},
+            //{label: 'Potidex', id: 'liPotidex', functionOnClick: this.displayPotidex},
             {label: 'Online', id: 'liOnline', functionOnClick: this.displayOnline},
             {label: 'Profil', id: 'liProfil', functionOnClick: this.displayProfil},
             {label: 'Shop', id: 'liShop', functionOnClick: this.displayShop},

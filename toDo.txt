@@ -18,3 +18,4 @@
 -supprimer donnée inutile dans la db
 -faire des clés étrangères partout
 -faire de la CI ?
+https://medium.com/@patrykcieszkowski/jwt-authentication-in-express-js-ee898b87a60
