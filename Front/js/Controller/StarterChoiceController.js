@@ -10,9 +10,9 @@ StarterChoiceController.prototype = {
         var controller = this;
         var mainMenuController = this.mainMenuController;
         var startersData = [
-            {id : 1, level : 2},
-            {id : 4, level : 2},
-            {id : 7, level : 2},
+            {id : 1, level : 5},
+            {id : 4, level : 5},
+            {id : 7, level : 5},
         ];
         for (let i = 0; i < startersData.length; i++) {
             requests.push(getPotimonById(startersData[i].id));                                   
