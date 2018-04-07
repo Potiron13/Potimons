@@ -3,10 +3,10 @@ let connection = null;
 
 function init() {
     return mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'password',
-        database: 'potimonDb'
+        host: process.env.MYSQL_SERVER || 'localhost',
+        user: process.env.MYSQL_USER || 'root',
+        password: process.env.MYSQL_PASSWORD || 'password',
+        database: process.env.MYSQL_DATABASE || 'potimonDb'
     }).then(function(conn){    
         connection = conn;
     });

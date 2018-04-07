@@ -4,8 +4,7 @@ var CombatController = function (view, listEquipe, listReserve, listItem, initil
     this.listCapture = [];
     this.listReserve = listReserve;
     this.listEnnemies = [];
-    this.listEnnemiesTotal = [];
-    this.listItem = listItem;
+    this.listEnnemiesTotal = [];    
     this.view = view;
     this.initiliserWorldMap = initiliserWorldMap;
     this.listCarte = listCarte;
@@ -113,11 +112,12 @@ CombatController.prototype = {
         return result;
     },
 
-    getVictoryItemViewModel: function(listItem) {
+    getVictoryItemViewModel: function() {
         var result = [];
+        var listItem = GetItems();
         if (listItem) {
             $.each(listItem, function(index) {
-                result.push(new ViewModelVictoireItem(listItem[index]))
+                result.push(new ViewModelVictoireItem(this))
             });
         }
 
@@ -135,7 +135,7 @@ CombatController.prototype = {
     },
 
     getCombatUsableItems: function() {
-        return this.listItem.filter(x => x.usableInCombat == true);
+        return GetItems().filter(x => x.usableInCombat == true);
     },
 
     gererTourParTour: function (controllerCombat){        
@@ -381,16 +381,17 @@ CombatController.prototype = {
         if (item.category == 'Hp' || item.category == 'Mana') {
             progressBar = controllerCombat.view.getProgressBar(cible, strCombat + item.category);
         }
-        var duration = item.effectInCombat(item.name, cible.id, progressBar, controllerCombat.getListEnnemie(), source, controllerCombat);
-        controllerCombat.updateBtnItems(controllerCombat.getListEquipe(), controllerCombat.listItem);
+        var duration = item.effectInCombat(item.name, cible.id, progressBar, controllerCombat.getListEnnemie(), source, controllerCombat);        
+        controllerCombat.updateBtnItems(controllerCombat.getListEquipe());
         setTimeout(function(){
             controllerCombat.listPlayer.push(controllerCombat.listPlayer.shift());
             controllerCombat.gererTourParTour(controllerCombat);
         }, duration + 2000);
     },
 
-    updateBtnItems : function(listPlayer, listItem){
-        $.each(listItem, function(i) {
+    updateBtnItems : function(listPlayer){
+        var itemList = GetItems();
+        $.each(itemList, function(i) {
             var item = this;
             $.each(listPlayer, function(index){
                 var player = this;
@@ -399,11 +400,12 @@ CombatController.prototype = {
                 if (item.quantity <= 0) {
                     btn.remove();
                 }
+                if(item.quantity <= 0) {
+                    remove(itemList, item);
+                }
             });
-            if (item.quantity <= 0) {
-                listItem.splice(listItem.findIndex(x => x.id == item.id), 1);
-            }
         });
+        
     },
 
     generateAttaqueResults : function(source, listCible, skill, controllerCombat) {

@@ -233,6 +233,11 @@ MainMenuView.prototype = {
             var progressBar = displayProgressBar(viewModels[index].id + 'potionProgressBar', viewModels[index].CurrentHp, viewModels[index].Hp, 'col-sm-4',rowValue);
             var btnSoigner = displayButtons ('btnCible' + viewModels[index].id , 'Soigner', 'btn btn-success col-sm-2', function () {
                 effect(objectName, viewModels[index].id, progressBar);
+                var itemList = GetItems();
+                var item = itemList.find(x=>x.name == objectName);
+                if(item.quantity <= 0) {
+                    remove(itemList, item);
+                }
                 $("#" + idModal + " :button").prop("disabled", true);
                 setTimeout(function (){
                     $('#' + idModal).modal('hide');

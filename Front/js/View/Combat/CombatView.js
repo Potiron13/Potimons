@@ -4,8 +4,8 @@ var CombatView = function () {
 
 CombatView.prototype = {
 
-    render : function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName, online, arene) {        
-        document.body.style.backgroundImage =  "url(Images/Maps/" + mapName + ".png)";
+    render: function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName, online, arene) {
+        document.body.style.backgroundImage = "url(Images/Maps/" + mapName + ".png)";
         document.body.style.backgroundRepeat = "repeat-n";
         document.body.style.backgroundPosition = "center";
         document.body.style.backgroundAttachment = "fixed";
@@ -26,40 +26,40 @@ CombatView.prototype = {
         this.displaySkillsNavBar(listEquipe, listItem, online, arene, bottomRow);
     },
 
-    displayTargetCursor : function () {
+    displayTargetCursor: function () {
         document.body.style.cursor = 'crosshair';
     },
 
-    displayAutoCursor : function () {
+    displayAutoCursor: function () {
         document.body.style.cursor = 'auto';
     },
 
-    deplacerSelector : function(elementEnnemie) {
-        $('#colonneSelector' + elementEnnemie.id.replace('colonne','')).attr('class', 'col-sm-12 selector');
+    deplacerSelector: function (elementEnnemie) {
+        $('#colonneSelector' + elementEnnemie.id.replace('colonne', '')).attr('class', 'col-sm-12 selector');
     },
 
-    removeSelector : function(elementEnnemie) {
+    removeSelector: function (elementEnnemie) {
         $('#colonneSelector' + elementEnnemie.id.replace('colonne', '')).attr('class', 'col-sm-12 noSelector');
     },
 
-    removeAllSelector : function() {
-        $.each($('.selector'), function(index) {
+    removeAllSelector: function () {
+        $.each($('.selector'), function (index) {
             this.className = 'col-sm-12 noSelector';
         });
     },
 
-    hideSkillNavBar : function(playerId) {
+    hideSkillNavBar: function (playerId) {
         $('#' + playerId + 'SkillsNavBarRow').hide();
     },
 
-    showSkillNavBar : function(playerId) {
+    showSkillNavBar: function (playerId) {
         $('#' + playerId + 'SkillsNavBarRow').show();
     },
 
-    displayEnnemieInfo : function (viewModelInfoEnnemie, className, parent) {
+    displayEnnemieInfo: function (viewModelInfoEnnemie, className, parent) {
         var colInfoEnnemie = displayElementOnParent('div', 'colEnnemieInfo', className + ' combatInfo', '', parent);
         var labelRow = displayElementOnParent('div', 'labelRowEnnemieInfo', 'row', '', colInfoEnnemie);
-        $.each(viewModelInfoEnnemie, function(index) {
+        $.each(viewModelInfoEnnemie, function (index) {
             var viewModel = viewModelInfoEnnemie[index];
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEnnemie);
             if (index == 0) {
@@ -79,10 +79,10 @@ CombatView.prototype = {
         });
     },
 
-    displayEquipeInfo : function (viewModelsInfoPlayer, parent) {
+    displayEquipeInfo: function (viewModelsInfoPlayer, parent) {
         var colInfoEquipe = displayElementOnParent('div', 'colInfoEquipe', 'col-sm-4 combatInfo', '', parent);
         var labelRow = displayElementOnParent('div', 'labelRowInfo', 'row', '', colInfoEquipe);
-        $.each(viewModelsInfoPlayer, function(index) {
+        $.each(viewModelsInfoPlayer, function (index) {
             var viewModel = viewModelsInfoPlayer[index];
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEquipe);
             if (index == 0) {
@@ -105,110 +105,110 @@ CombatView.prototype = {
         });
     },
 
-    getProgressBar : function (player, type) {
+    getProgressBar: function (player, type) {
         return document.getElementById(player.id + strProgressBar + type);
     },
 
-    displayPlayerList : function (listPlayer, parent) {
-        $.each(listPlayer, function(index){
+    displayPlayerList: function (listPlayer, parent) {
+        $.each(listPlayer, function (index) {
             var player = this;
-            var colonnePlayer = displayElementOnParent('div', "colonne" + player.id, 'col-sm-' + 12/listPlayer.length, '', parent);
-            var colonneSelector = displayElementOnParent('div', "colonneSelector" + player.id, 'col-sm-' + 12/listPlayer.length + ' noSelector', '', colonnePlayer);
+            var colonnePlayer = displayElementOnParent('div', "colonne" + player.id, 'col-sm-' + 12 / listPlayer.length, '', parent);
+            var colonneSelector = displayElementOnParent('div', "colonneSelector" + player.id, 'col-sm-' + 12 / listPlayer.length + ' noSelector', '', colonnePlayer);
             var colImage = displayElementOnParent('div', player.id, "col-sm-12 colonneIdle text-center", "", colonnePlayer);
             var playerImg = document.createElement('img');
             var playerHeight = 0;
-            playerImg.src =  player.gentil ? player.srcDos : player.src;
-            if(this.height >= 10 && this.height <= 15) {
+            playerImg.src = player.gentil ? player.srcDos : player.src;
+            if (this.height >= 10 && this.height <= 15) {
                 playerHeight = this.height;
-            }else if (this.height <= 10){
+            } else if (this.height <= 10) {
                 playerHeight = 10;
-            }else {
+            } else {
                 playerHeight = 15;
             }
             playerImg.style.height = playerHeight + 'em';
-            setTimeout(function(){
+            setTimeout(function () {
                 var colId = (player.gentil === true) ? 'equipeCol' : 'colonneEnnemies';
                 colonnePlayer.css({
                     top: $('#' + colId).height() - colonnePlayer.height() + 'px'
                 });
-            },10)           
+            }, 10)
             colImage.append(playerImg);
         });
     },
 
-    displaySkillsNavBar : function(listPlayer, listItem, online, arene, parent) {
+    displaySkillsNavBar: function (listPlayer, listItem, online, arene, parent) {
         for (var i = 0; i < listPlayer.length; i++) {
             var player = listPlayer[i];
             var playerSkillsNavBarRow = displayElementOnParent('div', player.id + 'SkillsNavBarRow', "row", "", parent);
             var ulElement = displayElementOnParent('ul', player.id + 'SkillsNavBarUl', 'nav nav-tabs', '', playerSkillsNavBarRow);
             this.displayTab(player, 'Attaque', '#corpsACorps', true, ulElement, playerSkillsNavBarRow, this.displayBtnSkills);
             this.displayTab(player, 'Magie', '#magie', false, ulElement, playerSkillsNavBarRow, this.displayBtnSkills);
-            if(online === false && arene === false) {
+            if (online === false && arene === false) {
                 this.displayTab(player, 'Objets', '#objet', false, ulElement, playerSkillsNavBarRow, this.displayBtnItems, listItem);
-            }            
+            }
             this.hideSkillNavBar(player.id);
         }
     },
 
-    displayTab : function(player, title, linkId, isActive, parent, parentContent, fillContent, listItem){
+    displayTab: function (player, title, linkId, isActive, parent, parentContent, fillContent, listItem) {
         var activeClass = isActive ? 'active' : '';
         var id = linkId.replace('#', '');
         var liCorpsACorpsElement = displayElementOnParent('li', player.id + 'li' + title + id, activeClass, '', parent);
-        var aElement = displayElementOnParent('a', player.id + 'a' + title + id , '', title, liCorpsACorpsElement);
-        aElement.attr('data-toggle','tab');
+        var aElement = displayElementOnParent('a', player.id + 'a' + title + id, '', title, liCorpsACorpsElement);
+        aElement.attr('data-toggle', 'tab');
         aElement.attr('href', linkId + player.id);
         this.displayTabContent(player, id, isActive, parentContent, fillContent, listItem);
     },
 
-    displayTabContent : function(player, id, isActive, parent, fillContent, listItem){
+    displayTabContent: function (player, id, isActive, parent, fillContent, listItem) {
         var activeClass = isActive ? 'in active' : '';
         var tabContentContainer;
         if ($('#' + player.id + 'tabContentContainer').length) {
             tabContentContainer = $('#' + player.id + 'tabContentContainer');
-        }else {
+        } else {
             tabContentContainer = displayElementOnParent('div', player.id + 'tabContentContainer', 'tab-content', '', parent);
         }
         var tabContent = displayElementOnParent('div', id + player.id, 'tab-pane fade ' + activeClass, '', tabContentContainer);
         fillContent(player, id, tabContent, listItem);
     },
 
-    displayBtnSkills : function (player, type, parent) {
-        var skills = player.skills.filter(x=>x.type == type);
-        $.each(skills, function(index) {
-            displayButtons( 'btn' + skills[index].id + player.id, skills[index].name, "col-sm-3 btn btn-danger btnCombat",
-            null, parent);
+    displayBtnSkills: function (player, type, parent) {
+        var skills = player.skills.filter(x => x.type == type);
+        $.each(skills, function (index) {
+            displayButtons('btn' + skills[index].id + player.id, skills[index].name, "col-sm-3 btn btn-danger btnCombat",
+                null, parent);
         });
     },
 
-    displayBtnItems : function(player, id, parent, listItem){
-        $.each(listItem, function(index) {
+    displayBtnItems: function (player, id, parent, listItem) {
+        $.each(listItem, function (index) {
             var item = listItem[index];
-            displayButtons( 'btn' + item.id + player.id, item.name + ' (x' + item.quantity + ')', 'col-sm-4 btn btn-success btnCombat',
-            null, parent);
+            displayButtons('btn' + item.id + player.id, item.name + ' (x' + item.quantity + ')', 'col-sm-4 btn btn-success btnCombat',
+                null, parent);
         });
     },
 
-    displayFuturActions : function(listPlayer, parent) {
+    displayFuturActions: function (listPlayer, parent) {
         var futurActionsRow;
         if ($('#' + strFutureActionsRow).length) {
             $('#' + strFutureActionsRow).empty();
             futurActionsRow = $('#' + strFutureActionsRow);
-        }else {
+        } else {
             futurActionsRow = displayElementOnParent('div', strFutureActionsRow, 'row', '', parent);
         }
-        $.each(listPlayer, function(index){
+        $.each(listPlayer, function (index) {
             var player = listPlayer[index];
             var cssClass = player.gentil ? strPortaitContainerGentil : strPortaitContainerEnnemie;
             var portraitCol = displayElementOnParent('div', player.id + 'portaitColonne', 'col-sm-1 clearMargin clearPadding', '', futurActionsRow);
             var portaintContainer = displayElementOnParent('div', player.id + 'portaintContainer', cssClass, '', portraitCol);
-            var portraitImg =  document.createElement('img');
+            var portraitImg = document.createElement('img');
             portraitImg.style.height = '100%';
             portraitImg.src = player.srcPortrait;
             portaintContainer.append(portraitImg);
         });
     },
 
-    displayGameOver: function() {
+    displayGameOver: function () {
         document.body.innerHTML = "";
         document.body.innerHTML = "GAME OVER";
         document.body.style.height = "600px";
@@ -217,7 +217,7 @@ CombatView.prototype = {
         document.body.style.textAlign = "center";
     },
 
-    displayVictory: function(experienceGagnee, potiflouzGagnee, itemsVictoireViewModels, equipeVictoireViewModel) {
+    displayVictory: function (experienceGagnee, potiflouzGagnee, itemsVictoireViewModels, equipeVictoireViewModel) {
         var idModal = strModalMenuVictoire;
         if ($('#' + idModal).length) {
             $('#' + idModal).empty();
@@ -227,10 +227,10 @@ CombatView.prototype = {
         var experienceLabelCol = displayElementOnParent('div', 'ExperienceGagnee' + idModal, 'col-sm-6', 'Experience gagnee : ' + experienceGagnee + 'xp', experienceRow);
         var potiflouzLabelCol = displayElementOnParent('div', 'PotiflouzGagnee' + idModal, 'col-sm-6', 'Potiflouz gagnee : ' + potiflouzGagnee + '$', experienceRow);
         var separationRowExprienceItem = displayElementOnParent('div', 'rowVcitoireSeparationExprienceItem', 'row separation', '', parent);
-        $.each(itemsVictoireViewModels, function(index) {
+        $.each(itemsVictoireViewModels, function (index) {
             var rowLabel = displayElementOnParent('div', 'Label' + itemsVictoireViewModels[index].id + idModal, 'row', '', parent);
-            var rowValue = displayElementOnParent('div', 'Value' + itemsVictoireViewModels[index].id + idModal , 'row', '', parent);
-            $.each(itemsVictoireViewModels[index], function(label, value) {
+            var rowValue = displayElementOnParent('div', 'Value' + itemsVictoireViewModels[index].id + idModal, 'row', '', parent);
+            $.each(itemsVictoireViewModels[index], function (label, value) {
                 if (index == 0) {
                     displayElementOnParent('div', label + 'Label', 'col-sm-6', label, rowLabel);
                 }
@@ -239,10 +239,10 @@ CombatView.prototype = {
         });
 
         var separationRowItemPlayer = displayElementOnParent('div', 'rowVcitoireSeparationItemPlayer', 'row separation', '', parent);
-        $.each(equipeVictoireViewModel, function(index) {
+        $.each(equipeVictoireViewModel, function (index) {
             var playerVictoireViewModel = equipeVictoireViewModel[index];
             var rowLabel = displayElementOnParent('div', 'Label' + playerVictoireViewModel.id + idModal, 'row', '', parent);
-            var rowValue = displayElementOnParent('div', 'Value' + playerVictoireViewModel.id + idModal , 'row', '', parent);
+            var rowValue = displayElementOnParent('div', 'Value' + playerVictoireViewModel.id + idModal, 'row', '', parent);
             if (index == 0) {
                 displayElementOnParent('div', 'NomPlayerVictoire' + 'Label', 'col-sm-2', 'Nom', rowLabel);
                 displayElementOnParent('div', 'NiveauPlayerVictoire' + 'Label', 'col-sm-2', 'Niveau', rowLabel);
@@ -253,7 +253,7 @@ CombatView.prototype = {
             displayElementOnParent('div', 'NiveauPlayerVictoireValue' + playerVictoireViewModel.id, 'col-sm-2', playerVictoireViewModel.Niveau, rowValue);
             var colImage = displayElementOnParent('div', 'ContainerPlayerVictoireImg' + playerVictoireViewModel.id, "col-sm-4", "", rowValue);
             var portraitImg = document.createElement('img');
-            portraitImg.src =  playerVictoireViewModel.Portrait;
+            portraitImg.src = playerVictoireViewModel.Portrait;
             colImage.append(portraitImg);
             displayProgressBar(playerVictoireViewModel.id + strProgressBar + strVictoire + 'Experience', playerVictoireViewModel.ExperienceActuelle, playerVictoireViewModel.ExperienceSuivant, 'col-sm-4', rowValue)
         });
@@ -261,51 +261,51 @@ CombatView.prototype = {
         $('#' + idModal).modal();
     },
 
-    updateEtat: function(players) {
-        $.each(players, function(){
+    updateEtat: function (players) {
+        $.each(players, function () {
             $('#' + this.id + 'valueEtatCol').html(this.etat);
         })
     },
 
-    animateLevelUp(player, learnedSkills){
+    animateLevelUp(player, learnedSkills) {
         var levelElement = $('#NiveauPlayerVictoireValue' + player.id);
         levelElement.html(player.level);
         var levelDisplayElement = prependElementOnParent('div', 'levelDisplay' + player.id, '', 'Level up !', levelElement);
         levelDisplayElement.css({
-            'left' : levelElement.width()/2 + 'px',
-            'position' : 'absolute'
+            'left': levelElement.width() / 2 + 'px',
+            'position': 'absolute'
         });
         levelDisplayElement.animate({
             top: -2 + 'em'
-        }, 1000, function (){
+        }, 1000, function () {
             levelDisplayElement.remove();
         });
 
         var portraitElement = $('#ContainerPlayerVictoireImg' + player.id);
-        $.each(learnedSkills, function(index) {
+        $.each(learnedSkills, function (index) {
             var skill = this;
-            setTimeout(function(){
+            setTimeout(function () {
                 var skillDisplayElement = prependElementOnParent('div', 'skillDisplay' + skill + player.id, '',
-                                            player.name + ' apprend : ' + skill, levelElement);
+                    player.name + ' apprend : ' + skill, levelElement);
                 skillDisplayElement.css({
-                    'left' : portraitElement.width() + 10 + 'px',
-                    'position' : 'absolute'
+                    'left': portraitElement.width() + 10 + 'px',
+                    'position': 'absolute'
                 });
                 skillDisplayElement.animate({
                     top: -4 + 'em'
-                }, 2000, function (){
+                }, 2000, function () {
                     skillDisplayElement.remove();
                 });
             }, 2000 * (index + 1));
         });
     },
 
-    displayQTE: function(parent){
+    displayQTE: function (parent) {
         var progress = displayElementOnParent('div', 'qteProgress', 'col-sm-6 progress', '', parent);
         var bar = displayElementOnParent('div', 'qteBar', 'bar', '', progress);
     },
 
-    removeQTE: function(intervalId){
+    removeQTE: function (intervalId) {
         clearInterval(intervalId);
         $('#qteProgress').remove();
     }

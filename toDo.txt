@@ -1,4 +1,5 @@
     -bug potidex pop up    
+    -bug utiliser potion moins de 0 depuis menu
     -afficher expérience sous forme de progress bar dans detail
     -nettoyer les sources (code mort + facto)    
     -always data -> mysql    
@@ -10,3 +11,10 @@
         -faire des cartes cohérentes
     -gérer la mort des potimons
     -retravailler l'affichage
+
+
+-string escape (interpolation)
+-orm pour node : sequelize
+-supprimer donnée inutile dans la db
+-faire des clés étrangères partout
+-faire de la CI ?

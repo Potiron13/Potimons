@@ -97,16 +97,14 @@ function mapPotionMenuViewModel(listEquipe) {
 }
 
 function potionHeal(itemName, playerId, progressBar) {
-    var potionUsed = Items.find(x=>x.name == itemName);
-    potionUsed.quantity = potionUsed.quantity - 1;
+    var potionUsed = consumItem(itemName);
     var playerToHeal = Equipe.find(x => x.id == playerId);
     heal(playerToHeal, potionUsed.amount);
     updateProgressBar(progressBar, playerToHeal.currentHp, playerToHeal.hp);
 }
 
 function potionMana(itemName, playerId, progressBar) {
-    var potionUsed = Items.find(x=>x.name == itemName);
-    potionUsed.quantity = potionUsed.quantity - 1;
+    var potionUsed = consumItem(itemName);
     var playerToHeal = Equipe.find(x => x.id == playerId);
     if (playerToHeal.mana - playerToHeal.currentMana > potionUsed.amount) {
         playerToHeal.currentMana += potionUsed.amount;
@@ -117,8 +115,7 @@ function potionMana(itemName, playerId, progressBar) {
 }
 
 function curePoison(itemName, playerId, progressBar){
-    var antidoteUsed = Items.find(x=>x.name == itemName);
-    antidoteUsed.quantity = antidoteUsed.quantity - 1;
+    var antidoteUsed = consumItem(itemName);
     var playerToHeal = Equipe.find(x => x.id == playerId);
     if(playerToHeal.etat === strPoison) {
         playerToHeal.etat = '';
@@ -126,12 +123,19 @@ function curePoison(itemName, playerId, progressBar){
 }
 
 function cureSleep(itemName, playerId, progressBar){
-    var reveilleUsed = Items.find(x=>x.name == itemName);
-    reveilleUsed.quantity = reveilleUsed.quantity - 1;
+    var reveilleUsed = consumItem(itemName);
     var playerToHeal = Equipe.find(x => x.id == playerId);
     if(playerToHeal.etat === strDodo) {
         playerToHeal.etat = '';
     }
+}
+
+function consumItem(itemName) {
+    var itemList = GetItems();
+    var item = itemList.find(x=>x.name == itemName);
+    item.quantity = item.quantity - 1;
+
+    return item;
 }
 
 function lancerPotiball(itemName, playerId, progressBar, listEnnemie, source, controllerCombat) {
