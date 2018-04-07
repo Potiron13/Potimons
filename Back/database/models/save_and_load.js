@@ -64,7 +64,7 @@ function loadSkills(data) {
 function loadEquipe(data) {
     var con = connection.getConnection();     
     var sql = "SELECT save_equipe.potimon_id, save_equipe.potimon_game_id, save_equipe.potimon_level, save_equipe.potimon_current_hp, save_equipe.potimon_current_mana, " +  
-                "save_equipe.potimon_experience FROM potimondb.save_equipe " +                 
+                "save_equipe.potimon_experience FROM save_equipe " +                 
                 "where user_id = " + data.userId;            
 
     return con.query(sql);

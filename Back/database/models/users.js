@@ -8,7 +8,7 @@ function insertUser(data) {
 
 function selectUser(data) {
     var con = connection.getConnection();
-    var sql = "SELECT user_id FROM potimondb.users where username = " + con.escape(data.userName) +
+    var sql = "SELECT user_id FROM users where username = " + con.escape(data.userName) +
         " and password = " + con.escape(data.password) + ";";
 
     return con.query(sql);
