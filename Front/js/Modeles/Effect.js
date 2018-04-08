@@ -64,8 +64,9 @@ function effectVampiGraine(infectedPlayer, controllerCombat) {
         var player = this;  
         skill.animation(this, infectedPlayer, fetchSkill(250));        
         setTimeout(function(){
-            heal(player, dammage);
-            controllerCombat.animateTextAttackDisplay(dammage, delay, player, 'green', controllerCombat);
+            var healingAmount = Math.round(dammage);
+            heal(player, healingAmount);
+            controllerCombat.animateTextAttackDisplay(healingAmount, delay, player, 'green', controllerCombat);
         }, skill.duration);
     });
 }

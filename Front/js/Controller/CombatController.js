@@ -168,20 +168,25 @@ CombatController.prototype = {
                             controllerCombat.enablePlayerTurn(controllerCombat, player);
                         }
                     }
+                    controllerCombat.handleEndOfTurn(controllerCombat);
                 }, 500)                    
             }else {
                 if (player) {
                     controllerCombat.enablePlayerTurn(controllerCombat, player);
                 }
-            }
-            controllerCombat.view.displayFuturActions(controllerCombat.listPlayer, $('#' + strBottomRow));            
-            controllerCombat.view.updateEtat(controllerCombat.listPlayer);
-            if(controllerCombat.listEnnemies.length == 0) {
-                controllerCombat.victoire(controllerCombat);
-            }
+                controllerCombat.handleEndOfTurn(controllerCombat);
+            }            
         }                
         if(controllerCombat.getListEquipe().length == 0) {
             controllerCombat.view.displayGameOver();
+        }
+    },
+
+    handleEndOfTurn: function(controllerCombat) {
+        controllerCombat.view.displayFuturActions(controllerCombat.listPlayer, $('#' + strBottomRow));            
+        controllerCombat.view.updateEtat(controllerCombat.listPlayer);
+        if(controllerCombat.listEnnemies.length == 0) {
+            controllerCombat.victoire(controllerCombat);
         }
     },
 
