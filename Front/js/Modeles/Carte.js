@@ -75,11 +75,11 @@ function generateCarteOnline(){
 
 var AllCartes = [
     new Carte(0, 1, plaine, 1, 2, strPlaine, false),
-    new Carte(0, 3, plaine, 2, 4, strPlaine, false),
-    new Carte(1, 3, foret, 4, 6, strForet, false),
-    new Carte(1, 3, foret, 6, 8, strForet, false),
-    new Carte(2, 3, arenePierre, 12, 14, strArenePierre, true),
-    new Carte(3, 3, kaverneKarout, 10, 13, strKaverneKarout, false),    
+    new Carte(1, 3, plaine, 2, 4, strPlaine, false),
+    new Carte(2, 3, foret, 4, 6, strForet, false),
+    new Carte(3, 3, foret, 6, 8, strForet, false),
+    new Carte(4, 3, arenePierre, 12, 14, strArenePierre, true),
+    new Carte(5, 3, kaverneKarout, 10, 13, strKaverneKarout, false),    
 ]
 
 function monstreApparu(monsters) {
