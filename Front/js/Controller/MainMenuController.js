@@ -1,6 +1,5 @@
-var MainMenuController = function (view, listEquipe, listReserve, listItem) {
-    this.view = view;
-    this.listEquipe = listEquipe;
+var MainMenuController = function (view, listReserve, listItem) {
+    this.view = view;    
     this.listReserve = listReserve;
     this.listFusion = [];
     this.listItem = listItem;
@@ -21,16 +20,16 @@ MainMenuController.prototype = {
         this.view.render(this.getMainMenuViewModel());
         this.view.renderItemMenu(this.getItemMenuViewModel(), this.getPotionMenuViewModel());
         this.view.renderFusionMenu(this.getReserveViewModel(this.listReserve));
-        $.each(this.listEquipe, function(index) {
+        $.each(GetListEquipe(), function(index) {
             controllerMainMenu.view.renderPlayerSkillMenu(controllerMainMenu.getSkillMenuViewModel(this), this.id);
             controllerMainMenu.view.renderPlayerDetailMenu(controllerMainMenu.getDetailMenuViewModel(this));
         });
-        this.view.renderReserveMenu(this.getReserveViewModel(this.listEquipe), this.getReserveViewModel(this.listReserve));
+        this.view.renderReserveMenu(this.getReserveViewModel(GetListEquipe()), this.getReserveViewModel(this.listReserve));
     },
 
     getMainMenuViewModel: function() {
         var result = [];
-        $.each(this.listEquipe, function(index) {
+        $.each(GetListEquipe(), function(index) {
             result.push(new MainMenuViewModel(this))
         });
 
@@ -74,7 +73,7 @@ MainMenuController.prototype = {
 
     getPotionMenuViewModel : function() {
         var result = [];
-        $.each(this.listEquipe, function(index) {
+        $.each(GetListEquipe(), function(index) {
             result.push(new MainMenuViewModel(this))
         });
 
@@ -120,11 +119,11 @@ MainMenuController.prototype = {
     dropOnRow : function(draggedElement, targetedElement, targetList, mainList, playerIdSufix) {
         var listSource;
         if (targetList == 'Equipe') {
-            targetList = this.listEquipe;
+            targetList = GetListEquipe();
             mainList = this.listReserve;
         }else if (targetList == 'Reserve') {
             targetList = this.listReserve;
-            mainList = this.listEquipe;
+            mainList = GetListEquipe();
         }else if (targetList == 'Fusion') {
             targetList = this.listFusion;
             mainList = this.listReserve;
@@ -151,7 +150,7 @@ MainMenuController.prototype = {
         }
         this.view.render(this.getMainMenuViewModel());
         var controllerMainMenu = this;
-        $.each(this.listEquipe, function(index) {
+        $.each(GetListEquipe(), function(index) {
             controllerMainMenu.view.renderPlayerSkillMenu(controllerMainMenu.getSkillMenuViewModel(this), this.id);
             controllerMainMenu.view.renderPlayerDetailMenu(controllerMainMenu.getDetailMenuViewModel(this));
         });
@@ -169,7 +168,7 @@ MainMenuController.prototype = {
         var player = instancierPlayer(monsterFusionChoisi.name, entierAleatoire(min(this.listFusion[0].level, this.listFusion[1].level), max(this.listFusion[0].level, this.listFusion[1].level) + 2), true);
         this.listReserve.push(player);
         this.listFusion = [];
-        this.view.renderReserveMenu(this.getReserveViewModel(this.listEquipe), this.getReserveViewModel(this.listReserve));
+        this.view.renderReserveMenu(this.getReserveViewModel(GetListEquipe()), this.getReserveViewModel(this.listReserve));
         this.view.renderFusionMenu(this.getReserveViewModel(this.listReserve));
         this.view.renderFusionResultMenu(this.getFusionResultViewModel(player));
 

@@ -1,6 +1,5 @@
-var OnlineController = function (view, listEquipe, controllerCombat) {
-    this.view = view;
-    this.listEquipe = listEquipe;
+var OnlineController = function (view, controllerCombat) {
+    this.view = view;    
     this.controllerCombat = controllerCombat;
     this.userId;
     this.listUser;

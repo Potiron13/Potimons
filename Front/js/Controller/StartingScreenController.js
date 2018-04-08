@@ -1,7 +1,6 @@
 
-var StartingScreenController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture, listUser) {
-    this.view = view;
-    this.listEquipe = listEquipe;
+var StartingScreenController = function (view, listReserve, listItem, listCarte, timeGame, listMonstresCapture, listUser) {
+    this.view = view;    
     this.listItem = listItem;
     this.listReserve = listReserve;
     this.listCarte = listCarte;
@@ -9,7 +8,7 @@ var StartingScreenController = function (view, listEquipe, listReserve, listItem
     this.listUser = listUser;
     this.userId;
     this.listMonstresCapture = listMonstresCapture;
-    this.worldMapController = new WorldMapController(new WorldMapView(), this.listEquipe, this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture);
+    this.worldMapController = new WorldMapController(new WorldMapView(), this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture);
     this.StarterChoiceController = new StarterChoiceController(new StarterChoiceView());
 };
 
@@ -35,7 +34,7 @@ StartingScreenController.prototype = {
         startingPotiball.quantity = 5;
         this.listItem.push(startingPotion);
         this.listItem.push(startingPotiball);
-        controller.listEquipe.push(potimon);
+        GetListEquipe().push(potimon);
         AddPotimonCapture(potimon.baseId);
         controller.listCarte.push(AllCartes[0]);
         controller.worldMapController.init(controller.listCarte, controller.timeGame, controller.userName);
@@ -82,7 +81,7 @@ StartingScreenController.prototype = {
                 }
                 $.when.apply($, requests).done(function () {
                     $.each(arguments, function (i, data) {
-                        controller.fillPotimon(data, i, equipeAjaxResult, ids, controller.listEquipe);
+                        controller.fillPotimon(data, i, equipeAjaxResult, ids, GetListEquipe());
                     });
                     requests = [];
                     for (let i = 0; i < reserveAjaxResult.length; i++) {
@@ -125,7 +124,7 @@ StartingScreenController.prototype = {
 
     fillPotimonSkill: function (skillTab, controller) {
         if (skillTab.length > 0) {
-            var potimon = controller.listEquipe.find(x => x.id === skillTab[0].potimon_game_id) || controller.listReserve.find(x => x.id === skillTab[0].potimon_game_id);
+            var potimon = GetListEquipe().find(x => x.id === skillTab[0].potimon_game_id) || controller.listReserve.find(x => x.id === skillTab[0].potimon_game_id);
             $.each(skillTab, function (index) {
                 if (!potimon.skills.find(x => x.id == this.skill_id)) {
                     potimon.skills.push(fetchSkill(this.skill_id));

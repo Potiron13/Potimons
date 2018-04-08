@@ -84,7 +84,7 @@ function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {
             controllerCombat.listEnnemiesTotal.push(inGamePotimon);
             controllerCombat.listPlayer.sort(function(a, b){ return b.speed - a.speed});
             controllerCombat.listEnnemies.sort(function(a, b){ return b.speed - a.speed});
-            controllerCombat.listEquipe.sort(function(a, b){ return b.speed - a.speed});                     
+            GetListEquipe().sort(function(a, b){ return b.speed - a.speed});                     
         });
         controllerCombat.combat();
     });
@@ -114,7 +114,7 @@ function incrementerLevel(potimon){
     return getPotimonById(potimon.baseId).then(function(potimonDb){
         var basePotimon = mapBasePotimon(potimonDb);
         potimon.level += 1;
-        var level = potimon.level;
+        var level = potimon.level;        
         potimon.hp = getStatHp(basePotimon.hp, level);
         potimon.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
         potimon.attaque = getStat(basePotimon.attaque, level);
@@ -203,6 +203,7 @@ function evolution(potimon) {
     var level = potimon.level;
     return getPotimonById(potimon.evolution).then(function(potimonDb){
         var basePotimon = mapBasePotimon(potimonDb);
+        potimon.baseId = basePotimon.id;
         potimon.name = basePotimon.name;
         potimon.hp = getStatHp(basePotimon.hp, level);
         potimon.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
@@ -218,6 +219,7 @@ function evolution(potimon) {
         potimon.evolution = basePotimon.evolution;
         potimon.evolutionLevel = basePotimon.evolutionLevel;
         potimon.description = basePotimon.description;
+        setSkillsByLevel(potimon, basePotimon, null);
         if (potimon.gentil) {
             initialiserEvolutionMenu(potimon);
         }

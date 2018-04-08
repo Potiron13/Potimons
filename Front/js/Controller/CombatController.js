@@ -1,5 +1,4 @@
-var CombatController = function (view, listEquipe, listReserve, listItem, initiliserWorldMap, listCarte, listMonstresCapture) {
-    this.listEquipe = listEquipe;
+var CombatController = function (view, listReserve, listItem, initiliserWorldMap, listCarte, listMonstresCapture) {    
     this.listPlayer;
     this.listCapture = [];
     this.listReserve = listReserve;
@@ -86,7 +85,7 @@ CombatController.prototype = {
     },
 
     getListEquipe : function() {
-        return this.listEquipe.filter(x=>x.currentHp > 0);
+        return GetListEquipe().filter(x=>x.currentHp > 0);
     },
 
     getListPlayer : function() {
@@ -708,7 +707,7 @@ CombatController.prototype = {
     getPotifoulzGagnee: function(controllerCombat) {
         var potiflouzGagnee = 0;
         $.each(controllerCombat.listEnnemiesTotal, function(index) {
-            potiflouzGagnee += controllerCombat.calculPotiflouzGagnee(this, controllerCombat.listEquipe.map(x=>x.hp).reduce((accumulator, currentValue) => accumulator + currentValue)/controllerCombat.listEquipe.length, controllerCombat.online);
+            potiflouzGagnee += controllerCombat.calculPotiflouzGagnee(this, GetListEquipe().map(x=>x.hp).reduce((accumulator, currentValue) => accumulator + currentValue)/GetListEquipe().length, controllerCombat.online);
         });
 
         return potiflouzGagnee;
@@ -758,8 +757,8 @@ CombatController.prototype = {
         setTimeout(function(){
             controllerCombat.incrementerExperience(controllerCombat, experienceGagnee);
             $.each(controllerCombat.listCapture, function(index) {
-                if (controllerCombat.listEquipe.length <= 2 ) {
-                    controllerCombat.listEquipe.push(this);
+                if (GetListEquipe().length <= 2 ) {
+                    GetListEquipe().push(this);
                     AddPotimonCapture(this.baseId);
                 }else {
                     controllerCombat.listReserve.push(controllerCombat.listCapture[index]);

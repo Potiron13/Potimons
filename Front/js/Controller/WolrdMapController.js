@@ -1,16 +1,15 @@
-var WorldMapController = function (view, listEquipe, listReserve, listItem, listCarte, timeGame, listMonstresCapture) {
-    this.view = view;
-    this.listEquipe = listEquipe;
+var WorldMapController = function (view, listReserve, listItem, listCarte, timeGame, listMonstresCapture) {
+    this.view = view;    
     this.listReserve = listReserve;
     this.listItem = listItem;
     this.listCarte = listCarte;
     this.timeGame = timeGame;
     this.listMonstresCapture = listMonstresCapture;
-    this.mainMenuController = new MainMenuController(new MainMenuView(), this.listEquipe, this.listReserve, this.listItem);
-    this.combatController = new CombatController(new CombatView(), this.listEquipe, this.listReserve, this.listItem,
+    this.mainMenuController = new MainMenuController(new MainMenuView(), this.listReserve, this.listItem);
+    this.combatController = new CombatController(new CombatView(), this.listReserve, this.listItem,
         this.init.bind(this), this.listCarte, this.listMonstresCapture);
     this.potidexController = new PotidexController(new PotidexView(), this.listMonstresCapture);
-    this.onlineController = new OnlineController(new OnlineView(), this.listEquipe, this.combatController);
+    this.onlineController = new OnlineController(new OnlineView(), this.combatController);
     this.profilController = new ProfilController(new ProfilView());
     this.shopController = new ShopController(new ShopView());
     this.saveMenuController = new SaveMenuController(new SaveMenuView());
