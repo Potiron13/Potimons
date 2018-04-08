@@ -140,6 +140,7 @@ StartingScreenController.prototype = {
         inGamePotimon = new Potimon(basePotimon, ajaxResult[i].potimon_level, 0, 0, 0, false, [], null);
         inGamePotimon.currentHp = ajaxResult[i].potimon_current_hp;
         inGamePotimon.currentMana = ajaxResult[i].potimon_current_mana;
+        inGamePotimon.experience = ajaxResult[i].potimon_experience;
         inGamePotimon.id = ajaxResult[i].potimon_game_id;
         inGamePotimon.gentil = true;
         setSkillsByLevel(inGamePotimon, basePotimon);

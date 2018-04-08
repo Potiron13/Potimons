@@ -700,7 +700,7 @@ CombatController.prototype = {
         $.each(controllerCombat.listEnnemiesTotal, function(index) {
              experienceGagnee += controllerCombat.calculExperienceGagnee(this, controllerCombat.online);
         });
-        experienceGagnee = Math.round(experienceGagnee/controllerCombat.getListEquipe().length);
+        experienceGagnee = Math.round(experienceGagnee);
 
         return experienceGagnee;
     },
@@ -729,7 +729,7 @@ CombatController.prototype = {
             onlineBonus = 1.5;
         }
 
-        return  Math.round(onlineBonus*ennemie.level*ennemie.hp/(playerMediumHp + ennemie.hp) + ennemie.level);
+        return  Math.round(onlineBonus*ennemie.level*ennemie.hp/(playerMediumHp + ennemie.hp) + ennemie.level)*10;
     },
 
     getLootedItems: function(listEnnemiesTotal) {
@@ -765,7 +765,7 @@ CombatController.prototype = {
                     controllerCombat.listReserve.push(controllerCombat.listCapture[index]);
                 }
             });
-            controllerCombat.reinitialiserEtat(controllerCombat.getListEquipe());
+            controllerCombat.reinitialiserEtat(controllerCombat.getListEquipe());            
         }, 1000);
 
         // a la fermeture de la modal
@@ -811,6 +811,8 @@ CombatController.prototype = {
     reinitialiserEtat: function(listPlayer) {
         $.each(listPlayer, function(index) {
             this.etat = '';
+            this.currentHp = this.hp;
+            this.currentMana = this.mana;
         });
     },
 
