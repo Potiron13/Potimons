@@ -701,8 +701,10 @@ CombatController.prototype = {
 
     getExperienceGagnee: function(controllerCombat) {
         var experienceGagnee = 0;
-        $.each(controllerCombat.listEnnemiesTotal, function(index) {
+        $.each(controllerCombat.listEnnemiesTotal, function(index) {                        
              experienceGagnee += controllerCombat.calculExperienceGagnee(this, controllerCombat.online);
+             console.log(experienceGagnee);
+             
         });
         experienceGagnee = Math.round(experienceGagnee);
 

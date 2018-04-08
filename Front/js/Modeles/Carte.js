@@ -82,6 +82,8 @@ var AllCartes = [
     new Carte(5, 3, arenePierre, 12, 14, strArenePierre, true),
     new Carte(6, 3, kaverneKarout, 10, 12, strKaverneKarout, false),
     new Carte(7, 3, kaverneKarout, 12, 14, strKaverneKarout, false),    
+    new Carte(8, 3, plaine, 14, 16, strPlaine, false),
+    new Carte(9, 3, plaine, 14, 16, strPlaine, false),
 ]
 
 function monstreApparu(monsters) {
