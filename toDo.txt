@@ -1,6 +1,3 @@
-    -experirence non load
-    -booster gain xp, potiflouz
-    -soigner a la fin d'un combat
     -bug potidex pop up    
     -bug utiliser potion moins de 0 depuis menu
     -afficher expérience sous forme de progress bar dans detail
