@@ -82,7 +82,7 @@ StartingScreenController.prototype = {
                 }
                 $.when.apply($, requests).done(function () {
                     $.each(arguments, function (i, data) {
-                        controller.fillPotimon(data, i, equipeAjaxResult, ids, controller);
+                        controller.fillPotimon(data, i, equipeAjaxResult, ids, controller.listEquipe);
                     });
                     requests = [];
                     for (let i = 0; i < reserveAjaxResult.length; i++) {
@@ -90,7 +90,7 @@ StartingScreenController.prototype = {
                     }
                     $.when.apply($, requests).done(function () {
                         $.each(arguments, function (i, data) {
-                            controller.fillPotimon(data, i, reserveAjaxResult, ids, controller);
+                            controller.fillPotimon(data, i, reserveAjaxResult, ids, controller.listReserve);
                         });
                         requests = [];
                         for (let i = 0; i < ids.length; i++) {
@@ -134,7 +134,7 @@ StartingScreenController.prototype = {
         }
     },
 
-    fillPotimon: function (data, i, ajaxResult, ids, controller) {
+    fillPotimon: function (data, i, ajaxResult, ids, listToFill) {
         var inGamePotimon = {};
         var basePotimon = mapBasePotimon(data);
         inGamePotimon = new Potimon(basePotimon, ajaxResult[i].potimon_level, 0, 0, 0, false, [], null);
@@ -144,7 +144,7 @@ StartingScreenController.prototype = {
         inGamePotimon.id = ajaxResult[i].potimon_game_id;
         inGamePotimon.gentil = true;
         setSkillsByLevel(inGamePotimon, basePotimon);
-        controller.listEquipe.push(inGamePotimon);
+        listToFill.push(inGamePotimon);
         ids.push(inGamePotimon.id);
     },
 
