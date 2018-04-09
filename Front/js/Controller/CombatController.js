@@ -726,7 +726,7 @@ CombatController.prototype = {
             onlineBonus = 1.5;
         }
 
-        return  Math.round(onlineBonus*ennemie.experienceDonnee*ennemie.level/7);
+        return  Math.round(1.5*onlineBonus*ennemie.experienceDonnee*ennemie.level/7);
     },
 
     calculPotiflouzGagnee: function(ennemie, playerMediumHp, online) {
