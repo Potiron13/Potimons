@@ -174,7 +174,7 @@ StartingScreenController.prototype = {
                     alert(XMLHttpRequest.responseText);
                 },
                 success: function (data) {
-                    alert('Inscription réussie !')
+                    alert('Inscription réussie ! Veuillez consulter vos email pour valider votre compte.')
                     $('#' + idModal).modal('hide');
                 }
             });

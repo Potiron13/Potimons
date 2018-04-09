@@ -6,7 +6,7 @@ var mailer = require('../mailer.js');
 router.get('/insertUser', function (req, res) {
     users.insertUser(req.query).then(function (result) {
         res.json(result);
-        mailer.sendMailWithToken(req.query.email, req.query.guidToken, req.headers.host);
+        mailer.sendMailWithToken(req.query.email, req.query.guidToken, req.headers.host);           
     }).catch(function (error) {
         res.status(500).send("Pseudo ou email non valide/existant.")
     });

@@ -8,9 +8,6 @@ var transporter = nodemailer.createTransport({
 });
 
 function sendMailWithToken(userEmailAdress, guidToken, host) {
-    console.log(userEmailAdress);
-    console.log(guidToken);
-    
     var mailOptions = {
         from: 'potiron.emailing@gmail.com',
         to: userEmailAdress,
@@ -20,7 +17,7 @@ function sendMailWithToken(userEmailAdress, guidToken, host) {
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log(error);
+            console.log(error);            
         } else {
             console.log('Email sent: ' + info.response);
         }

@@ -9,7 +9,7 @@ function insertUser(data) {
 function selectUser(data) {
     var con = connection.getConnection();
     var sql = "SELECT user_id FROM users where username = " + con.escape(data.userName) +
-        " and password = " + con.escape(data.password) + ";";
+        " and password = " + con.escape(data.password) + " and active = 1" + ";";
 
     return con.query(sql);
 }
