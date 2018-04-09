@@ -702,8 +702,7 @@ CombatController.prototype = {
     getExperienceGagnee: function(controllerCombat) {
         var experienceGagnee = 0;
         $.each(controllerCombat.listEnnemiesTotal, function(index) {                        
-             experienceGagnee += controllerCombat.calculExperienceGagnee(this, controllerCombat.online);
-             console.log(experienceGagnee);
+             experienceGagnee += controllerCombat.calculExperienceGagnee(this, controllerCombat.online);             
              
         });
         experienceGagnee = Math.round(experienceGagnee);
@@ -726,7 +725,7 @@ CombatController.prototype = {
             onlineBonus = 1.5;
         }
 
-        return  Math.round(1.5*onlineBonus*ennemie.experienceDonnee*ennemie.level/7);
+        return  Math.round(3*onlineBonus*ennemie.experienceDonnee*ennemie.level/7);
     },
 
     calculPotiflouzGagnee: function(ennemie, playerMediumHp, online) {

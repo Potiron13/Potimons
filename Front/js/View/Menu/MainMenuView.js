@@ -36,7 +36,7 @@ MainMenuView.prototype = {
             displayButtons ('btnDetails' + viewModels[index].id , 'Details', 'BUTTON', function () {view.displayDetails(viewModels[index].id)}, rowValue)
         });
         displayButtons ('btnReserve', 'Reserve', 'BUTTON', function () {view.displayReserve()}, parent)
-        displayButtons ('btnFusion' ,'Fusion', 'BUTTON', function () {view.displayFusion()}, parent)
+        //displayButtons ('btnFusion' ,'Fusion', 'BUTTON', function () {view.displayFusion()}, parent)
         displayButtons ('btnItems' ,'Objets', 'BUTTON', function () {view.displayItems()}, parent)
     },
 

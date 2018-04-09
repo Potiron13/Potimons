@@ -61,7 +61,7 @@ class ViewModelSkill {
         this.type = skill.type;
         this.manaCost = skill.manaCost;
         this.multiTarget = skill.multiTarget ? 'Multi target' : 'Single target';
-        this.effect = skill.effect;
+        this.effect = skill.effect || 'aucun';
     }
 }
 
