@@ -7,12 +7,16 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-function sendMail(userEmailAdress) {
+function sendMailWithToken(userEmailAdress, guidToken, host) {
+    console.log(userEmailAdress);
+    console.log(guidToken);
+    
     var mailOptions = {
         from: 'potiron.emailing@gmail.com',
         to: userEmailAdress,
         subject: 'Bienvenue sur potiron.alwaysdata.net !',
-        text: "Toute l'équipe vous souhaite la bienvenue sur potiron.alwaysdata.net. N'hésitez pas à envoyer des feedsback sur cette adresse. Zoubab."
+        text: "Toute l'équipe vous souhaite la bienvenue sur potiron.alwaysdata.net. N'hésitez pas à envoyer des feedsback sur cette adresse. Zoubab." + 
+            "Veuillez cliquer sur ce lien pour activer votre compte : http://" + host + "/api/users/activateAccount?guidToken=" + guidToken
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
@@ -24,5 +28,5 @@ function sendMail(userEmailAdress) {
 }
 
 module.exports = {
-    sendMail
+    sendMailWithToken
 }

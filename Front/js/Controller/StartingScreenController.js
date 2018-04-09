@@ -167,6 +167,7 @@ StartingScreenController.prototype = {
                     userName: $('#' + inputList[0].id).val(),
                     email: $('#' + inputList[1].id).val(),
                     password: $('#' + inputList[2].id).val(),
+                    guidToken: guidGenerator(),                
                 },
                 type: 'get',
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
