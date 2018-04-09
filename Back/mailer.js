@@ -12,8 +12,7 @@ function sendMailWithToken(userEmailAdress, guidToken, host) {
         from: 'potiron.emailing@gmail.com',
         to: userEmailAdress,
         subject: 'Bienvenue sur potiron.alwaysdata.net !',
-        text: "Toute l'équipe vous souhaite la bienvenue sur potiron.alwaysdata.net. N'hésitez pas à envoyer des feedsback sur cette adresse. Zoubab." + 
-            "Veuillez cliquer sur ce lien pour activer votre compte : http://" + host + "/api/users/activateAccount?guidToken=" + guidToken
+        text: "Toute l'équipe vous souhaite la bienvenue sur potiron.alwaysdata.net. N'hésitez pas à envoyer des feedsback sur cette adresse. Veuillez cliquer sur ce lien pour activer votre compte : http://" + host + "/api/users/activateAccount?guidToken=" + guidToken
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
