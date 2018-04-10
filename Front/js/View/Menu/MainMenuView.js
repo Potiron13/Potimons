@@ -38,7 +38,7 @@ MainMenuView.prototype = {
             $.each(bars, function(index){
                 changeProgressBarHeight(this, height)
             });
-            var btnSkillDetailCol = displayElementOnParent('div', 'btnSkillDetailCol' + viewModels[index].id, colClass, '', rowValue);            
+            var btnSkillDetailCol = displayElementOnParent('div', 'btnSkillDetailCol' + viewModels[index].id, 'col-sm-4', '', rowValue);            
             displayButtons('btnSkills' + viewModels[index].id, 'Skills', '', function () { view.displaySkills(viewModels[index].id) }, btnSkillDetailCol);
             displayButtons('btnDetails' + viewModels[index].id, 'Details', '', function () { view.displayDetails(viewModels[index].id) }, btnSkillDetailCol);
         });
