@@ -37,9 +37,11 @@ MainMenuView.prototype = {
             ];            
             $.each(bars, function(index){
                 changeProgressBarHeight(this, height)
-            });                      
-            displayButtons('btnSkills' + viewModels[index].id, 'Skills', colClass, function () { view.displaySkills(viewModels[index].id) }, rowValue);
-            displayButtons('btnDetails' + viewModels[index].id, 'Details', colClass, function () { view.displayDetails(viewModels[index].id) }, rowValue);
+            });
+            var btnSkillCol = displayElementOnParent('div', 'btnSkillCol', '', '', rowValue);
+            var btnDetailCol = displayElementOnParent('div', 'btnDetailCol', '', '', rowValue);
+            displayButtons('btnSkills' + viewModels[index].id, 'Skills', '', function () { view.displaySkills(viewModels[index].id) }, btnSkillCol);
+            displayButtons('btnDetails' + viewModels[index].id, 'Details', '', function () { view.displayDetails(viewModels[index].id) }, btnDetailCol);
         });
         var rowBtn = displayElementOnParent('div', 'rowBtnMainMenu', 'row', '', parent);
         displayButtons('btnReserve', 'Reserve', '', function () { view.displayReserve() }, rowBtn);
