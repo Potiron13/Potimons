@@ -207,7 +207,7 @@ CombatView.prototype = {
             var portraitCol = displayElementOnParent('div', player.id + 'portaitColonne', 'col-sm-1 clearMargin clearPadding', '', futurActionsRow);
             var portaintContainer = displayElementOnParent('div', player.id + 'portaintContainer', cssClass, '', portraitCol);
             var portraitImg = document.createElement('img');
-            portraitImg.style.height = '100%';
+            portraitImg.style.width = '100%';
             portraitImg.src = player.srcPortrait;
             portaintContainer.append(portraitImg);
         });

@@ -27,15 +27,13 @@
 
 .portaitContainerGentil {
     border: 0.5em solid green;
-    border-radius: 1em;
-    height: 5em;
+    border-radius: 1em;    
     overflow: hidden;
 }
 
 .portaitContainerEnnemie {
     border: 0.5em solid red;
-    border-radius: 1em;
-    height: 5em;
+    border-radius: 1em;    
     overflow: hidden;
 }
 
