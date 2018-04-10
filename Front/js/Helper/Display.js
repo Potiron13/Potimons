@@ -19,10 +19,10 @@ function prependElementOnParent(elementNodeName, elementId, elementClass, elemen
 }
 
 function displayButtons(id, label, btnClass, functionOnClick, parent){
-    var elementButton = document.createElement("BUTTON");
+    var elementButton = document.createElement("button");
     var btnLabel = document.createTextNode(label);
     elementButton.id = id;
-    elementButton.className = 'vcenter ' + btnClass;
+    elementButton.className = 'vcenter text-center bigBtn ' + btnClass;
     elementButton.onclick = functionOnClick;
     elementButton.appendChild(btnLabel);
     parent.append(elementButton);
@@ -88,7 +88,7 @@ function createModal(id, titre) {
     var modalMenuTitle = displayElementOnParent('h4', id + 'Title', 'modal-title', titre, modalMenuHeader);
     var modalBody = displayElementOnParent('div', id + 'Body', 'modal-body', '', modalMenuContent);
     var modalFooter = displayElementOnParent('div', id + 'Footer', 'modal-footer', '', modalMenuContent);
-    var modalBtnCloseFooter = displayElementOnParent('BUTTON', id + 'BtnCloseFooter', 'btn btn-default', 'Fermer', modalMenuContent);
+    var modalBtnCloseFooter = displayElementOnParent('BUTTON', id + 'BtnCloseFooter', 'bigBtn', 'Fermer', modalMenuContent);
     modalBtnCloseFooter.attr('data-dismiss', "modal");
 
     return modalBody;
@@ -97,13 +97,19 @@ function createModal(id, titre) {
 function createForm(id, inputList, parent) {
     var form = displayElementOnParent('form', id, '', '', parent);
     $.each(inputList, function(){
-        var fromGroup = displayElementOnParent('div', 'newUserForm', 'form-group', '', form);
-        var label = displayElementOnParent('label', this.id + 'Label' + 'Id', '', this.label, form);
-        var inputId = this.id;			
-        var input = displayElementOnParent('input', inputId, 'form-control', '', form);
-        input.attr('name', this.label);
+        displayElementOnParent('div', 'newUserForm', 'form-group', '', form);        
+        const inputId = this.id;		
+        var input = {};	        
+        if(this.type != 'submit') {
+            var label = displayElementOnParent('label', this.id + 'Label' + 'Id', '', this.label, form);
+            input = displayElementOnParent('input', inputId, '', '', form);
+            input.attr('class', 'form-control');
+            input.attr('name', this.label);            
+            label.attr('for', inputId);
+        }else {
+            input = displayElementOnParent('input', inputId, '', '', form);
+        }
         input.attr('type', this.type);
-        label.attr('for', inputId);
     });
 
     return form;

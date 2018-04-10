@@ -50,7 +50,7 @@ OnlineView.prototype = {
         var messageForm = displayElementOnParent('form', 'messageForm', '', '', ulMessages);
         messageForm.attr('action', '');
         var messageContainer = displayElementOnParent('div', 'messageContainer', 'col-sm-12', '', messageForm);
-        var messageInput = displayElementOnParent('input', 'm', '', '', messageForm);
+        var messageInput = displayElementOnParent('input', 'm', 'form-control', '', messageForm);
         messageInput.attr('autocomplete', 'off');
         messageInput.css({
             'width' : '100%'

@@ -55,8 +55,8 @@ StarterChoiceView.prototype = {
                 );
                 var btnDetailCol = displayElementOnParent('div', 'btnDetailCol' + this.id, 'col-sm-4', '', btnDetailRow);
                 var btnSkillsCol = displayElementOnParent('div', 'btnSkillsCol' + this.id, 'col-sm-4', '', btnSkillsRow); 
-                displayButtons ('btnDetailsStarter' + this.id , 'Details', 'BUTTON', function () {mainMenuController.displayDetails(starter.id)}, btnDetailCol);
-                displayButtons ('btnSkillsStarter' + this.id , 'Competences', 'BUTTON', function () {mainMenuController.displaySkills(starter.id)}, btnSkillsCol);
+                displayButtons ('btnDetailsStarter' + this.id , 'Details', '', function () {mainMenuController.displayDetails(starter.id)}, btnDetailCol);
+                displayButtons ('btnSkillsStarter' + this.id , 'Competences', '', function () {mainMenuController.displaySkills(starter.id)}, btnSkillsCol);
             });
     },
 }

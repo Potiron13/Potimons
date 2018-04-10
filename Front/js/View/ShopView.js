@@ -19,7 +19,7 @@ ShopView.prototype = {
             var itemRow = displayElementOnParent('div', 'itemShopRow' + this.id, 'row', '', modalBody);
             var itemLabel = displayElementOnParent('div', 'itemShopLabel' + this.id, 'col-sm-4', this.name, itemRow);
             var itemPrice = displayElementOnParent('div', 'itemShopPrice' + this.id, 'col-sm-4', this.price + '$', itemRow);
-            var btnBuy = displayButtons ('btnBuy' + this.id, 'Achat', 'btn', function(){view.buy(item.name)}, itemRow);
+            var btnBuy = displayButtons ('btnBuy' + this.id, 'Achat', '', function(){view.buy(item.name)}, itemRow);
             if(GetPotiflouz() >= item.price) {
                 btnBuy.prop( 'disabled', false);
             }else {

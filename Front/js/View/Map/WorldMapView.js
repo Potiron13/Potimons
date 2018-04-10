@@ -68,7 +68,7 @@ WorldMapView.prototype = {
         })
         var btnRow = displayElementOnParent('div', 'btnLauchCombatRow', 'row', '', jumbotron);
         $.each(listCarte, function() {
-            var btnLauchCombat = displayButtons('btnLauchCombat' + this.id, 'niveau ' + this.levelMin + ' - ' + this.levelMax, 'btn btn-danger col-sm-4', null, btnRow);
+            var btnLauchCombat = displayButtons('btnLauchCombat' + this.id, 'niveau ' + this.levelMin + ' - ' + this.levelMax, 'btnRed col-sm-4', null, btnRow);
             btnLauchCombat.css({height: '20%'});          
         });
     },

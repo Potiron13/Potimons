@@ -11,15 +11,9 @@ SaveMenuView.prototype = {
             $('#' + idModal).empty();
         }
         var parent = createModal(idModal, 'Sauvegarder');
-        var rowBtn = displayElementOnParent('div', 'btnSaveRow', 'row', '', parent);
-        rowBtn.css({ height: '10em' });
-        btnTab = [
-            displayButtons('btnSaveOui', 'Oui', 'BUTTON col-sm-6', view.sauvegarder, rowBtn),
-            displayButtons('btnSaveNon', 'Non', 'BUTTON col-sm-6', function () { $('#' + idModal).modal('hide') }, rowBtn)
-        ];
-        $.each(btnTab, function (index) {
-            this.css({ height: '100%' });
-        });
+        var rowBtn = displayElementOnParent('div', 'btnSaveRow', 'row rowBigBtn', '', parent);        
+        displayButtons('btnSaveOui', 'Oui', 'col-sm-6', view.sauvegarder, rowBtn);
+        displayButtons('btnSaveNon', 'Non', 'col-sm-6', function () { $('#' + idModal).modal('hide') }, rowBtn);
     },
 
     displaySaveComplete: function () {

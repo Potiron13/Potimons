@@ -1,5 +1,4 @@
-    -bug potidex pop up    
-    -bug utiliser potion moins de 0 depuis menu
+    -authentication en mémoire dans le local storage   
     -afficher expérience sous forme de progress bar dans detail
     -nettoyer les sources (code mort + facto)    
     -always data -> mysql    
@@ -10,8 +9,10 @@
         -ajouter des skills
         -faire des cartes cohérentes
     -gérer la mort des potimons
-    -retravailler l'affichage
-
+    -retravailler l'affichage :
+        -revoir affichage main menu        
+        -background skills en combat
+        -background info en combat
 
 -string escape (interpolation)
 -orm pour node : sequelize

@@ -1,6 +1,6 @@
 
 var StartingScreenController = function (view, listReserve, listItem, listCarte, timeGame, listMonstresCapture, listUser) {
-    this.view = view;    
+    this.view = view;
     this.listItem = listItem;
     this.listReserve = listReserve;
     this.listCarte = listCarte;
@@ -9,17 +9,27 @@ var StartingScreenController = function (view, listReserve, listItem, listCarte,
     this.userId;
     this.listMonstresCapture = listMonstresCapture;
     this.worldMapController = new WorldMapController(new WorldMapView(), this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture);
-    this.StarterChoiceController = new StarterChoiceController(new StarterChoiceView());
+    this.StarterChoiceController = new StarterChoiceController(new StarterChoiceView());    
 };
 
 StartingScreenController.prototype = {
 
     init: function () {
         this.view.newUser = this.newUser.bind(this);
-        this.view.logIn = this.logIn.bind(this);
         this.view.render();
+        this.view.renderLogIn();
+        this.view.renderNewUser();
         getAllElementTypeEfficacy();
         getAllElementIdentifier();
+        var controller = this;
+        $('#LogInForm').submit(function (e) {
+            e.preventDefault();
+            controller.logIn();
+        });
+        $('#NewUserForm').submit(function (e) {
+            e.preventDefault();
+            controller.newUser();
+        });
     },
 
     newGame: function () {
@@ -148,70 +158,41 @@ StartingScreenController.prototype = {
     },
 
     newUser: function () {
-        var idModal = 'modalNewUser';
-        if ($('#' + idModal).length) {
-            $('#' + idModal).empty();
-        }
-        var modalBody = createModal(idModal, 'New User');
-        var inputList = [
-            { label: 'Pseudo', id: 'newUserPseudoId', type: 'text' },
-            { label: 'Email', id: 'newUserEmailId', type: 'email' },
-            { label: 'Password', id: 'newUserPasswordId', type: 'password' },
-        ];
-        var form = createForm('NewUserForm', inputList, modalBody);
-        var btnSubmit = displayElementOnParent('button', 'btnSubmitNewUser', 'btn btn-default', 'Soumettre', modalBody);
-        btnSubmit.click(function () {
-            $.ajax({
-                url: '/api/users/insertUser',
-                data: {
-                    userName: $('#' + inputList[0].id).val(),
-                    email: $('#' + inputList[1].id).val(),
-                    password: $('#' + inputList[2].id).val(),
-                    guidToken: guidGenerator(),                
-                },
-                type: 'get',
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert(XMLHttpRequest.responseText);
-                },
-                success: function (data) {
-                    alert('Inscription réussie ! Veuillez consulter vos email pour valider votre compte.')
-                    $('#' + idModal).modal('hide');
-                }
-            });
+        $.ajax({
+            url: '/api/users/insertUser',
+            data: {
+                userName: $('#newUserPseudoId').val(),
+                email: $('#newUserEmailId').val(),
+                password: $('#newUserPasswordId').val(),
+                guidToken: guidGenerator(),
+            },
+            type: 'get',
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.responseText);
+            },
+            success: function (data) {
+                alert('Veuillez consulter vos emails pour valider votre compte.')
+                $('#' + idModal).modal('hide');
+            }
         });
-        $('#' + idModal).modal();
     },
 
     logIn: function () {
         var controller = this;
-        var idModal = 'modalLogIn';
-        if ($('#' + idModal).length) {
-            $('#' + idModal).empty();
-        }
-        var modalBody = createModal(idModal, 'Log In');
-        var inputList = [
-            { label: 'Pseudo', id: 'logInPseudoId', type: 'text' },
-            { label: 'Password', id: 'logInPasswordId', type: 'password' },
-        ];
-        var form = createForm('LogInForm', inputList, modalBody);
-        var btnSubmit = displayElementOnParent('button', 'btnSubmitLogIn', 'btn btn-default', 'Soumettre', modalBody);
-        btnSubmit.click(function () {
-            $.get('/api/users/selectUser', {
-                userName: $('#' + inputList[0].id).val(),
-                password: $('#' + inputList[1].id).val(),
-            }).then(function (a) {
-                if (a[0]) {
-                    if (a[0].user_id) {
-                        SetUserId(a[0].user_id);
-                        SetUserName($('#' + inputList[0].id).val());
-                        controller.loadGame();
-                    }
-                } else {
-                    alert("Pseudo et/ou mot de passe non trouvé.")
+        $.get('/api/users/selectUser', {
+            userName: $('#logInPseudoId').val(),
+            password: $('#logInPasswordId').val(),
+        }).then(function (a) {
+            if (a[0]) {
+                if (a[0].user_id) {
+                    SetUserId(a[0].user_id);
+                    SetUserName($('#logInPseudoId').val());
+                    controller.loadGame();
                 }
-            })
-        });
-        $('#' + idModal).modal();
+            } else {
+                alert("Pseudo et/ou mot de passe non trouvé.")
+            }
+        })
     },
 
     goOnline: function () {
