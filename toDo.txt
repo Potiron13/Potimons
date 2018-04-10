@@ -9,12 +9,11 @@
         -ajouter des skills
         -faire des cartes cohérentes
     -gérer la mort des potimons
-    -retravailler l'affichage :                              
-        -espacer btn carte        
+    -retravailler l'affichage :                                             
         -resize portraits
-        -revoir affichage du menu skill, detail
-        -image background se répete
+        -revoir affichage du menu skill, detail        
         -altération état : dessin
+        -revoir affichage menu drag n drop
 
 -string escape (interpolation)
 -orm pour node : sequelize

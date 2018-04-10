@@ -86,13 +86,6 @@
     padding: 0px;
 }
 
-.btnMainMenu {
-    top:0;
-    right: 0;
-    height: 5em;
-    width: 15em;
-}
-
 .setHeight {
     height: 5em;
 }
@@ -340,4 +333,9 @@ div {
 
   .container.combatContainer {
     margin: 0 50px;
+  }
+
+  .containerMarginTopBottom {
+      margin-top: 50px;
+      margin-bottom: 50px;
   }

@@ -6,10 +6,9 @@ CombatView.prototype = {
 
     render: function (viewModelInfoEnnemie, viewModelInfoEquipe, listEnnemies, listEquipe, listPlayer, listItem, mapName, online, arene) {
         document.body.style.backgroundImage = "url(Images/Maps/" + mapName + ".png)";
-        document.body.style.backgroundRepeat = "repeat-n";
-        document.body.style.backgroundPosition = "center";
-        document.body.style.backgroundAttachment = "fixed";
-        document.body.style.transform = "";
+        document.body.style.height = '100%';        
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center";        
         var container = displayElementOnParent('div', 'containerCombat', 'container-fluid', '', $('body'))
         var topRow = displayElementOnParent('div', "topRow", "row", "", container);        
         var mainRow = displayElementOnParent('div', "mainRow", "row", "", container);        

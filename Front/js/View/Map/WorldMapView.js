@@ -42,33 +42,15 @@ WorldMapView.prototype = {
             {label: 'Shop', id: 'liShop', functionOnClick: this.displayShop},
         ]
         var navBar = createNavBar('navBarWorldMap', navItems, navBarcontainer);
-        var gameInfoRow = displayElementOnParent('div', 'gameInfoRow', 'row', '', $('body'));
-        gameInfoRow.css({
-            'color' : 'white'
-        })
-        var seperationTopRow = displayElementOnParent('div', 'seperationTopRow', 'col-sm-12', '', $('body'));
-        seperationTopRow.css({
-            'height' : '20%',
-        });
-        var wrapper = displayElementOnParent('div', 'lauchCombatWrapper', 'col-sm-12 btnWrapper', '', $('body'));
-        wrapper.css({
-            'height': '50%',
-        })
+        var seperationTopRow = displayElementOnParent('div', 'seperationTopRow', 'col-sm-12', '', $('body'));        
+        var wrapper = displayElementOnParent('div', 'lauchCombatWrapper', 'col-sm-12 btnWrapper', '', $('body'));        
         var container = displayElementOnParent('div', 'lauchCombatContainer', 'container', '', wrapper);
-        container.css({
-            'height': '100%',
-        })
         var jumbotron = displayElementOnParent('div', 'lauchCombatJumbotron', 'jumbotron', '', container);
-        jumbotron.css({
-            'height': '100%',
-        })
-        var seperationTopBtnRow = displayElementOnParent('div', 'seperationTopBtnRow', 'col-sm-12', '', jumbotron);
-        seperationTopBtnRow.css({
-            'height': '20%'
-        })
-        var btnRow = displayElementOnParent('div', 'btnLauchCombatRow', 'row', '', jumbotron);
+        var jumbotronContainer = displayElementOnParent('div', 'lauchCombatJumbotronContainer', 'containerMarginTopBottom', '', jumbotron);        
+        var btnRow = displayElementOnParent('div', 'btnLauchCombatRow', 'row', '', jumbotronContainer);
         $.each(listCarte, function() {
-            var btnLauchCombat = displayButtons('btnLauchCombat' + this.id, 'niveau ' + this.levelMin + ' - ' + this.levelMax, 'btnRed col-sm-4', null, btnRow);
+            const label = (this.arene === true) ? this.name : 'niveau ' + this.levelMin + ' - ' + this.levelMax;
+            var btnLauchCombat = displayButtons('btnLauchCombat' + this.id, label, 'btnRed col-sm-4', null, btnRow);
             btnLauchCombat.css({height: '20%'});          
         });
     },

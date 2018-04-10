@@ -5,6 +5,9 @@ StartingScreenView.prototype = {
 
     render: function() {
             document.body.style.backgroundImage =  strPathStartingScreen;
+            document.body.style.height = '100%';        
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundPosition = "center";      
             var newGameContainer = displayElementOnParent('div', strNewGameContainer, 'container container-table', '', $('body'));
             var startingGameRow = displayElementOnParent('div', strNewGameRow, 'vertical-center-row rowBigBtn', '', newGameContainer);
             var modalBody = createModal(strLoadGameModal, strContinue);            
