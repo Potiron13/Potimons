@@ -10,20 +10,24 @@ CombatView.prototype = {
         document.body.style.backgroundPosition = "center";
         document.body.style.backgroundAttachment = "fixed";
         document.body.style.transform = "";
-        var topRow = displayElementOnParent('div', "topRow", "row", "", $("body"));
-        var mainRow = displayElementOnParent('div', "mainRow", "row", "", $("body"));
-        var bottomRow = displayElementOnParent('div', "bottomRow", "row", "", $("body"));
-        this.displayFuturActions(listPlayer, topRow);
-        var ennemieContainer = displayElementOnParent('div', 'ennemieContainer', 'row', '', topRow);
+        var container = displayElementOnParent('div', 'containerCombat', 'container-fluid', '', $('body'))
+        var topRow = displayElementOnParent('div', "topRow", "row", "", container);        
+        var mainRow = displayElementOnParent('div', "mainRow", "row", "", container);        
+        var bottomRow = displayElementOnParent('div', "bottomRow", "row", "", container);
+        var containerTopRow = displayElementOnParent('div', 'containerTopRow', 'container-fluid', '', topRow);
+        var containerMainRow = displayElementOnParent('div', 'containerTopRow', 'container-fluid', '', mainRow);        
+        var containerBottomRow = displayElementOnParent('div', 'containerTopRow', 'container-fluid', '', bottomRow);
+        this.displayFuturActions(listPlayer, containerTopRow);
+        var ennemieContainer = displayElementOnParent('div', 'ennemieContainer', 'row', '', containerTopRow);
         this.displayEnnemieInfo(viewModelInfoEnnemie, 'col-sm-4', ennemieContainer);
         var colonneEnnemies = displayElementOnParent('div', "colonneEnnemies", "col-sm-8 colonneEnnemies", "", ennemieContainer);
         var rowEnnemies = displayElementOnParent('div', "rowEnnemies", "row", "", colonneEnnemies);
         this.displayPlayerList(listEnnemies, rowEnnemies);
-        var equipeContainer = displayElementOnParent('div', 'equipeContainer', 'row', '', mainRow);
+        var equipeContainer = displayElementOnParent('div', 'equipeContainer', 'row', '', containerMainRow);
         var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-8', '', equipeContainer);
         this.displayPlayerList(listEquipe, equipeCol);
         this.displayEquipeInfo(viewModelInfoEquipe, equipeContainer);
-        this.displaySkillsNavBar(listEquipe, listItem, online, arene, bottomRow);
+        this.displaySkillsNavBar(listEquipe, listItem, online, arene, containerBottomRow);
     },
 
     displayTargetCursor: function () {
@@ -56,8 +60,8 @@ CombatView.prototype = {
         $('#' + playerId + 'SkillsNavBarRow').show();
     },
 
-    displayEnnemieInfo: function (viewModelInfoEnnemie, className, parent) {
-        var colInfoEnnemie = displayElementOnParent('div', 'colEnnemieInfo', className + ' combatInfo', '', parent);
+    displayEnnemieInfo: function (viewModelInfoEnnemie, className, parent) {            
+        var colInfoEnnemie = displayElementOnParent('div', 'colEnnemieInfo', className + ' combatInfoEnnemie', '', parent);
         var labelRow = displayElementOnParent('div', 'labelRowEnnemieInfo', 'row', '', colInfoEnnemie);
         $.each(viewModelInfoEnnemie, function (index) {
             var viewModel = viewModelInfoEnnemie[index];
@@ -80,7 +84,7 @@ CombatView.prototype = {
     },
 
     displayEquipeInfo: function (viewModelsInfoPlayer, parent) {
-        var colInfoEquipe = displayElementOnParent('div', 'colInfoEquipe', 'col-sm-4 combatInfo', '', parent);
+        var colInfoEquipe = displayElementOnParent('div', 'colInfoEquipe', 'col-sm-4 combatInfoEquipe', '', parent);
         var labelRow = displayElementOnParent('div', 'labelRowInfo', 'row', '', colInfoEquipe);
         $.each(viewModelsInfoPlayer, function (index) {
             var viewModel = viewModelsInfoPlayer[index];
@@ -139,7 +143,8 @@ CombatView.prototype = {
     displaySkillsNavBar: function (listPlayer, listItem, online, arene, parent) {
         for (var i = 0; i < listPlayer.length; i++) {
             var player = listPlayer[i];
-            var playerSkillsNavBarRow = displayElementOnParent('div', player.id + 'SkillsNavBarRow', "row", "", parent);
+            var playerSkillsNavBarRow = displayElementOnParent('div', player.id + 'SkillsNavBarRow', "row blueBackGround", "", parent);
+            playerSkillsNavBarRow.css({height: '300px'});
             var ulElement = displayElementOnParent('ul', player.id + 'SkillsNavBarUl', 'nav nav-tabs', '', playerSkillsNavBarRow);
             this.displayTab(player, 'Attaque', '#corpsACorps', true, ulElement, playerSkillsNavBarRow, this.displayBtnSkills);
             this.displayTab(player, 'Magie', '#magie', false, ulElement, playerSkillsNavBarRow, this.displayBtnSkills);
@@ -174,8 +179,9 @@ CombatView.prototype = {
 
     displayBtnSkills: function (player, type, parent) {
         var skills = player.skills.filter(x => x.type == type);
-        $.each(skills, function (index) {
-            displayButtons('btn' + skills[index].id + player.id, skills[index].name, "col-sm-3 btn btn-danger btnCombat",
+        var className = (type === 'magie') ? 'btnRed' : '';
+        $.each(skills, function (index) {            
+            displayButtons('btn' + skills[index].id + player.id, skills[index].name, "col-sm-3 " + className,
                 null, parent);
         });
     },
@@ -255,7 +261,8 @@ CombatView.prototype = {
             var portraitImg = document.createElement('img');
             portraitImg.src = playerVictoireViewModel.Portrait;
             colImage.append(portraitImg);
-            displayProgressBar(playerVictoireViewModel.id + strProgressBar + strVictoire + 'Experience', playerVictoireViewModel.ExperienceActuelle, playerVictoireViewModel.ExperienceSuivant, 'col-sm-4', rowValue)
+            var expProgressBar = displayProgressBar(playerVictoireViewModel.id + strProgressBar + strVictoire + 'Experience', playerVictoireViewModel.ExperienceActuelle, playerVictoireViewModel.ExperienceSuivant, 'col-sm-4', rowValue)
+            changeProgressBarHeight(expProgressBar, '50px');
         });
 
         $('#' + idModal).modal();

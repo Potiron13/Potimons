@@ -75,6 +75,7 @@ function updateProgressBar(progressBar, currentValue, valueMax) {
     progressBar.setAttribute('aria-valuenow', hpPourcentage);
     progressBar.setAttribute('style', 'width:' + hpPourcentage + '%');
     progressBar.innerHTML = currentValue + '/' + valueMax;
+    progressBar.style.lineHeight = progressBar.parentElement.style.height;
 }
 
 function createModal(id, titre) {
@@ -116,7 +117,7 @@ function createForm(id, inputList, parent) {
 }
 
 function createNavBar(id, itemList, parent) {    
-    var navBar = displayElementOnParent('nav', id, 'navbar blueColor', '', parent);
+    var navBar = displayElementOnParent('nav', id, 'navbar blueBackGround', '', parent);
     var containerFluid = displayElementOnParent('div', 'containerFluid' + id, 'container-fluid', '', navBar);    
     var ul = displayElementOnParent('ul', 'ulNavbarNav' + id, 'nav navbar-nav', '', containerFluid);
     $.each(itemList, function(index){
@@ -125,4 +126,9 @@ function createNavBar(id, itemList, parent) {
         a.click(this.functionOnClick);
     })
 
+}
+
+function changeProgressBarHeight(progressBar, height) {
+    progressBar.parentElement.style.height = height;
+    progressBar.style.lineHeight = height;
 }

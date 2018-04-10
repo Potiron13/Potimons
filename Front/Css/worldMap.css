@@ -24,31 +24,6 @@
   border-radius: 7px;
 }
 
-.blueColor{
-    border: solid 1px #424542;
-    box-shadow: 1px 1px #e7dfe7,
-                -1px -1px #e7dfe7,
-                1px -1px #e7dfe7,
-                -1px 1px #e7dfe7,
-                0 -2px #9c9a9c,
-                -2px 0 #7b757b,
-                0 2px #424542;
-    width: auto;
-    padding: 5px 10px;
-    background: #04009d;
-    background: -moz-linear-gradient(top,  #04009d 0%, #06004d 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#04009d), color-stop(100%,#06004d));
-    background: -webkit-linear-gradient(top,  #04009d 0%,#06004d 100%);
-    background: -o-linear-gradient(top,  #04009d 0%,#06004d 100%);
-    background: -ms-linear-gradient(top,  #04009d 0%,#06004d 100%);
-    background: linear-gradient(to bottom,  #04009d 0%,#06004d 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#04009d', endColorstr='#06004d',GradientType=0 );
-    -webkit-border-radius: 7px;
-    -moz-border-radius: 7px;
-    border-radius: 7px;
-    font-size: 2em;
-}
-
 .modal *{
   color: #eff1ff;
   text-shadow: 2px 2px #212421,
@@ -154,10 +129,9 @@
     border-radius: 7px;
 }
 
-/* html, body {
-    margin: 0;
-    height: 100%;
-} */
+ html {
+    overflow: auto;
+} 
 
 .rowBigBtn {
     height: 5em;
@@ -257,3 +231,113 @@ li:hover {
     background-color: #63AEEB;
     height: 100%;
 }
+
+div {
+    -ms-word-break: break-all;
+    word-break: break-all;
+  
+    /* Non standard for webkit */
+    word-break: break-word;
+  
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .progress {
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    border: solid 1px white;
+  }
+
+  .blueBackGround {
+    border: solid 1px #424542;
+    box-shadow: 1px 1px #e7dfe7,
+                -1px -1px #e7dfe7,
+                1px -1px #e7dfe7,
+                -1px 1px #e7dfe7,
+                0 -2px #9c9a9c,
+                -2px 0 #7b757b,
+                0 2px #424542;
+    width: auto;
+    padding: 5px 10px;
+    background: #04009d;
+    background: -moz-linear-gradient(top,  #04009d 0%, #06004d 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#04009d), color-stop(100%,#06004d));
+    background: -webkit-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: -o-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: -ms-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: linear-gradient(to bottom,  #04009d 0%,#06004d 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#04009d', endColorstr='#06004d',GradientType=0 );
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    font-size: 2em;
+  }
+
+  .combatInfoEquipe {
+    border: solid 1px #424542;
+    box-shadow: 1px 1px #e7dfe7,
+                -1px -1px #e7dfe7,
+                1px -1px #e7dfe7,
+                -1px 1px #e7dfe7,
+                0 -2px #9c9a9c,
+                -2px 0 #7b757b,
+                0 2px #424542;
+    background: #04009d;
+    background: -moz-linear-gradient(top,  #04009d 0%, #06004d 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#04009d), color-stop(100%,#06004d));
+    background: -webkit-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: -o-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: -ms-linear-gradient(top,  #04009d 0%,#06004d 100%);
+    background: linear-gradient(to bottom,  #04009d 0%,#06004d 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#04009d', endColorstr='#06004d',GradientType=0 );
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    font-size: 2em;
+    color: white;
+  }
+
+  .combatInfoEnnemie {
+    border: solid 1px #424542;
+    box-shadow: 1px 1px #e7dfe7,
+                -1px -1px #e7dfe7,
+                1px -1px #e7dfe7,
+                -1px 1px #e7dfe7,
+                0 -2px #9c9a9c,
+                -2px 0 #7b757b,
+                0 2px #424542;
+    background: #cc265e;
+    background-image: -webkit-linear-gradient(top, #cc265e, #360a24);
+    background-image: -moz-linear-gradient(top, #cc265e, #360a24);
+    background-image: -ms-linear-gradient(top, #cc265e, #360a24);
+    background-image: -o-linear-gradient(top, #cc265e, #360a24);
+    background-image: linear-gradient(to bottom, #cc265e, #360a24);
+    -webkit-border-radius: 5;
+    -moz-border-radius: 5;
+    border-radius: 5px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 30px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#04009d', endColorstr='#06004d',GradientType=0 );
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    font-size: 2em;
+    color: white;
+    opacity: 0.7;
+  }
+
+  .bigWhiteText {
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 2em;
+  }
+
+  .container.combatContainer {
+    margin: 0 50px;
+  }

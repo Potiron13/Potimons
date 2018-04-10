@@ -1,9 +1,9 @@
-body {
+/* body {
     margin-left: 20px;    
     padding:0;
     background-size: cover;
     z-index: -1;
-}
+} */
 
 #topRow {
 }
@@ -33,18 +33,8 @@ body {
     height : 3em;
 }
 
-.combatInfo {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 1em;
-}
-
 .griffe {
     animation:griffe 0.5s linear infinite;
-}
-
-.btnCombat {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 2em;
 }
 
 .dammageAnimated {
