@@ -41,8 +41,7 @@ WorldMapView.prototype = {
             {label: 'Profil', id: 'liProfil', functionOnClick: this.displayProfil},
             {label: 'Shop', id: 'liShop', functionOnClick: this.displayShop},
         ]
-        var navBar = createNavBar('navBarWorldMap', navItems, navBarcontainer);
-        var seperationTopRow = displayElementOnParent('div', 'seperationTopRow', 'col-sm-12', '', $('body'));        
+        var navBar = createNavBar('navBarWorldMap', navItems, navBarcontainer);        
         var wrapper = displayElementOnParent('div', 'lauchCombatWrapper', 'col-sm-12 btnWrapper', '', $('body'));        
         var container = displayElementOnParent('div', 'lauchCombatContainer', 'container', '', wrapper);
         var jumbotron = displayElementOnParent('div', 'lauchCombatJumbotron', 'jumbotron', '', container);

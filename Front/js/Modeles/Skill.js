@@ -57,11 +57,12 @@ class EnnemieSkill {
 class ViewModelSkill {
     constructor(skill) {
         this.id = skill.id;
-        this.name = skill.name;
-        this.type = skill.type;
-        this.manaCost = skill.manaCost;
-        this.multiTarget = skill.multiTarget ? 'Multi target' : 'Single target';
-        this.effect = skill.effect || 'aucun';
+        this.name = {label: 'Nom', value: skill.name};      
+        this.elementType = {label: 'Type', value: AllTypes.find(x=>x.id === skill.elementTypeId).identifier};  
+        this.manaCost = {label: 'Coût en mana', value: skill.manaCost};
+        this.multiTarget = {label: 'Type de cible', value: skill.multiTarget ? 'cibles multiple' : 'cible simple'};
+        this.effect = {label: "Altériation d'état", value: skill.effect || 'aucune'};
+        this.power = {label: "Puissance", value: skill.power};
     }
 }
 
