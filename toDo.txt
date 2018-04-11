@@ -1,3 +1,4 @@
+    -email redirection
     -authentication en mémoire dans le local storage       
     -nettoyer les sources (code mort + facto)    
     -always data -> mysql    
@@ -8,8 +9,7 @@
         -ajouter des skills
         -faire des cartes cohérentes
     -gérer la mort des potimons
-    -retravailler l'affichage :                                             
-        -resize portraits              
+    -retravailler l'affichage :                                                     
         -altération état : dessin
         -revoir affichage menu drag n drop
 
