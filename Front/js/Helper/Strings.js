@@ -110,6 +110,7 @@ const strAbsorb = "absorb";
 const strRayonFolie = "rayon-folie";
 const strBrume = "brûme";
 const strSpore = "spore";
+const strPicpic = "pic-pic";
 
 // CARTES
 const strPlaine = 'plaine';

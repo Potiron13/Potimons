@@ -140,6 +140,9 @@ var AllSkills = [
     new Skill(114, strBrume, 0, strMagie, animateOverHead, '', 1000, 0, false, 1, 15, 1, 1),
     // paras
     new EffectAlteration(147, strSpore, 0, strMagie, animateOverHead, '', 1000, 10, false, 2, 12, 1, 1, 3),
+    // piafabec
+    new Skill(16, strPicpic, 35, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
+    new Skill(16, strBecVrille, 80, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false, 1, 1, 1, 1),
 ];
