@@ -1,3 +1,4 @@
+    -revoir le systeme de chargement : changer reserve
     -push dump dd
     -authentication en mémoire dans le local storage       
     -nettoyer les sources (code mort + facto)    

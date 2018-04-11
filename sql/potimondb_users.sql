@@ -28,9 +28,13 @@ CREATE TABLE `users` (
   `password` varchar(32) NOT NULL,
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `guid_token` varchar(45) DEFAULT NULL,
+  `active` tinyint(4) DEFAULT NULL,
+  `session_guid` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +43,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('go','go','go','2018-03-10 08:48:34',1),('Dedou','dedou@gmail.com','dedou','2018-03-10 10:38:21',2),('toto','toto','toto','2018-03-11 08:47:34',3),('qsdfjkn','zf:n','sdklj','2018-03-11 08:49:06',4),('\"\'(-è_çàoihgf','\'(-è_çà)ç_èrtdjhk','_èç-\'(\"è-_çuiygfc','2018-03-11 08:49:31',5),('tyty','tyty','tyty','2018-03-12 16:07:05',6),('te','te','te','2018-04-03 13:54:07',7),('ty','ty','ty','2018-04-03 14:18:05',8),('az','az','az','2018-04-04 07:37:44',9),('aq','aq','aq','2018-04-04 12:15:27',10),('er','er','er','2018-04-04 12:25:35',11),('qs','qs','qs','2018-04-04 14:04:30',12),('ui','ui','ui','2018-04-04 14:10:50',13);
+INSERT INTO `users` VALUES ('popo','stephane.derrien91@gmail.com','popo','2018-04-11 07:27:27',103,'bea4e47a-61f1-be71-5771-1cff27f340fe',1,'f2333a5d-b8e1-a22e-a570-ce5b26682e05'),('testLocal','taaaaggg@ggg','t','2018-04-11 09:18:10',104,'b9c54cfe-44f0-dd86-2e90-57d9c084a1d9',1,'a02789ab-aa8f-0771-f2e6-f690a8ddcc39');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-05  8:54:53
+-- Dump completed on 2018-04-11 12:08:22
