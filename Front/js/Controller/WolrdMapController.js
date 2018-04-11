@@ -1,4 +1,4 @@
-var WorldMapController = function (view, listReserve, listItem, listCarte, timeGame, listMonstresCapture) {
+var WorldMapController = function (view, listReserve, listItem, listCarte, timeGame, listMonstresCapture, deconnexion) {
     this.view = view;    
     this.listReserve = listReserve;
     this.listItem = listItem;
@@ -12,13 +12,12 @@ var WorldMapController = function (view, listReserve, listItem, listCarte, timeG
     this.onlineController = new OnlineController(new OnlineView(), this.combatController);
     this.profilController = new ProfilController(new ProfilView());
     this.shopController = new ShopController(new ShopView());
-    this.saveMenuController = new SaveMenuController(new SaveMenuView());
+    this.saveMenuController = new SaveMenuController(new SaveMenuView());    
 };
 
 WorldMapController.prototype = {
 
-    init: function (listCarte, timeGame) {
-        this.view.sauvegarder = this.sauvegarder;
+    init: function (listCarte, timeGame) {        
         this.view.initialiserMainMenu = this.mainMenuController;
         this.view.initialiserPotidex = this.potidexController;
         this.view.initialiserOnline = this.onlineController;
@@ -31,6 +30,7 @@ WorldMapController.prototype = {
         this.view.displayProfil = this.profilController.displayProfil.bind(this.profilController);
         this.view.displayShop = this.shopController.displayShop.bind(this);
         this.view.displaySaveMenu = this.saveMenuController.displaySaveMenu.bind(this.saveMenuController);
+        this.view.deconnexion = this.deconnexion;
         this.handleArene(listCarte);
         this.view.render(listCarte);
         var controller = this;
@@ -54,7 +54,7 @@ WorldMapController.prototype = {
         }
     },
 
-    handleArene(listCarte) {
+    handleArene: function(listCarte) {
         for (let index = 0; index < listCarte.length; index++) {
             var carte = listCarte[index];
             if (index < listCarte.length -1) {                            
@@ -65,13 +65,18 @@ WorldMapController.prototype = {
         }
     },
 
-    mapCombatButton(carte) {
+    mapCombatButton: function(carte) {
         var combatController = this.combatController;
         var controller = this;
         $('#btnLauchCombat' + carte.id).on('click', function () {
             combatController.init(carte);
             combatController.online = false;
         });
-    },
+    },    
+
+    deconnexion: function() {
+        DeleteSessionGuid();
+        location.reload();
+    }
 
 }

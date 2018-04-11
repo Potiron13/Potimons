@@ -1,4 +1,4 @@
-    -email redirection
+    -push dump dd
     -authentication en mémoire dans le local storage       
     -nettoyer les sources (code mort + facto)    
     -always data -> mysql    

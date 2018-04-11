@@ -15,10 +15,31 @@ var StartingScreenController = function (view, listReserve, listItem, listCarte,
 StartingScreenController.prototype = {
 
     init: function () {
-        this.view.newUser = this.newUser.bind(this);
-        this.view.render();
-        this.view.renderLogIn();
-        this.view.renderNewUser();
+        var controller = this;
+        const sessionGuid = GetSessionGuid();               
+        if(sessionGuid) {
+            $.get('/api/users/selectUserWithSessionGuid', {
+                sessionGuid: sessionGuid, 
+            }).then(function(a){
+                if(sessionGuid === a[0].session_guid) {
+                    controller.initAfterSessionCheck();
+                    controller.logIn(a[0].username, a[0].password);
+                }else {
+                    controller.initAfterSessionCheck(false);
+                }
+            })
+        }else {
+            this.initAfterSessionCheck(true);
+        }
+    },
+
+    initAfterSessionCheck(doRender) {
+        if(doRender === true) {
+            this.view.render();
+            this.view.renderLogIn();
+            this.view.renderNewUser();
+        }
+        this.view.newUser = this.newUser.bind(this);        
         getAllElementTypeEfficacy();
         getAllElementIdentifier();
         var controller = this;
@@ -177,17 +198,24 @@ StartingScreenController.prototype = {
         });
     },
 
-    logIn: function () {
+    logIn: function (username, password) {
         var controller = this;
         $.get('/api/users/selectUser', {
-            userName: $('#logInPseudoId').val(),
-            password: $('#logInPasswordId').val(),
+            userName: username || $('#logInPseudoId').val(),
+            password: password || $('#logInPasswordId').val(),
         }).then(function (a) {
-            if (a[0]) {
+            if (a[0]) {                
                 if (a[0].user_id) {
                     SetUserId(a[0].user_id);
-                    SetUserName($('#logInPseudoId').val());
-                    controller.loadGame();
+                    SetUserName(a[0].username);
+                    const sessionGuid = guidGenerator();
+                    $.get('/api/users/updateSessionGuid', {       
+                        userId: a[0].user_id,                 
+                        sessionGuid: sessionGuid,
+                    }).then(function() {
+                        SaveSessionGuid(sessionGuid);                    
+                        controller.loadGame();
+                    })                    
                 }
             } else {
                 alert("Pseudo et/ou mot de passe non trouvé.")

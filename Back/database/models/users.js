@@ -8,7 +8,7 @@ function insertUser(data) {
 
 function selectUser(data) {
     var con = connection.getConnection();
-    var sql = "SELECT user_id FROM users where username = " + con.escape(data.userName) +
+    var sql = "SELECT user_id, username FROM users where username = " + con.escape(data.userName) +
         " and password = " + con.escape(data.password) + " and active = 1" + ";";
 
     return con.query(sql);
@@ -21,8 +21,26 @@ function activateAccount(data) {
     return con.query(sql);
 }
 
+function updateSessionGuid(data) {
+    var con = connection.getConnection();
+    var sql = "UPDATE users SET session_guid = " + con.escape(data.sessionGuid) + " where user_id = " + con.escape(data.userId);               
+
+    return con.query(sql);
+}
+
+function selectUserWithSessionGuid(data) {
+    var con = connection.getConnection();
+    var sql = "SELECT session_guid, username, password FROM users where session_guid = " + con.escape(data.sessionGuid);
+    console.log(sql);
+    
+
+    return con.query(sql);
+}
+
 module.exports = {
     insertUser,
     selectUser,
     activateAccount,
+    updateSessionGuid,
+    selectUserWithSessionGuid,
 }

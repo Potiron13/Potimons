@@ -13,7 +13,7 @@ router.get('/insertUser', function (req, res) {
 });
 
 router.get('/selectUser', function (req, res) {
-    users.selectUser(req.query).then(function (result) {
+    users.selectUser(req.query).then(function (result) {            
         res.json(result);
     })
 });
@@ -23,5 +23,18 @@ router.get('/activateAccount', function (req, res) {
         res.redirect('/');
     })
 });
+
+router.get('/updateSessionGuid', function (req, res) {
+    users.updateSessionGuid(req.query).then(function (result) {
+        res.json(result);
+    })
+});
+
+router.get('/selectUserWithSessionGuid', function (req, res) {
+    users.selectUserWithSessionGuid(req.query).then(function (result) {
+        res.json(result);
+    })
+});
+
 
 module.exports = router;
