@@ -37,9 +37,10 @@ MainMenuView.prototype = {
             ];            
             $.each(bars, function(index){
                 changeProgressBarHeight(this, height)
-            });                      
-            displayButtons('btnSkills' + viewModels[index].id, 'Skills', colClass, function () { view.displaySkills(viewModels[index].id) }, rowValue);
-            displayButtons('btnDetails' + viewModels[index].id, 'Details', colClass, function () { view.displayDetails(viewModels[index].id) }, rowValue);
+            });
+            var btnSkillDetailCol = displayElementOnParent('div', 'btnSkillDetailCol' + viewModels[index].id, 'col-sm-4', '', rowValue);            
+            displayButtons('btnSkills' + viewModels[index].id, 'Skills', '', function () { view.displaySkills(viewModels[index].id) }, btnSkillDetailCol);
+            displayButtons('btnDetails' + viewModels[index].id, 'Details', '', function () { view.displayDetails(viewModels[index].id) }, btnSkillDetailCol);
         });
         var rowBtn = displayElementOnParent('div', 'rowBtnMainMenu', 'row', '', parent);
         displayButtons('btnReserve', 'Reserve', '', function () { view.displayReserve() }, rowBtn);
