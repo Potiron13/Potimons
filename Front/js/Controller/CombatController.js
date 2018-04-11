@@ -262,8 +262,7 @@ CombatController.prototype = {
                 if (!(skill.id === 'capture' && controllerCombat.online === true)) {
                     btn.click( skill, (function(playerCopy) {
                         return function(){
-                            controllerCombat.intervalId = controllerCombat.animateQTEProgressBar(controllerCombat, skill.difficulty);
-                            controllerCombat.handleContextMenu(controllerCombat, $('#rowEnnemies'));
+                            controllerCombat.intervalId = controllerCombat.animateQTEProgressBar(controllerCombat, skill.difficulty);                            
                             controllerCombat.view.hideSkillNavBar(playerCopy.id);
                             controllerCombat.view.displayTargetCursor();
                             if (skill.targetId == 0) {
@@ -273,6 +272,7 @@ CombatController.prototype = {
                                 targetCol = $('#rowEnnemies');
                                 targetList = controllerCombat.getListEnnemie();
                             }
+                            controllerCombat.handleContextMenu(controllerCombat, targetCol);
                             $.each(targetCol.children(), function(k) {
                                 var elementEnnemie = this;
                                 var $elementEnnemie = $('#' + elementEnnemie.id);
