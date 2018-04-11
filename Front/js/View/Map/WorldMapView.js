@@ -26,7 +26,7 @@ WorldMapView.prototype = {
                 $('body').addClass('modal-open');
             }
         });
-        document.body.style.backgroundImage =  "url(Images/Maps/worldMap.png)";
+        document.body.style.backgroundImage =  strPathBlackScreen;
         this.initialiserMainMenu.init();
         this.initialiserPotidex.init();
         this.initialiserOnline.init();

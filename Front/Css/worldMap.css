@@ -339,3 +339,12 @@ div {
       margin-top: 50px;
       margin-bottom: 50px;
   }
+
+  .spinningPotiron {
+    animation: spin 2s linear infinite;
+  }
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
