@@ -31,8 +31,6 @@ function updateSessionGuid(data) {
 function selectUserWithSessionGuid(data) {
     var con = connection.getConnection();
     var sql = "SELECT session_guid, username, password FROM users where session_guid = " + con.escape(data.sessionGuid);
-    console.log(sql);
-    
 
     return con.query(sql);
 }

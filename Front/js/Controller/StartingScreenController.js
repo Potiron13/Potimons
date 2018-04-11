@@ -9,37 +9,37 @@ var StartingScreenController = function (view, listReserve, listItem, listCarte,
     this.userId;
     this.listMonstresCapture = listMonstresCapture;
     this.worldMapController = new WorldMapController(new WorldMapView(), this.listReserve, this.listItem, this.listCarte, this.timeGame, this.listMonstresCapture);
-    this.StarterChoiceController = new StarterChoiceController(new StarterChoiceView());    
+    this.StarterChoiceController = new StarterChoiceController(new StarterChoiceView());
 };
 
 StartingScreenController.prototype = {
 
     init: function () {
         var controller = this;
-        const sessionGuid = GetSessionGuid();               
-        if(sessionGuid) {
+        const sessionGuid = GetSessionGuid();
+        if (sessionGuid) {
             $.get('/api/users/selectUserWithSessionGuid', {
-                sessionGuid: sessionGuid, 
-            }).then(function(a){
-                if(sessionGuid === a[0].session_guid) {
+                sessionGuid: sessionGuid,
+            }).then(function (a) {
+                if (sessionGuid === a[0].session_guid) {
                     controller.initAfterSessionCheck();
                     controller.logIn(a[0].username, a[0].password);
-                }else {
+                } else {
                     controller.initAfterSessionCheck(false);
                 }
             })
-        }else {
+        } else {
             this.initAfterSessionCheck(true);
         }
     },
 
     initAfterSessionCheck(doRender) {
-        if(doRender === true) {
+        if (doRender === true) {
             this.view.render();
             this.view.renderLogIn();
             this.view.renderNewUser();
         }
-        this.view.newUser = this.newUser.bind(this);        
+        this.view.newUser = this.newUser.bind(this);
         getAllElementTypeEfficacy();
         getAllElementIdentifier();
         var controller = this;
@@ -111,41 +111,59 @@ StartingScreenController.prototype = {
                     requests.push(getPotimonById(equipeAjaxResult[i].potimon_id));
                 }
                 $.when.apply($, requests).done(function () {
+                    var listEquipe = GetListEquipe();
                     $.each(arguments, function (i, data) {
-                        controller.fillPotimon(data, i, equipeAjaxResult, ids, GetListEquipe());
+                        controller.fillPotimon(data, equipeAjaxResult[i], ids, listEquipe);
                     });
                     requests = [];
-                    for (let i = 0; i < reserveAjaxResult.length; i++) {
-                        requests.push(getPotimonById(reserveAjaxResult[i].potimon_id));
+                    for (let i = 0; i < ids.length; i++) {
+                        requests.push($.get("/api/saveAndLoad/loadSkills", { potimonGameId: ids[i] }));
                     }
                     $.when.apply($, requests).done(function () {
-                        $.each(arguments, function (i, data) {
-                            controller.fillPotimon(data, i, reserveAjaxResult, ids, controller.listReserve);
-                        });
-                        requests = [];
-                        for (let i = 0; i < ids.length; i++) {
-                            requests.push($.get("/api/saveAndLoad/loadSkills", { potimonGameId: ids[i] }));
-                        }
-                        $.when.apply($, requests).done(function () {
-                            if (ids.length > 1) {
-                                $.each(arguments, function (i, data) {
-                                    controller.fillPotimonSkill(data[0], controller);
-                                });
-                            } else {
-                                controller.fillPotimonSkill(arguments[0], controller);
-                            }
-                            for (let i = 0; i < currentCarteId + 1; i++) {
-                                controller.listCarte.push(AllCartes[i])
-                                SetCurrentCarteId(currentCarteId);
-                            }
-                            $.each(potimonCapture, function () {
-                                GetMonstresCapture().push(parseInt(this));
+                        if (ids.length > 1) {
+                            $.each(arguments, function (i, data) {
+                                controller.fillPotimonSkill(data[0], controller);
                             });
-                            controller.worldMapController.init(controller.listCarte, controller.timeGame, controller.userName);
-                            controller.goOnline();
+                        } else {
+                            controller.fillPotimonSkill(arguments[0], controller);
+                        }
+                        for (let i = 0; i < currentCarteId + 1; i++) {
+                            controller.listCarte.push(AllCartes[i])
+                            SetCurrentCarteId(currentCarteId);
+                        }
+                        $.each(potimonCapture, function () {
+                            GetMonstresCapture().push(parseInt(this));
                         });
+                        controller.worldMapController.init(controller.listCarte, controller.timeGame, controller.userName);
+                        controller.goOnline();
                     });
                 });
+                var requestsReserve = [];
+                var idsReserve = [];
+                for (let i = 0; i < reserveAjaxResult.length; i++) {
+                    requestsReserve.push(getPotimonById(reserveAjaxResult[i].potimon_id));
+                }
+                $.when.apply($, requestsReserve).done(function () {
+                    $.each(arguments, function (i, data) {
+                        if (reserveAjaxResult[i]) {
+                            controller.fillPotimon(data, reserveAjaxResult[i], idsReserve, controller.listReserve);
+                        }
+                    });
+                    requestsReserve = [];
+                    for (let i = 0; i < ids.length; i++) {
+                        requestsReserve.push($.get("/api/saveAndLoad/loadSkills", { potimonGameId: idsReserve[i] }));
+                    }
+                    $.when.apply($, requests).done(function () {
+                        if (ids.length > 1) {
+                            $.each(arguments, function (i, data) {
+                                controller.fillPotimonSkill(data[0], controller);
+                            });
+                        } else {
+                            controller.fillPotimonSkill(arguments[0], controller);
+                        }
+                        controller.worldMapController.mainMenuController.init();
+                    })
+                })
             } else {
                 controller.newGame();
             }
@@ -164,14 +182,14 @@ StartingScreenController.prototype = {
         }
     },
 
-    fillPotimon: function (data, i, ajaxResult, ids, listToFill) {
+    fillPotimon: function (data, ajaxResult, ids, listToFill) {
         var inGamePotimon = {};
         var basePotimon = mapBasePotimon(data);
-        inGamePotimon = new Potimon(basePotimon, ajaxResult[i].potimon_level, 0, 0, 0, false, [], null);
-        inGamePotimon.currentHp = ajaxResult[i].potimon_current_hp;
-        inGamePotimon.currentMana = ajaxResult[i].potimon_current_mana;
-        inGamePotimon.experience = ajaxResult[i].potimon_experience;
-        inGamePotimon.id = ajaxResult[i].potimon_game_id;
+        inGamePotimon = new Potimon(basePotimon, ajaxResult.potimon_level, 0, 0, 0, false, [], null);
+        inGamePotimon.currentHp = ajaxResult.potimon_current_hp;
+        inGamePotimon.currentMana = ajaxResult.potimon_current_mana;
+        inGamePotimon.experience = ajaxResult.potimon_experience;
+        inGamePotimon.id = ajaxResult.potimon_game_id;
         inGamePotimon.gentil = true;
         setSkillsByLevel(inGamePotimon, basePotimon);
         listToFill.push(inGamePotimon);
@@ -204,18 +222,18 @@ StartingScreenController.prototype = {
             userName: username || $('#logInPseudoId').val(),
             password: password || $('#logInPasswordId').val(),
         }).then(function (a) {
-            if (a[0]) {                
+            if (a[0]) {
                 if (a[0].user_id) {
                     SetUserId(a[0].user_id);
                     SetUserName(a[0].username);
                     const sessionGuid = guidGenerator();
-                    $.get('/api/users/updateSessionGuid', {       
-                        userId: a[0].user_id,                 
+                    $.get('/api/users/updateSessionGuid', {
+                        userId: a[0].user_id,
                         sessionGuid: sessionGuid,
-                    }).then(function() {
-                        SaveSessionGuid(sessionGuid);                    
+                    }).then(function () {
+                        SaveSessionGuid(sessionGuid);
                         controller.loadGame();
-                    })                    
+                    })
                 }
             } else {
                 alert("Pseudo et/ou mot de passe non trouvé.")
