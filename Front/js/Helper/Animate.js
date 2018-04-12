@@ -33,6 +33,19 @@ function animateCharge(player, target, skill) {
     });
 }
 
+function animateTrempette(player, target, skill) {
+    var playerElement = $('#' + player.id);   
+    for (let index = 0; index < 2; index++) {
+        playerElement.animate({                
+            top: -80 + 'px'
+        });
+        playerElement.animate({                
+            top: 0 + 'px'
+        });
+    }          
+}
+
+
 function animateProjectil(player, target, skill, height, width) {
     var playerElement = $('#' + player.id);
     var targetElement = $('#' + target.id);

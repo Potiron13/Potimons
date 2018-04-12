@@ -142,6 +142,8 @@ var AllSkills = [
     // piafabec
     new Skill(64, strPicpic, 35, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
     new Skill(65, strBecVrille, 80, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
+    // magicarp
+    new Skill(150, strTrempette, 0, strCorpsACorps, animateTrempette, '', 1000, 0, false, 1, 1, 1, 1),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false, 1, 1, 1, 1),
 ];

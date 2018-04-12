@@ -112,6 +112,7 @@ const strBrume = "brûme";
 const strSpore = "spore";
 const strPicpic = "pic-pic";
 const strBecVrille = "bec-vrille";
+const strTrempette = "trempette";
 
 // CARTES
 const strPlaine = 'plaine';
