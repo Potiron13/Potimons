@@ -270,7 +270,9 @@ CombatView.prototype = {
         $.each(players, function () {
             if(this.etat) {
                 $('#imgEtat' + this.id).attr('src', '../Images/Ui/' + this.etat + '.png');
-            }            
+            }else {
+                $('#imgEtat' + this.id).attr('src', '');
+            }      
         })
     },
 
