@@ -83,8 +83,7 @@ var AllSkills = [
     new Debuff(45, strRugissement, 0, strCorpsACorps, animateProjectil, '', 1000, 0, false, 1, 1, 1, 1, 'attaque', 0.1),
     new Skill(52, strFlammeche, 40, strMagie, animateOverHead, '', 1500, 5, false, 1, 10, 1, 1),
     new Skill(53, strLanceFlame, 90, strMagie, animateRay, '', 1000, 10, false, 2, 10, 1, 1),
-    new Skill(83, strDanceFlamme, 110, strMagie, animateProjectilWithSequence, '', 1000, 20, false, 3, 10, 0.85, 1),
-    //new Skill(83, strDanceFlamme, 110, strMagie, animateProjectil, '', 1000, 20, false,  3, 10, 0.85, 1),
+    new Skill(83, strDanceFlamme, 110, strMagie, animateProjectilWithSequence, '', 1000, 20, false, 3, 10, 0.85, 1),    
     new Skill(99, strCoupDeQueue, 55, strCorpsACorps, animateOverHead, '', 1000, 0, false, 2, 1, 1, 1),
     new Skill(163, strTranche, 70, strCorpsACorps, animateOverHead, '', 1000, 0, false, 3, 1, 1, 1),
     //bulbizar
@@ -141,8 +140,8 @@ var AllSkills = [
     // paras
     new EffectAlteration(147, strSpore, 0, strMagie, animateOverHead, '', 1000, 10, false, 2, 12, 1, 1, 3),
     // piafabec
-    new Skill(16, strPicpic, 35, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
-    new Skill(16, strBecVrille, 80, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
+    new Skill(64, strPicpic, 35, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
+    new Skill(65, strBecVrille, 80, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false, 1, 1, 1, 1),
 ];
