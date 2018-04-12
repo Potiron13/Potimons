@@ -68,8 +68,7 @@ CombatView.prototype = {
             if (index == 0) {
                 var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
                 var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaColInfo', 'col-sm-4', 'Hp/Mana', labelRow);
-                var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);
-                var labelEtatCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Etat', labelRow);
+                var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-4', 'Niv', labelRow);                
             }
             var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
             var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-4', '', infoRow);
@@ -77,8 +76,7 @@ CombatView.prototype = {
             var manaContainerRow = displayElementOnParent('div', viewModel.id + 'manaContainerRow', 'row', '', valueHpManaCol);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Hp', viewModel.CurrentHp, viewModel.Hp, 'col-sm-12 clearMargin', hpContainerRow);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, 'col-sm-12', manaContainerRow);
-            displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-2', viewModel.Niv, infoRow);
-            displayElementOnParent('div', viewModel.id + 'valueEtatCol', 'col-sm-2', viewModel.Etat, infoRow);
+            displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-4', viewModel.Niv, infoRow);            
         });
     },
 
@@ -91,8 +89,7 @@ CombatView.prototype = {
             if (index == 0) {
                 var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
                 var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-4', 'Hp/Mana', labelRow);
-                var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);
-                var labelEtatCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Etat', labelRow);
+                var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-4', 'Niv', labelRow);                
             }
             var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
             var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-4', '', infoRow);
@@ -100,8 +97,7 @@ CombatView.prototype = {
             var manaContainerRow = displayElementOnParent('div', viewModel.id + 'manaContainerRow', 'row', '', valueHpManaCol);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Hp', viewModel.CurrentHp, viewModel.Hp, 'col-sm-12 clearMargin', hpContainerRow);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, 'col-sm-12', manaContainerRow);
-            displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-2', viewModel.Niv, infoRow);
-            displayElementOnParent('div', viewModel.id + 'valueEtatCol', 'col-sm-2', viewModel.Etat, infoRow);
+            displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-4', viewModel.Niv, infoRow);            
         });
         colInfoEquipe.css({
             top: $('#equipeCol').height() - colInfoEquipe.height() + 'px'
@@ -116,7 +112,10 @@ CombatView.prototype = {
         $.each(listPlayer, function (index) {
             var player = this;
             var colonnePlayer = displayElementOnParent('div', "colonne" + player.id, 'col-sm-' + 12 / listPlayer.length, '', parent);
-            var colonneSelector = displayElementOnParent('div', "colonneSelector" + player.id, 'col-sm-' + 12 / listPlayer.length + ' noSelector', '', colonnePlayer);
+            var colonneEtat = displayElementOnParent('div', "colonneEtat" + player.id, 'col-sm-12' + ' etat', '', colonnePlayer);
+            var imgEtat = displayElementOnParent('img', "imgEtat" + player.id, 'col-sm-offset-4', '', colonneEtat);
+            imgEtat.css({height: '100%'});
+            var colonneSelector = displayElementOnParent('div', "colonneSelector" + player.id, 'col-sm-12' + ' noSelector', '', colonnePlayer);
             var colImage = displayElementOnParent('div', player.id, "col-sm-12 colonneIdle text-center", "", colonnePlayer);
             var playerImg = document.createElement('img');
             var playerHeight = 0;
@@ -269,7 +268,9 @@ CombatView.prototype = {
 
     updateEtat: function (players) {
         $.each(players, function () {
-            $('#' + this.id + 'valueEtatCol').html(this.etat);
+            if(this.etat) {
+                $('#imgEtat' + this.id).attr('src', '../Images/Ui/' + this.etat + '.png');
+            }            
         })
     },
 
@@ -314,5 +315,5 @@ CombatView.prototype = {
     removeQTE: function (intervalId) {
         clearInterval(intervalId);
         $('#qteProgress').remove();
-    }
+    },
 }

@@ -15,6 +15,10 @@
     height : 3em;
 }
 
+.etat {
+    height: 3em;
+}
+
 .griffe {
     animation:griffe 0.5s linear infinite;
 }

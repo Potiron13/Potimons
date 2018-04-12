@@ -111,6 +111,7 @@ const strRayonFolie = "rayon-folie";
 const strBrume = "brûme";
 const strSpore = "spore";
 const strPicpic = "pic-pic";
+const strBecVrille = "bec-vrille";
 
 // CARTES
 const strPlaine = 'plaine';

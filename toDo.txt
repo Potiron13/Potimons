@@ -1,7 +1,4 @@
-    -mettre a jour la table pokemon_moves
-    -revoir le systeme de chargement : changer reserve
-    -push dump dd
-    -authentication en mémoire dans le local storage       
+    -mettre a jour la table pokemon_moves    
     -nettoyer les sources (code mort + facto)    
     -always data -> mysql    
     -revoir la fusion    
@@ -9,11 +6,12 @@
     -ajouter du contenu :        
         -ajouter des potimons
         -ajouter des skills
-        -faire des cartes cohérentes
+        -ajouter des cartes
     -gérer la mort des potimons
-    -retravailler l'affichage :                                                     
-        -altération état : dessin
+    -retravailler l'affichage :          
+        -affichage spécial mobile ?        
         -revoir affichage menu drag n drop
+        -revoir setTimeout        
 
 -string escape (interpolation)
 -orm pour node : sequelize

@@ -21,11 +21,11 @@ StartingScreenController.prototype = {
             $.get('/api/users/selectUserWithSessionGuid', {
                 sessionGuid: sessionGuid,
             }).then(function (a) {
-                if (sessionGuid === a[0].session_guid) {
+                if (a[0] && sessionGuid === a[0].session_guid) {
                     controller.initAfterSessionCheck(false);
                     controller.logIn(a[0].username, a[0].password);
                 } else {
-                    controller.initAfterSessionCheck(false);
+                    controller.initAfterSessionCheck(true);
                 }
             })
         } else {
@@ -218,14 +218,14 @@ StartingScreenController.prototype = {
 
     logIn: function (username, password) {       
         username =  username || $('#logInPseudoId').val();
-        password = password || $('#logInPasswordId').val();
-        this.view.displaySpinningPotiron();
+        password = password || $('#logInPasswordId').val();        
         var controller = this;
         $.get('/api/users/selectUser', {
             userName: username,
             password: password,
         }).then(function (a) {
             if (a[0]) {
+                controller.view.displaySpinningPotiron();
                 if (a[0].user_id) {
                     SetUserId(a[0].user_id);
                     SetUserName(a[0].username);

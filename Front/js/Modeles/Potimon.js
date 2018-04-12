@@ -63,7 +63,7 @@ function instancierInGamePotimon(id, level, gentil) {
     });
 }
 
-function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {    
+function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {        
     var requests = [];
     var levels = [];
     for (let i = 0; i < data.length; i++) {

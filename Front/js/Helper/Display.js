@@ -132,3 +132,11 @@ function changeProgressBarHeight(progressBar, height) {
     progressBar.parentElement.style.height = height;
     progressBar.style.lineHeight = height;
 }
+
+function displaySpinningPotimon (imgPath) {
+    $('body').empty();
+    document.body.style.backgroundImage = strPathBlackScreen;        
+    var spinningContainer = displayElementOnParent('div', 'spinningContainerId', 'container container-table', '', $('body'));
+    var imgSpinningPotiron = displayElementOnParent('img', 'spinningPotironId', 'spinningPotiron vertical-center-row col-sm-4 col-sm-offset-4', '', spinningContainer);
+    imgSpinningPotiron.attr('src', imgPath);
+}

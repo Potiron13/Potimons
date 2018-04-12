@@ -22,10 +22,8 @@ var CombatController = function (view, listReserve, listItem, initiliserWorldMap
 
 CombatController.prototype = {
 
-    init: function(carte) {
-        $.each($('body').children(), function(index, child){
-            child.remove();
-        });
+    init: function(carte) {        
+        displaySpinningPotimon(getSrc(entierAleatoire(1, 21)));
         var controller = this;
         this.carte = carte;
         this.arene = carte.arene;        
@@ -235,7 +233,10 @@ CombatController.prototype = {
         }
     },
 
-    combat : function() {      
+    combat : function() {  
+        $.each($('body').children(), function(index, child){
+            child.remove();
+        });    
         this.tempStats = [];  
         this.view.render(
             this.getEnnemiInfoViewModel(),
