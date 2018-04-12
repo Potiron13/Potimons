@@ -9,7 +9,7 @@
     -retravailler l'affichage :          
         -affichage spécial mobile ?        
         -revoir affichage menu drag n drop
-        -revoir playSeq
+        -revoir playSeq ?
         -fond de carte répétable       
 
 -string escape (interpolation)
