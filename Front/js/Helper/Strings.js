@@ -121,6 +121,7 @@ const strPlaine = 'plaine';
 const strForet = 'foret';
 const strArenePierre = 'arenePierre';
 const strKaverneKarout = 'kaverneKarout';
+const strMarais = 'marais';
 
 // SKILLS TYPE
 const strCorpsACorps = 'corpsACorps'

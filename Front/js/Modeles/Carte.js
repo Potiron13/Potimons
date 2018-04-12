@@ -26,13 +26,17 @@ class Terrain extends Arene {
 
 var AllTerrain = [
     strPlaine,
-    'marais',
+    strMarais,
     strForet,
     'volcan',
     'lune',
     strKaverneKarout,
     strArenePierre
 ];
+
+var marais = [
+    new Terrain(129, 100),
+]
 
 var plaine = [
     new Terrain(16,50),
@@ -91,6 +95,7 @@ var AllCartes = [
     new Carte(7, 3, kaverneKarout, 12, 14, strKaverneKarout, false),    
     new Carte(8, 3, plaine2, 14, 16, strPlaine, false),
     new Carte(9, 3, plaine2, 16, 18, strPlaine, false),
+    new Carte(10, 1, marais, 5, 5, strMarais, false),
 ]
 
 function monstreApparu(monsters) {
