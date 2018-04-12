@@ -39,6 +39,13 @@ var plaine = [
     new Terrain(19,50),
 ]
 
+var plaine2 = [
+    new Terrain(16,30),
+    new Terrain(19,30),
+    new Terrain(21,30),
+    new Terrain(20,10),
+]
+
 var foret = [
     new Terrain(10, 40),
     new Terrain(13, 55),
@@ -82,8 +89,8 @@ var AllCartes = [
     new Carte(5, 3, arenePierre, 12, 14, strArenePierre, true),
     new Carte(6, 3, kaverneKarout, 10, 12, strKaverneKarout, false),
     new Carte(7, 3, kaverneKarout, 12, 14, strKaverneKarout, false),    
-    new Carte(8, 3, plaine, 14, 16, strPlaine, false),
-    new Carte(9, 3, plaine, 16, 18, strPlaine, false),
+    new Carte(8, 3, plaine2, 14, 16, strPlaine, false),
+    new Carte(9, 3, plaine2, 16, 18, strPlaine, false),
 ]
 
 function monstreApparu(monsters) {

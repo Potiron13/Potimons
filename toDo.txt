@@ -1,6 +1,4 @@
-    -mettre a jour la table pokemon_moves    
-    -nettoyer les sources (code mort + facto)    
-    -always data -> mysql    
+    -nettoyer les sources (code mort + facto)          
     -revoir la fusion    
     -crypté les données        
     -ajouter du contenu :        
@@ -11,7 +9,8 @@
     -retravailler l'affichage :          
         -affichage spécial mobile ?        
         -revoir affichage menu drag n drop
-        -revoir setTimeout        
+        -revoir playSeq
+        -fond de carte répétable       
 
 -string escape (interpolation)
 -orm pour node : sequelize

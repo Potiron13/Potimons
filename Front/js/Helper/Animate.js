@@ -57,10 +57,9 @@ function animateProjectil(player, target, skill, height, width) {
     jqueryImg.animate({
         left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - jqueryImg.width()/2 + 'px',
         top: targetElement.offset().top - playerElement.offset().top + targetElement.height()/2 - jqueryImg.height()/2 + 'px'
-    }, skill.duration);
-    setTimeout(function(){
+    }, skill.duration, function() {
         $("#" + skill.id + "Img").remove();
-    }, skill.duration)
+    });
 }
 
 function animateProjectilWithSequence(player, target, skill) {
