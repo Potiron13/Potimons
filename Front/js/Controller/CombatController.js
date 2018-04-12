@@ -454,7 +454,7 @@ CombatController.prototype = {
                     defence = tempStatCible.specialDefence.value;                    
                 }
                 level = (output.isCriticalHit) ? source.level*2 : source.level; 
-                output.dammage = Math.round(controllerCombat.calculateDammage( level, tempStatSource.attaque.value, tempStatCible.defence.value, skill.power, qteValue, output.effectiveness));                
+                output.dammage = Math.round(controllerCombat.calculateDammage( level, tempStatSource.attaque.value, tempStatCible.defence.value, skill.power, qteValue, output.effectiveness, skill.id));                
                 controllerCombat.handleSpecialSkills(skill, this, source);
                 if(skill.constructor.name == 'Debuff') {
                     output.debuffStat = skill.stat;
@@ -597,7 +597,10 @@ CombatController.prototype = {
         return bonusElementType;
     },
 
-    calculateDammage: function(level, sourceAttaque, cibleDefence, power, qteValue, bonusType){
+    calculateDammage: function(level, sourceAttaque, cibleDefence, power, qteValue, bonusType, skillId){
+        if(skillId === 82) {
+            return 40;
+        }
         var result = 0;
         if (power >  0) {
             result = Math.round((((2*level)/5)*power*(sourceAttaque/cibleDefence)/50 + 2));

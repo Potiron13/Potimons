@@ -113,6 +113,8 @@ const strSpore = "spore";
 const strPicpic = "pic-pic";
 const strBecVrille = "bec-vrille";
 const strTrempette = "trempette";
+const strUltralser = "ultra-laser";
+const strDracoRage = "draco-rage";
 
 // CARTES
 const strPlaine = 'plaine';

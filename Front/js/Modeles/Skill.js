@@ -144,6 +144,9 @@ var AllSkills = [
     new Skill(65, strBecVrille, 80, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 3, 0.9, 1),
     // magicarp
     new Skill(150, strTrempette, 0, strCorpsACorps, animateTrempette, '', 1000, 0, false, 1, 1, 1, 1),
+    // leviathan
+    new Skill(63, strUltralser, 150, strMagie, animateRay, '', 1000, 50, false, 3, 1, 0.9, 1),
+    new Skill(82, strDracoRage, 40, strMagie, animateRay, '', 1000, 20, true, 3, 16, 1, 1),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false, 1, 1, 1, 1),
 ];

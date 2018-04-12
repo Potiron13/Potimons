@@ -45,7 +45,6 @@ function animateTrempette(player, target, skill) {
     }          
 }
 
-
 function animateProjectil(player, target, skill, height, width) {
     var playerElement = $('#' + player.id);
     var targetElement = $('#' + target.id);
