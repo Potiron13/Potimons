@@ -167,7 +167,9 @@ const strModalMenuFusionTwoMonster = 'modalMenuFusionTwoMonsters';
 const strBtnFusionner = 'btnFusionner';
 const strSaveMenu = 'saveMenuModal';
 const strDeconnectionMenu = 'DeconnectionMenu';
-
+const strEtreinte = 'étreinte';
+const strIntimidation = 'intimidation';
+const strAcide = 'acide';
 
 //DOM classes
 const strPortaitContainerGentil = 'portaitContainerGentil';

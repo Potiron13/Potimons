@@ -191,12 +191,13 @@ function animateOverHead(player, target, skill) {
     var gifOverHead = document.createElement('img');    
     var playerPosition = playerElement.offset();
     var targetPosition = targetElement.offset();
+    const imgId = skill.id + "Img" + target.id;
     gifOverHead.src = skill.src;
-    gifOverHead.id = skill.id + "Img";
+    gifOverHead.id = imgId;
     gifOverHead.style="position:absolute";
     gifOverHead.style.zIndex = "10";    
-    gifOverHead.style.height = targetElement.height() + 'px';    
-    gifOverHead.style.width = gifOverHead.style.height;    
+    gifOverHead.style.height = $('#' + target.id).height() + 'px';    
+    gifOverHead.style.width = $('#' + target.id).height() + 'px';            
     targetElement.prepend(gifOverHead);
     var jqueryImg = $('#' + gifOverHead.id); 
     setTimeout(function(){
@@ -207,7 +208,7 @@ function animateOverHead(player, target, skill) {
         });        
     }, 10);
     setTimeout(function(){
-        $("#" + skill.id + "Img").remove();
+        $("#" + imgId).remove();
     }, skill.duration)
 }
 
