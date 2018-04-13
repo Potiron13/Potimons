@@ -1,3 +1,4 @@
+    -bug mimiqueue
     -bug monté de niveau
     -fenetre deconnexion
     -nettoyer les sources (code mort + facto)          

@@ -456,7 +456,7 @@ CombatController.prototype = {
                     defence = tempStatCible.specialDefence.value;
                 }
                 level = (output.isCriticalHit) ? source.level * 2 : source.level;
-                output.dammage = Math.round(controllerCombat.calculateDammage(level, tempStatSource.attaque.value, tempStatCible.defence.value, skill.power, qteValue, output.effectiveness, skill.id));
+                output.dammage = Math.round(controllerCombat.calculateDammage(level, attaque, defence, skill.power, qteValue, output.effectiveness, skill.id));
                 controllerCombat.handleSpecialSkills(skill, this, source);
                 if (skill.constructor.name == 'Debuff') {
                     output.debuffStat = skill.stat;
@@ -602,7 +602,8 @@ CombatController.prototype = {
     calculateDammage: function (level, sourceAttaque, cibleDefence, power, qteValue, bonusType, skillId) {
         if (skillId === 82) {
             return 40;
-        }
+        }        
+
         var result = 0;
         if (power > 0) {
             result = Math.round((((2 * level) / 5) * power * (sourceAttaque / cibleDefence) / 50 + 2));
@@ -767,7 +768,9 @@ CombatController.prototype = {
         SetPotiflouz(GetPotiflouz() + potiflouzGagnee);
         controllerCombat.view.displayVictory(experienceGagnee, potiflouzGagnee,/*controllerCombat.getVictoryItemViewModel(lootedItems)*/ null, controllerCombat.getEquipeVictoireViewModel());
         setTimeout(function () {
-            controllerCombat.incrementerExperience(controllerCombat, experienceGagnee);
+            $.each(controllerCombat.getListEquipe(), function (index) {
+                controllerCombat.incrementerExperience(controllerCombat, experienceGagnee, this);
+            });
             $.each(controllerCombat.listCapture, function (index) {
                 if (GetListEquipe().length <= 2) {
                     GetListEquipe().push(this);
@@ -797,22 +800,19 @@ CombatController.prototype = {
         });
     },
 
-    incrementerExperience: function (controllerCombat, experienceGagnee) {
-        $.each(controllerCombat.getListEquipe(), function (index) {
-            var player = this;
-            if ((this.experience + experienceGagnee) < this.experienceNextLevel) {
-                this.experience = this.experience + experienceGagnee;
-                updateProgressBar(controllerCombat.view.getProgressBar(this, strVictoire + 'Experience'), this.experience, this.experienceNextLevel);
-            } else {
-                this.experience = this.experienceNextLevel;
-                experienceGagnee = experienceGagnee - this.experienceNextLevel;
-                incrementerLevel(player).then(function (learnedSkills) {
-                    controllerCombat.view.animateLevelUp(player, learnedSkills);
-                    updateProgressBar(controllerCombat.view.getProgressBar(player, strVictoire + 'Experience'), player.experience, player.experienceNextLevel);
-                    controllerCombat.incrementerExperience(controllerCombat, experienceGagnee);
-                });
-            }
-        });
+    incrementerExperience: function (controllerCombat, experienceGagnee, player) {        
+        if ((player.experience + experienceGagnee) < player.experienceNextLevel) {
+            player.experience = player.experience + experienceGagnee;            
+            updateProgressBar(controllerCombat.view.getProgressBar(player, strVictoire + 'Experience'), player.experience, player.experienceNextLevel);
+        } else {            
+            experienceGagnee = player.experience + experienceGagnee - player.experienceNextLevel;
+            player.experience = player.experienceNextLevel;                        
+            incrementerLevel(player).then(function (learnedSkills) {
+                controllerCombat.view.animateLevelUp(player, learnedSkills);
+                updateProgressBar(controllerCombat.view.getProgressBar(player, strVictoire + 'Experience'), player.experience, player.experienceNextLevel);
+                controllerCombat.incrementerExperience(controllerCombat, experienceGagnee, player);
+            });
+        }
     },
 
     reinitialiserEtat: function (listPlayer) {
