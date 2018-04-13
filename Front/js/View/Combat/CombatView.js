@@ -18,7 +18,7 @@ CombatView.prototype = {
         var containerBottomRow = displayElementOnParent('div', 'containerTopRow', 'container-fluid', '', bottomRow);
         this.displayFuturActions(listPlayer, containerTopRow);
         var ennemieContainer = displayElementOnParent('div', 'ennemieContainer', 'row', '', containerTopRow);
-        this.displayEnnemieInfo(viewModelInfoEnnemie, 'col-xs-12 col-sm-4', ennemieContainer);
+        this.displayEnnemieInfo(viewModelInfoEnnemie, 'col-sm-12 col-md-4', ennemieContainer);
         var colonneEnnemies = displayElementOnParent('div', "colonneEnnemies", "col-sm-8 colonneEnnemies", "", ennemieContainer);
         var rowEnnemies = displayElementOnParent('div', "rowEnnemies", "row", "", colonneEnnemies);
         this.displayPlayerList(listEnnemies, rowEnnemies);
