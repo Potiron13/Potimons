@@ -166,6 +166,7 @@ const strLoadGameModal = 'loadGameModal';
 const strModalMenuFusionTwoMonster = 'modalMenuFusionTwoMonsters';
 const strBtnFusionner = 'btnFusionner';
 const strSaveMenu = 'saveMenuModal';
+const strDeconnectionMenu = 'DeconnectionMenu';
 
 
 //DOM classes

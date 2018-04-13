@@ -1,4 +1,4 @@
-var WorldMapController = function (view, listReserve, listItem, listCarte, timeGame, listMonstresCapture, deconnexion) {
+var WorldMapController = function (view, listReserve, listItem, listCarte, timeGame, listMonstresCapture, Deconnection) {
     this.view = view;    
     this.listReserve = listReserve;
     this.listItem = listItem;
@@ -13,6 +13,7 @@ var WorldMapController = function (view, listReserve, listItem, listCarte, timeG
     this.profilController = new ProfilController(new ProfilView());
     this.shopController = new ShopController(new ShopView());
     this.saveMenuController = new SaveMenuController(new SaveMenuView());    
+    this.deconnectionMenuController = new DeconnectionMenuController(new DeconnectionMenuView());
 };
 
 WorldMapController.prototype = {
@@ -24,13 +25,14 @@ WorldMapController.prototype = {
         this.view.initialiserProfil = this.profilController;
         this.view.initialiserShop = this.shopController;
         this.view.initialiserSaveMenu = this.saveMenuController;
+        this.view.initialiserDeconnectionMenu = this.deconnectionMenuController.init.bind(this.deconnectionMenuController);
         this.view.displayPotidex = this.potidexController.displayPotidex.bind(this.potidexController);
         this.view.displayMainMenu = this.mainMenuController.displayMainMenu.bind(this);
         this.view.displayOnline = this.onlineController.displayOnline.bind(this);
         this.view.displayProfil = this.profilController.displayProfil.bind(this.profilController);
         this.view.displayShop = this.shopController.displayShop.bind(this);
-        this.view.displaySaveMenu = this.saveMenuController.displaySaveMenu.bind(this.saveMenuController);
-        this.view.deconnexion = this.deconnexion;
+        this.view.displaySaveMenu = this.saveMenuController.displaySaveMenu.bind(this.saveMenuController);        
+        this.view.displayDeconnectionMenu = this.deconnectionMenuController.displayDeconnectionMenu.bind(this.deconnectionMenuController);        
         this.handleArene(listCarte);
         this.view.render(listCarte);
         var controller = this;
@@ -73,10 +75,5 @@ WorldMapController.prototype = {
             combatController.online = false;
         });
     },    
-
-    deconnexion: function() {
-        DeleteSessionGuid();
-        location.reload();
-    }
 
 }
