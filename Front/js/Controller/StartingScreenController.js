@@ -43,15 +43,18 @@ StartingScreenController.prototype = {
         this.view.render();
         this.view.renderLogIn();
         this.view.renderNewUser();
+        $('form').preventDoubleSubmission();
         getAllElementTypeEfficacy();
         getAllElementIdentifier();
         var controller = this;
         $('#LogInForm').submit(function (e) {
             e.preventDefault();
+            $('button[type=submit], input[type=submit]').prop('disabled',true);            
             controller.logIn();
         });
         $('#NewUserForm').submit(function (e) {
             e.preventDefault();
+            $('button[type=submit], input[type=submit]').prop('disabled',true);
             controller.newUser();
         });
     },
