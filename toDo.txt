@@ -8,8 +8,7 @@
     -gérer la mort des potimons
     -retravailler l'affichage :          
         -affichage spécial mobile ?        
-        -revoir affichage menu drag n drop
-        -revoir playSeq ?
+        -revoir affichage menu drag n drop        
         -fond de carte répétable       
 
 -string escape (interpolation)
