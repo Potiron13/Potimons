@@ -1,7 +1,7 @@
 
 class BasePotimon {
-    constructor(id, name, experienceDonnee,hp, attaque, defence, specialAttaque, specialDefence, speed, elementTypeId,
-         evolution, evolutionLevel, futureSkills, tauxDeCapture, description, height){
+    constructor(id, name, experienceDonnee, hp, attaque, defence, specialAttaque, specialDefence, speed, elementTypeId,
+        evolution, evolutionLevel, futureSkills, tauxDeCapture, description, height) {
         this.id = id;
         this.name = name;
         this.hp = hp;
@@ -27,9 +27,9 @@ class BasePotimon {
 class Potimon extends BasePotimon {
     constructor(basePotimon, level, experience, currentHp, currentMana, gentil, skills, etat) {
         super(basePotimon.id, basePotimon.name, basePotimon.experienceDonnee, basePotimon.hp,
-             basePotimon.attaque, basePotimon.defence, basePotimon.specialAttaque, basePotimon.specialDefence, 
-             basePotimon.speed, basePotimon.elementTypeId, basePotimon.evolution, basePotimon.evolutionLevel, 
-             basePotimon.futureSkills, basePotimon.tauxDeCapture, basePotimon.description, basePotimon.height);
+            basePotimon.attaque, basePotimon.defence, basePotimon.specialAttaque, basePotimon.specialDefence,
+            basePotimon.speed, basePotimon.elementTypeId, basePotimon.evolution, basePotimon.evolutionLevel,
+            basePotimon.futureSkills, basePotimon.tauxDeCapture, basePotimon.description, basePotimon.height);
         this.hp = getStatHp(basePotimon.hp, level);
         this.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
         this.attaque = getStat(basePotimon.attaque, level);
@@ -51,9 +51,9 @@ class Potimon extends BasePotimon {
 
 function instancierInGamePotimon(id, level, gentil) {
     var inGamePotimon = {};
-    return getPotimonById(id).then(function(potimon){        
+    return getPotimonById(id).then(function (potimon) {
         var basePotimon = mapBasePotimon(potimon);
-        inGamePotimon = new Potimon(basePotimon, level, 0, 0, 0, gentil, [], null);        
+        inGamePotimon = new Potimon(basePotimon, level, 0, 0, 0, gentil, [], null);
         inGamePotimon.currentHp = inGamePotimon.hp;
         inGamePotimon.currentMana = inGamePotimon.mana;
         inGamePotimon.id = guidGenerator();
@@ -63,58 +63,56 @@ function instancierInGamePotimon(id, level, gentil) {
     });
 }
 
-function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {        
+function instancierMultipleInGameEnnemiePotimon(data, controllerCombat) {
     var requests = [];
     var levels = [];
     for (let i = 0; i < data.length; i++) {
-        requests.push(getPotimonById(data[i].id));   
-        levels.push(data[i].level);                     
+        requests.push(getPotimonById(data[i].id));
+        levels.push(data[i].level);
     }
-    $.when.apply($, requests).done(function () {        
+    $.when.apply($, requests).done(function () {
         $.each(arguments, function (i, data) {
             var inGamePotimon = {};
             var basePotimon = mapBasePotimon(data);
-            inGamePotimon = new Potimon(basePotimon, levels[i], 0, 0, 0, false, [], null);        
+            inGamePotimon = new Potimon(basePotimon, levels[i], 0, 0, 0, false, [], null);
             inGamePotimon.currentHp = inGamePotimon.hp;
             inGamePotimon.currentMana = inGamePotimon.mana;
-            inGamePotimon.id = guidGenerator();    
+            inGamePotimon.id = guidGenerator();
             setSkillsByLevel(inGamePotimon, basePotimon);
             controllerCombat.listPlayer.push(inGamePotimon);
             controllerCombat.listEnnemies.push(inGamePotimon);
             controllerCombat.listEnnemiesTotal.push(inGamePotimon);
-            controllerCombat.listPlayer.sort(function(a, b){ return b.speed - a.speed});
-            controllerCombat.listEnnemies.sort(function(a, b){ return b.speed - a.speed});
-            GetListEquipe().sort(function(a, b){ return b.speed - a.speed});                     
+            controllerCombat.listPlayer.sort(function (a, b) { return b.speed - a.speed });
+            controllerCombat.listEnnemies.sort(function (a, b) { return b.speed - a.speed });
+            GetListEquipe().sort(function (a, b) { return b.speed - a.speed });
         });
         controllerCombat.combat();
     });
 }
 
-function setSkillsByLevel(potimon, basePotimon, learnedSkills) {    
-    var futureSkills = basePotimon.futureSkills;     
-    for (var i = 0; i < potimon.level; i++) {              
-        $.each(futureSkills, function(index){                
-            if (potimon.skills.filter(x=>x.id == futureSkills[index].skill.id).length === 0) {
-                if (futureSkills[index].requiredLevel <= potimon.level) {                                                                                  
-                    potimon.skills.push(futureSkills[index].skill);
-                    if (learnedSkills) {
-                        learnedSkills.push(futureSkills[index].skill.name);
-                    }
+function setSkillsByLevel(potimon, basePotimon, learnedSkills) {
+    var futureSkills = basePotimon.futureSkills;
+    $.each(futureSkills, function (index) {
+        if (potimon.skills.filter(x => x.id == futureSkills[index].skill.id).length === 0) {
+            if (futureSkills[index].requiredLevel <= potimon.level) {
+                potimon.skills.push(futureSkills[index].skill);
+                if (learnedSkills) {
+                    learnedSkills.push(futureSkills[index].skill.name);
                 }
             }
-        });
-    }
+        }
+    });
 
     return potimon;
 }
 
-function incrementerLevel(potimon){
-    var learnedSkills = [];    
-    
-    return getPotimonById(potimon.baseId).then(function(potimonDb){
+function incrementerLevel(potimon) {
+    var learnedSkills = [];
+
+    return getPotimonById(potimon.baseId).then(function (potimonDb) {
         var basePotimon = mapBasePotimon(potimonDb);
         potimon.level += 1;
-        var level = potimon.level;        
+        var level = potimon.level;
         potimon.hp = getStatHp(basePotimon.hp, level);
         potimon.mana = getStatMana(basePotimon.specialAttaque, basePotimon.specialDefence, level);
         potimon.attaque = getStat(basePotimon.attaque, level);
@@ -128,20 +126,20 @@ function incrementerLevel(potimon){
         potimon.currentMana = potimon.mana;
         setSkillsByLevel(potimon, basePotimon, learnedSkills);
         if (isReadyToEvolve(potimon)) {
-            evolution(potimon).then(function(){
+            evolution(potimon).then(function () {
                 // do stuff
             });
         }
-    
+
         return learnedSkills;
     });
 }
 
-function getSrc(id){
-     return strPathImgMonstre + '/' + id + '.gif';
+function getSrc(id) {
+    return strPathImgMonstre + '/' + id + '.gif';
 }
 
-function getSrcDos(src){
+function getSrcDos(src) {
     return src.replace(strPathImgMonstre, strPathImgMonstreDos);
 }
 
@@ -150,23 +148,23 @@ function getSrcPortrait(src) {
 }
 
 function getBasePotimonByName(name) {
-    return basePotimonList.find(x=>x.name == name);
+    return basePotimonList.find(x => x.name == name);
 }
 
 function getStatHp(basePotimonHp, level) {
-    return  Math.round(basePotimonHp*2*level/100 + level + 10);
+    return Math.round(basePotimonHp * 2 * level / 100 + level + 10);
 }
 
 function getStatMana(basePotimonSpecialAttaque, basePotimonSpecialDefence, level) {
-    return Math.round(((basePotimonSpecialAttaque + basePotimonSpecialDefence)/2)*level/100 + level + 10);
+    return Math.round(((basePotimonSpecialAttaque + basePotimonSpecialDefence) / 2) * level / 100 + level + 10);
 }
 
 function getStat(basePotimonStat, level) {
-    return  Math.round(basePotimonStat*2*level/100 + 5);
+    return Math.round(basePotimonStat * 2 * level / 100 + 5);
 }
 
 class ViewModelVictoirePlayer {
-    constructor (player) {
+    constructor(player) {
         this.id = player.id
         this.Nom = player.name;
         this.ExperienceActuelle = player.experience;
@@ -177,7 +175,7 @@ class ViewModelVictoirePlayer {
 }
 
 class ViewModelInfoPlayer {
-    constructor (player) {
+    constructor(player) {
         this.id = player.id
         this.Nom = player.name;
         this.Hp = player.hp;
@@ -201,7 +199,7 @@ function isReadyToEvolve(player) {
 
 function evolution(potimon) {
     var level = potimon.level;
-    return getPotimonById(potimon.evolution).then(function(potimonDb){
+    return getPotimonById(potimon.evolution).then(function (potimonDb) {
         var basePotimon = mapBasePotimon(potimonDb);
         potimon.baseId = basePotimon.id;
         potimon.name = basePotimon.name;
@@ -223,6 +221,6 @@ function evolution(potimon) {
         if (potimon.gentil) {
             initialiserEvolutionMenu(potimon);
         }
-        AddPotimonCapture(potimon.baseId);        
+        AddPotimonCapture(potimon.baseId);
     });
 }

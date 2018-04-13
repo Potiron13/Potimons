@@ -47,7 +47,7 @@ var plaine2 = [
     new Terrain(16,30),
     new Terrain(19,30),
     new Terrain(21,30),
-    new Terrain(20,10),
+    new Terrain(23,10),
 ]
 
 var foret = [

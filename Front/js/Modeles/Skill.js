@@ -151,6 +151,8 @@ var AllSkills = [
     new Skill(35, strEtreinte, 50, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 1, 0.9, 1),
     new Debuff(51, strAcide, 40, strCorpsACorps, animateOverHead, '', 1000, 0, true, 1, 4, 1, 1, 'defence', 0.1),
     new EffectAlteration(137, strIntimidation, 0, strMagie, animateOverHead, '', 1000, 10, true, 3, 1, 0.7, 1, 6),
+    // ferosinge
+    
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false, 1, 1, 1, 1),
 ];

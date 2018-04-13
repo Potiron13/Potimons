@@ -11,6 +11,7 @@
         -affichage spécial mobile ?        
         -revoir affichage menu drag n drop        
         -fond de carte répétable
+        -affichage des effets dans menu skill
 
 -string escape (interpolation)
 -orm pour node : sequelize
