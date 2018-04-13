@@ -1,3 +1,5 @@
+    -bug monté de niveau
+    -fenetre deconnexion
     -nettoyer les sources (code mort + facto)          
     -revoir le systeme tour par tour pour inclure la vitesse ?
     -revoir la fusion            
