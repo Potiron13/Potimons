@@ -252,6 +252,7 @@ function playSeq(firstframe, currentframe, lastframe, milliseconds, image, image
         played = true;
     }
 }
+
 function preloadImages(array) {
     if (!preloadImages.list) {
         preloadImages.list = [];
