@@ -1,4 +1,5 @@
     -nettoyer les sources (code mort + facto)          
+    -revoir le systeme tour par tour pour inclure la vitesse ?
     -revoir la fusion    
     -crypté les données        
     -ajouter du contenu :        
@@ -9,7 +10,7 @@
     -retravailler l'affichage :          
         -affichage spécial mobile ?        
         -revoir affichage menu drag n drop        
-        -fond de carte répétable       
+        -fond de carte répétable
 
 -string escape (interpolation)
 -orm pour node : sequelize
