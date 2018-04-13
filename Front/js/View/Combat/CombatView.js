@@ -18,14 +18,14 @@ CombatView.prototype = {
         var containerBottomRow = displayElementOnParent('div', 'containerTopRow', 'container-fluid', '', bottomRow);
         this.displayFuturActions(listPlayer, containerTopRow);
         var ennemieContainer = displayElementOnParent('div', 'ennemieContainer', 'row', '', containerTopRow);
-        this.displayEnnemieInfo(viewModelInfoEnnemie, 'col-sm-3', ennemieContainer);
-        var colonneEnnemies = displayElementOnParent('div', "colonneEnnemies", "col-sm-9 colonneEnnemies", "", ennemieContainer);
+        this.displayEnnemieInfo(viewModelInfoEnnemie, 'col-sm-4', ennemieContainer);
+        var colonneEnnemies = displayElementOnParent('div', "colonneEnnemies", "col-sm-8 colonneEnnemies", "", ennemieContainer);
         var rowEnnemies = displayElementOnParent('div', "rowEnnemies", "row", "", colonneEnnemies);
         this.displayPlayerList(listEnnemies, rowEnnemies);
         var equipeContainer = displayElementOnParent('div', 'equipeContainer', 'row', '', containerMainRow);
-        var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-9', '', equipeContainer);
+        var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-8', '', equipeContainer);
         this.displayPlayerList(listEquipe, equipeCol);
-        this.displayEquipeInfo(viewModelInfoEquipe,  'col-sm-3', equipeContainer);
+        this.displayEquipeInfo(viewModelInfoEquipe,  'col-sm-4', equipeContainer);
         this.displaySkillsNavBar(listEquipe, listItem, online, arene, containerBottomRow);
     },
 
@@ -66,17 +66,17 @@ CombatView.prototype = {
             var viewModel = viewModelInfoEnnemie[index];
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEnnemie);
             if (index == 0) {
-                var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
-                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaColInfo', 'col-sm-6', 'Hp/Mana', labelRow);
-                var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);                
+                var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-5', 'Nom', labelRow);
+                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaColInfo', 'col-sm-4', 'Hp/Mana', labelRow);
+                var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-3', 'Niv', labelRow);                
             }
-            var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
-            var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-6', '', infoRow);
+            var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-5', viewModel.Nom, infoRow);
+            var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-4', '', infoRow);
             var hpContainerRow = displayElementOnParent('div', viewModel.id + 'hpContainerRow', 'row', '', valueHpManaCol);
             var manaContainerRow = displayElementOnParent('div', viewModel.id + 'manaContainerRow', 'row', '', valueHpManaCol);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Hp', viewModel.CurrentHp, viewModel.Hp, 'col-sm-12 clearMargin', hpContainerRow);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, 'col-sm-12', manaContainerRow);
-            displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-2', viewModel.Niv, infoRow);            
+            displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-3', viewModel.Niv, infoRow);            
         });
     },
 
@@ -87,17 +87,17 @@ CombatView.prototype = {
             var viewModel = viewModelsInfoPlayer[index];
             var infoRow = displayElementOnParent('div', viewModel.id + 'Info' + 'Row', 'row', '', colInfoEquipe);
             if (index == 0) {
-                var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-4', 'Nom', labelRow);
-                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-6', 'Hp/Mana', labelRow);
-                var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-2', 'Niv', labelRow);                
+                var labelNomCol = displayElementOnParent('div', viewModel.id + 'labelNomCol', 'col-sm-5', 'Nom', labelRow);
+                var labelHpManaCol = displayElementOnParent('div', viewModel.id + 'labelHpManaCol' + viewModel.id, 'col-sm-4', 'Hp/Mana', labelRow);
+                var labelLevelCol = displayElementOnParent('div', viewModel.id + 'labelLevelColInfo', 'col-sm-3', 'Niv', labelRow);                
             }
-            var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-4', viewModel.Nom, infoRow);
-            var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-6', '', infoRow);
+            var valueNomCol = displayElementOnParent('div', viewModel.id + 'valueNomCol' + viewModel.id, 'col-sm-5', viewModel.Nom, infoRow);
+            var valueHpManaCol = displayElementOnParent('div', viewModel.id + 'valueHpManaCol' + viewModel.id, 'col-sm-4', '', infoRow);
             var hpContainerRow = displayElementOnParent('div', viewModel.id + 'hpContainerRow', 'row', '', valueHpManaCol);
             var manaContainerRow = displayElementOnParent('div', viewModel.id + 'manaContainerRow', 'row', '', valueHpManaCol);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Hp', viewModel.CurrentHp, viewModel.Hp, 'col-sm-12 clearMargin', hpContainerRow);
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, 'col-sm-12', manaContainerRow);
-            displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-2', viewModel.Niv, infoRow);            
+            displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-3', viewModel.Niv, infoRow);            
         });
         colInfoEquipe.css({
             top: $('#equipeCol').height() - colInfoEquipe.height() + 'px'
