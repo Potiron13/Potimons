@@ -25,7 +25,7 @@ CombatView.prototype = {
         var equipeContainer = displayElementOnParent('div', 'equipeContainer', 'row', '', containerMainRow);
         var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-8', '', equipeContainer);
         this.displayPlayerList(listEquipe, equipeCol);
-        this.displayEquipeInfo(viewModelInfoEquipe,  'col-sm-4', equipeContainer);
+        this.displayEquipeInfo(viewModelInfoEquipe,  'col-sm-12 col-md-4', equipeContainer);
         this.displaySkillsNavBar(listEquipe, listItem, online, arene, containerBottomRow);
     },
 
