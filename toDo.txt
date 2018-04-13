@@ -1,7 +1,7 @@
     -nettoyer les sources (code mort + facto)          
     -revoir le systeme tour par tour pour inclure la vitesse ?
-    -revoir la fusion    
-    -crypté les données        
+    -revoir la fusion            
+    -workflow pour reset mot de passe  
     -ajouter du contenu :        
         -ajouter des potimons
         -ajouter des skills
