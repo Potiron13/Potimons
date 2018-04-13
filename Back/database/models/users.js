@@ -1,15 +1,17 @@
+const md5 = require('md5');
 const connection = require('../connection.js');
 
 function insertUser(data) {
     var con = connection.getConnection();
-    var user = { username: data.userName, email: data.email, password: data.password, guid_token: data.guidToken, active: 0 }
+    var user = { username: data.userName, email: data.email, password: md5(data.password), guid_token: data.guidToken, active: 0 }    
+    
     return con.query('INSERT INTO users SET ?', user);
 }
 
 function selectUser(data) {
-    var con = connection.getConnection();
+    var con = connection.getConnection();    
     var sql = "SELECT user_id, username FROM users where username = " + con.escape(data.userName) +
-        " and password = " + con.escape(data.password) + " and active = 1" + ";";
+        " and password = " + con.escape(md5(data.password)) + " and active = 1" + ";";        
 
     return con.query(sql);
 }
@@ -30,7 +32,7 @@ function updateSessionGuid(data) {
 
 function selectUserWithSessionGuid(data) {
     var con = connection.getConnection();
-    var sql = "SELECT session_guid, username, password FROM users where session_guid = " + con.escape(data.sessionGuid);
+    var sql = "SELECT session_guid, username, password, user_id FROM users where session_guid = " + con.escape(data.sessionGuid);
 
     return con.query(sql);
 }

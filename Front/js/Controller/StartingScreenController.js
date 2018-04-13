@@ -15,19 +15,20 @@ var StartingScreenController = function (view, listReserve, listItem, listCarte,
 StartingScreenController.prototype = {
 
     init: function () {
-        var controller = this;        
-        controller.view.displaySpinningPotiron();                
-        $.each(AllSequencialGifId, function(index) {
+        var controller = this;
+        controller.view.displaySpinningPotiron();
+        $.each(AllSequencialGifId, function (index) {
             preloadImages(buildImageList('Images/Skills/' + this, 31));
         });
         const sessionGuid = GetSessionGuid();
-        if (sessionGuid) {            
+        if (sessionGuid) {
             $.get('/api/users/selectUserWithSessionGuid', {
                 sessionGuid: sessionGuid,
             }).then(function (a) {
                 if (a[0] && sessionGuid === a[0].session_guid) {
-                    controller.initAfterSessionCheck(false);
-                    controller.logIn(a[0].username, a[0].password);
+                    getAllElementTypeEfficacy();
+                    getAllElementIdentifier();
+                    controller.handleUserLogIn(a[0].user_id, a[0].username);
                 } else {
                     controller.initAfterSessionCheck(true);
                 }
@@ -37,13 +38,11 @@ StartingScreenController.prototype = {
         }
     },
 
-    initAfterSessionCheck(doRender) {
-        if (doRender === true) {            
-            this.view.render();
-            this.view.renderLogIn();
-            this.view.renderNewUser();
-        }
+    initAfterSessionCheck() {
         this.view.newUser = this.newUser.bind(this);
+        this.view.render();
+        this.view.renderLogIn();
+        this.view.renderNewUser();
         getAllElementTypeEfficacy();
         getAllElementIdentifier();
         var controller = this;
@@ -220,31 +219,36 @@ StartingScreenController.prototype = {
         });
     },
 
-    logIn: function (username, password) {       
-        username =  username || $('#logInPseudoId').val();
-        password = password || $('#logInPasswordId').val();        
+    logIn: function (username, password) {
+        username = username || $('#logInPseudoId').val();
+        password = password || $('#logInPasswordId').val();
         var controller = this;
         $.get('/api/users/selectUser', {
             userName: username,
             password: password,
         }).then(function (a) {
             if (a[0]) {
-                if (a[0].user_id) {
-                    SetUserId(a[0].user_id);
-                    SetUserName(a[0].username);
-                    const sessionGuid = guidGenerator();
-                    $.get('/api/users/updateSessionGuid', {
-                        userId: a[0].user_id,
-                        sessionGuid: sessionGuid,
-                    }).then(function () {
-                        SaveSessionGuid(sessionGuid);
-                        controller.loadGame();
-                    })
-                }
+                controller.handleUserLogIn(a[0].user_id, a[0].username);
             } else {
                 alert("Pseudo et/ou mot de passe non trouvé.")
             }
         })
+    },
+
+    handleUserLogIn: function (userId, username) {
+        if (userId) {
+            var controller = this;
+            SetUserId(userId);
+            SetUserName(username);
+            const sessionGuid = guidGenerator();
+            $.get('/api/users/updateSessionGuid', {
+                userId: userId,
+                sessionGuid: sessionGuid,
+            }).then(function () {
+                SaveSessionGuid(sessionGuid);
+                controller.loadGame();
+            })   
+        }        
     },
 
     goOnline: function () {
