@@ -94,8 +94,9 @@ function animateProjectilWithSequence(player, target, skill) {
         left: targetElement.offset().left - playerElement.offset().left + targetElement.width()/2 - jqueryImg.width()/2 + 'px',
         top: targetElement.offset().top - playerElement.offset().top + targetElement.height()/2 - jqueryImg.height()/2 + 'px'
     }, skill.duration);
-    playSeq(1,1,30,50,imgMagie, skill.src.replace('.gif', '/'), imgFormat);
+    const intervalSeq = playSeq(1,1,30,50,imgMagie, skill.src.replace('.gif', '/'), imgFormat);
     setTimeout(function(){
+        clearInterval(intervalSeq);
         $("#" + skill.id + "Img").remove();
     }, skill.duration)
 }
