@@ -15,7 +15,11 @@ var StartingScreenController = function (view, listReserve, listItem, listCarte,
 StartingScreenController.prototype = {
 
     init: function () {
-        var controller = this;
+        var controller = this;        
+        controller.view.displaySpinningPotiron();                
+        $.each(AllSequencialGifId, function(index) {
+            preloadImages(buildImageList('Images/Skills/' + this, 31));
+        });
         const sessionGuid = GetSessionGuid();
         if (sessionGuid) {            
             $.get('/api/users/selectUserWithSessionGuid', {
@@ -34,7 +38,7 @@ StartingScreenController.prototype = {
     },
 
     initAfterSessionCheck(doRender) {
-        if (doRender === true) {
+        if (doRender === true) {            
             this.view.render();
             this.view.renderLogIn();
             this.view.renderNewUser();
@@ -225,7 +229,6 @@ StartingScreenController.prototype = {
             password: password,
         }).then(function (a) {
             if (a[0]) {
-                controller.view.displaySpinningPotiron();
                 if (a[0].user_id) {
                     SetUserId(a[0].user_id);
                     SetUserName(a[0].username);

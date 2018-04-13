@@ -4,6 +4,7 @@ var StartingScreenView = function () {
 StartingScreenView.prototype = {
 
     render: function () {
+        $('body').empty();
         document.body.style.backgroundImage = strPathStartingScreen;
         document.body.style.height = '100%';
         document.body.style.backgroundSize = "cover";

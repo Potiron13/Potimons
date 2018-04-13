@@ -151,6 +151,8 @@ var AllSkills = [
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false, 1, 1, 1, 1),
 ];
 
+const AllSequencialGifId = [39, 74, 83, 97, 110, 116];
+
 function fetchSkills(skillsId) {
     result = [];
     $.each(skillsId, function (index) {

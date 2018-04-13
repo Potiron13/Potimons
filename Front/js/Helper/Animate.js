@@ -232,7 +232,8 @@ function animateOverHeadWithSequence(player, target, skill) {
             left : targetElement.width()/2 - jqueryImg.width()/2 + 'px',
             top : targetElement.top + 'px',
         });
-        playSeq(1,1,30,50,gifOverHead, skill.src.replace('.gif', '/'), imgFormat)
+        const intervalSeq = playSeq(1,1,30,50,gifOverHead, skill.src.replace('.gif', '/'), imgFormat)
+        clearInterval(intervalSeq);
     }, 10);
     setTimeout(function(){
         $("#" + skill.id + "Img").remove();
@@ -249,4 +250,31 @@ function playSeq(firstframe, currentframe, lastframe, milliseconds, image, image
         }, milliseconds);
         played = true;
     }
+}
+function preloadImages(array) {
+    if (!preloadImages.list) {
+        preloadImages.list = [];
+    }
+    var list = preloadImages.list;
+    for (var i = 0; i < array.length; i++) {
+        var img = new Image();
+        img.onload = function() {
+            var index = list.indexOf(this);
+            if (index !== -1) {
+                // remove image from the array once it's loaded
+                // for memory consumption reasons
+                list.splice(index, 1);
+            }
+        }
+        list.push(img);            
+        img.src = array[i];
+    }
+}
+
+function buildImageList(folderPath, imageNumber) {
+    var imageList = [];
+    for (let index = 0; index < imageNumber; index++) {
+        imageList.push(folderPath + '/' + index + '.png');
+    }    
+    return imageList;
 }
