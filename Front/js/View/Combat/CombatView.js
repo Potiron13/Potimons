@@ -14,16 +14,16 @@ CombatView.prototype = {
         var mainRow = displayElementOnParent('div', "mainRow", "row", "", container);        
         var bottomRow = displayElementOnParent('div', "bottomRow", "row", "", container);
         var containerTopRow = displayElementOnParent('div', 'containerTopRow', 'container-fluid', '', topRow);
-        var containerMainRow = displayElementOnParent('div', 'containerTopRow', 'container-fluid', '', mainRow);        
-        var containerBottomRow = displayElementOnParent('div', 'containerTopRow', 'container-fluid', '', bottomRow);
+        var containerMainRow = displayElementOnParent('div', 'containerMainRow', 'container-fluid', '', mainRow);        
+        var containerBottomRow = displayElementOnParent('div', 'containerBottomRow', 'container-fluid', '', bottomRow);
         this.displayFuturActions(listPlayer, containerTopRow);
         var ennemieContainer = displayElementOnParent('div', 'ennemieContainer', 'row', '', containerTopRow);
         this.displayEnnemieInfo(viewModelInfoEnnemie, 'col-sm-12 col-md-4', ennemieContainer);
-        var colonneEnnemies = displayElementOnParent('div', "colonneEnnemies", "col-sm-8 colonneEnnemies", "", ennemieContainer);
+        var colonneEnnemies = displayElementOnParent('div', "colonneEnnemies", "col-sm-12 col-md-8 colonneEnnemies", "", ennemieContainer);
         var rowEnnemies = displayElementOnParent('div', "rowEnnemies", "row", "", colonneEnnemies);
         this.displayPlayerList(listEnnemies, rowEnnemies);
         var equipeContainer = displayElementOnParent('div', 'equipeContainer', 'row', '', containerMainRow);
-        var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-8', '', equipeContainer);
+        var equipeCol = displayElementOnParent('div', 'equipeCol', 'col-sm-12 col-md-8', '', equipeContainer);
         this.displayPlayerList(listEquipe, equipeCol);
         this.displayEquipeInfo(viewModelInfoEquipe,  'col-sm-12 col-md-4', equipeContainer);
         this.displaySkillsNavBar(listEquipe, listItem, online, arene, containerBottomRow);
@@ -99,9 +99,9 @@ CombatView.prototype = {
             displayProgressBar(viewModel.id + strProgressBar + strCombat + 'Mana', viewModel.CurrentMana, viewModel.Mana, 'col-sm-12', manaContainerRow);
             displayElementOnParent('div', viewModel.id + 'valueLevelCol', 'col-sm-3', viewModel.Niv, infoRow);            
         });
-        colInfoEquipe.css({
+       /* colInfoEquipe.css({
             top: $('#equipeCol').height() - colInfoEquipe.height() + 'px'
-        });
+        });*/
     },
 
     getProgressBar: function (player, type) {
@@ -203,7 +203,7 @@ CombatView.prototype = {
         $.each(listPlayer, function (index) {
             var player = listPlayer[index];
             var cssClass = player.gentil ? strPortaitContainerGentil : strPortaitContainerEnnemie;
-            var portraitCol = displayElementOnParent('div', player.id + 'portaitColonne', 'col-sm-1 clearMargin clearPadding', '', futurActionsRow);
+            var portraitCol = displayElementOnParent('div', player.id + 'portaitColonne', 'col-sm-2 col-md-1 clearMargin clearPadding', '', futurActionsRow);
             var portaintContainer = displayElementOnParent('div', player.id + 'portaintContainer', cssClass, '', portraitCol);
             var portraitImg = document.createElement('img');
             portraitImg.style.width = '100%';
