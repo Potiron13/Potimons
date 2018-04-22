@@ -115,6 +115,10 @@ const strBecVrille = "bec-vrille";
 const strTrempette = "trempette";
 const strUltralser = "ultra-laser";
 const strDracoRage = "draco-rage";
+const strComboGriffe = "combo-griffe";
+const strCoupKarate = "coup-karate";
+const strMania = "mania";
+const strFrappeAtlas = "frappe atlas";
 
 // CARTES
 const strPlaine = 'plaine';

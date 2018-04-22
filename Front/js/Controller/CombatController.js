@@ -602,7 +602,9 @@ CombatController.prototype = {
     calculateDammage: function (level, sourceAttaque, cibleDefence, power, qteValue, bonusType, skillId) {
         if (skillId === 82) {
             return 40;
-        }        
+        }else if (skillId === 69) {
+            return level;
+        } 
 
         var result = 0;
         if (power > 0) {
