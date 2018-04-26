@@ -6,7 +6,7 @@ class Item {
         this.usableInCombat = usableInCombat;
         this.quantity = quantity;
         this.effectInMenu = effectInMenu;
-        this.effectInCombat= effectInCombat;
+        this.effectInCombat = effectInCombat;
         this.category = category;
         this.amount = amount;
         this.src = 'Images/Items/' + name + '.gif';
@@ -55,19 +55,19 @@ var AllItems = [
 
 function fetchItems(itemsId) {
     result = [];
-    $.each(itemsId, function(index) {
-        result.push(AllItems.find(x=>x.id == itemsId[index]));
+    $.each(itemsId, function (index) {
+        result.push(AllItems.find(x => x.id == itemsId[index]));
     });
 
     return result;
 }
 
 function fetchItem(itemId) {
-    return AllItems.find(x=>x.id == itemId);
+    return AllItems.find(x => x.id == itemId);
 }
 
 function fetchItemByName(itemName) {
-    return AllItems.find(x=>x.name == itemName);
+    return AllItems.find(x => x.name == itemName);
 }
 
 function isLootObtain(loot) {
@@ -80,7 +80,7 @@ function isLootObtain(loot) {
 
 function mapItemViewModel(listItem) {
     var result = [];
-    $.each(listItem, function(index) {
+    $.each(listItem, function (index) {
         result.push(new ViewModelItem(listItem[index]))
     });
 
@@ -89,7 +89,7 @@ function mapItemViewModel(listItem) {
 
 function mapPotionMenuViewModel(listEquipe) {
     var result = [];
-    $.each(listEquipe, function(index) {
+    $.each(listEquipe, function (index) {
         result.push(new MainMenuViewModel(this))
     });
 
@@ -108,38 +108,38 @@ function potionMana(itemName, playerId, progressBar) {
     var playerToHeal = Equipe.find(x => x.id == playerId);
     if (playerToHeal.mana - playerToHeal.currentMana > potionUsed.amount) {
         playerToHeal.currentMana += potionUsed.amount;
-    }else {
+    } else {
         playerToHeal.currentMana = playerToHeal.mana;
     }
     updateProgressBar(progressBar, playerToHeal.currentMana, playerToHeal.mana);
 }
 
-function curePoison(itemName, playerId, progressBar){
+function curePoison(itemName, playerId, progressBar) {
     var antidoteUsed = consumItem(itemName);
     var playerToHeal = Equipe.find(x => x.id == playerId);
-    if(playerToHeal.etat === strPoison) {
+    if (playerToHeal.etat === strPoison) {
         playerToHeal.etat = '';
     }
 }
 
-function cureSleep(itemName, playerId, progressBar){
+function cureSleep(itemName, playerId, progressBar) {
     var reveilleUsed = consumItem(itemName);
     var playerToHeal = Equipe.find(x => x.id == playerId);
-    if(playerToHeal.etat === strDodo) {
+    if (playerToHeal.etat === strDodo) {
         playerToHeal.etat = '';
     }
 }
 
 function consumItem(itemName) {
     var itemList = GetItems();
-    var item = itemList.find(x=>x.name == itemName);
+    var item = itemList.find(x => x.name == itemName);
     item.quantity = item.quantity - 1;
 
     return item;
 }
 
 function lancerPotiball(itemName, playerId, progressBar, listEnnemie, source, controllerCombat) {
-    var potiballUsed = Items.find(x=>x.name == itemName);
+    var potiballUsed = Items.find(x => x.name == itemName);
     potiballUsed.quantity = potiballUsed.quantity - 1;
     var target = listEnnemie.find(x => x.id == playerId);
     var calculCaptureResult = calculCapture(potiballUsed.category, target);
@@ -148,21 +148,21 @@ function lancerPotiball(itemName, playerId, progressBar, listEnnemie, source, co
     var textAttackDisplay = '';
     var textAttackDisplayDelay = 1000;
     var dureeLancee = animateLancePotiball(source, target, potiballUsed);
-    var duration = tickNumber*1000*2;
-    setTimeout(function(){
+    var duration = tickNumber * 1000 * 2;
+    setTimeout(function () {
         $('#' + target.id).css('visibility', 'hidden');
-        setTimeout(function(){
+        setTimeout(function () {
             if (captureReussi == false) {
                 textAttackDisplay = 'Echec';
                 controllerCombat.animateTextAttackDisplay(textAttackDisplay, textAttackDisplayDelay, target, 'red', controllerCombat);
-                setTimeout(function() {
+                setTimeout(function () {
                     $('#' + target.id).css('visibility', 'visible');
                     $("#" + strPotiball + "Img").remove();
                 }, textAttackDisplayDelay);
-            }else {
+            } else {
                 textAttackDisplay = 'Capture';
                 controllerCombat.animateTextAttackDisplay(textAttackDisplay, textAttackDisplayDelay, target, 'green', controllerCombat);
-                setTimeout(function(){
+                setTimeout(function () {
                     capture(target, controllerCombat);
                     $("#" + strPotiball + "Img").remove();
                 }, textAttackDisplayDelay);
@@ -176,12 +176,7 @@ function lancerPotiball(itemName, playerId, progressBar, listEnnemie, source, co
 function capture(ennemie, controllerCombat) {
     controllerCombat.sortirPlayerCombat(ennemie, controllerCombat);
     ennemie.gentil = true;
-    if (controllerCombat.listReserve.length < 9) {
-        controllerCombat.listCapture.push(ennemie);
-    }else {
-        alert('La reserve est pleine, le monstre est relache.');
-    }
-
+    controllerCombat.listCapture.push(ennemie);
 }
 
 function calculCapture(potiballType, target) {
@@ -194,36 +189,36 @@ function calculCapture(potiballType, target) {
     if (target.etat == strPoison) {
         bonusStatus = 1.5;
     }
-    var a = (1 - (2/3)*target.currentHp/target.hp)*target.tauxDeCapture*bonusBall*bonusStatus;
+    var a = (1 - (2 / 3) * target.currentHp / target.hp) * target.tauxDeCapture * bonusBall * bonusStatus;
     if (a >= 255) {
         tickNumber = 4;
 
-        return {'tickNumber' : tickNumber, 'captureReussi' : true};
-    }else {
-        var b = 65535*Math.pow(a/255, 1/4);
+        return { 'tickNumber': tickNumber, 'captureReussi': true };
+    } else {
+        var b = 65535 * Math.pow(a / 255, 1 / 4);
         for (var i = 0; i < 4; i++) {
             tickNumber = i + 1;
             var rand = entierAleatoire(0, 65535);
             if (rand > b) {
-                return {'tickNumber' : tickNumber, 'captureReussi' : false};
+                return { 'tickNumber': tickNumber, 'captureReussi': false };
             }
         }
 
-        return {'tickNumber' : tickNumber, 'captureReussi' : true};
+        return { 'tickNumber': tickNumber, 'captureReussi': true };
     }
 
 }
 
 function reformateItems(listToFormat) {
     if (listToFormat.length > 0) {
-        var itemsNames = AllItems.map(x=>x.name);
-        $.each(itemsNames, function(index){
-            var items = listToFormat.filter(x=>x.name == itemsNames[index]);
+        var itemsNames = AllItems.map(x => x.name);
+        $.each(itemsNames, function (index) {
+            var items = listToFormat.filter(x => x.name == itemsNames[index]);
             if (items.length > 0) {
-                var quantities = items.map(x=>x.quantity);
+                var quantities = items.map(x => x.quantity);
                 var reformatedItem = cloneItem(fetchItemByName(itemsNames[index]));
                 reformatedItem.quantity = quantities.reduce(getSum);
-                $.each(items, function(index) {
+                $.each(items, function (index) {
                     remove(listToFormat, items[index])
                 })
                 listToFormat.push(reformatedItem);
