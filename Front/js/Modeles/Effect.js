@@ -81,4 +81,5 @@ var AllEffects = [
     new Effect(7, strPoison, moyenneChance, effectPoison),
     new Effect(8, strPoison, hauteChance, effectPoison),
     new Effect(9, strParalysie, faibleChance, effectIdle),
+    new Effect(10, strParalysie, moyenneChance, effectIdle),
 ];

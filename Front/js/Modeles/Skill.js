@@ -157,6 +157,9 @@ var AllSkills = [
     new Skill(2, strCoupKarate, 50, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 2, 1, 1),
     new Skill(37, strMania, 120, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 1, 1, 1),
     new Skill(69, strFrappeAtlas, 40, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 2, 1, 1),
+    // nidoran
+    new Skill(2, strDoublePied, 60, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 2, 1, 1),
+    new EffectAlteration(84, strPlaquage, 85, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 1, 1, 1, 10),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false, 1, 1, 1, 1),
 ];

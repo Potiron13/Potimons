@@ -119,6 +119,8 @@ const strComboGriffe = "combo-griffe";
 const strCoupKarate = "coup-karate";
 const strMania = "mania";
 const strFrappeAtlas = "frappe atlas";
+const strDoublePied = "double pieds";
+const strPlaquage = "plaquage";
 
 // CARTES
 const strPlaine = 'plaine';
