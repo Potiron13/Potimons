@@ -158,8 +158,10 @@ var AllSkills = [
     new Skill(37, strMania, 120, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 1, 1, 1),
     new Skill(69, strFrappeAtlas, 40, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 2, 1, 1),
     // nidoran
-    new Skill(2, strDoublePied, 60, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 2, 1, 1),
-    new EffectAlteration(84, strPlaquage, 85, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 1, 1, 1, 10),
+    new Skill(24, strDoublePied, 60, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 2, 1, 1),
+    new EffectAlteration(34, strPriseDeCatch, 85, strCorpsACorps, animateOverHead, '', 1000, 0, false, 1, 1, 1, 1, 10),
+    new Skill(30, strCoupDeCorne, 65, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 1, 1, 1),
+    new EffectAlteration(32, strEmpalKorn, 0, strCorpsACorps, animateCharge, '', 1000, 0, false, 1, 1, 1, 1, 11),
     //divers
     new Skill(250, strLeech, 40, strMagie, animateLeech, '', 1000, 0, false, 1, 1, 1, 1),
 ];

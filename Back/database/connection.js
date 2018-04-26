@@ -6,7 +6,7 @@ function init() {
         host: process.env.MYSQL_SERVER || 'localhost',
         user: process.env.MYSQL_USER || 'root',
         password: process.env.MYSQL_PASSWORD || 'password',
-        database: process.env.MYSQL_DATABASE || 'potimonDb'
+        database: process.env.MYSQL_DATABASE || 'potimondb'
     }).then(function(conn){    
         connection = conn;
     });

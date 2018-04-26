@@ -159,7 +159,7 @@ StartingScreenController.prototype = {
                     for (let i = 0; i < ids.length; i++) {
                         requestsReserve.push($.get("/api/saveAndLoad/loadSkills", { potimonGameId: idsReserve[i] }));
                     }
-                    $.when.apply($, requests).done(function () {
+                    $.when.apply($, requestsReserve).done(function () {
                         if (ids.length > 1) {
                             $.each(arguments, function (i, data) {
                                 controller.fillPotimonSkill(data[0], controller);
@@ -178,7 +178,7 @@ StartingScreenController.prototype = {
     },
 
     fillPotimonSkill: function (skillTab, controller) {
-        if (skillTab.length > 0) {
+        if (skillTab && skillTab.length > 0) {
             var potimon = GetListEquipe().find(x => x.id === skillTab[0].potimon_game_id) || controller.listReserve.find(x => x.id === skillTab[0].potimon_game_id);
             $.each(skillTab, function (index) {
                 if (!potimon.skills.find(x => x.id == this.skill_id)) {
@@ -197,6 +197,8 @@ StartingScreenController.prototype = {
         inGamePotimon.experience = ajaxResult.potimon_experience;
         inGamePotimon.id = ajaxResult.potimon_game_id;
         inGamePotimon.gentil = true;
+        console.log(inGamePotimon);
+        
         setSkillsByLevel(inGamePotimon, basePotimon);
         listToFill.push(inGamePotimon);
         ids.push(inGamePotimon.id);

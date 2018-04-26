@@ -71,6 +71,13 @@ function effectVampiGraine(infectedPlayer, controllerCombat) {
     });
 }
 
+function effectMort(target, controllerCombat) {   
+    var delay = 2000;
+    var dammage = target.hp;    
+    target.currentHp = target.currentHp - dammage;
+    controllerCombat.animateTextAttackDisplay(dammage, delay, target, '', controllerCombat);  
+}
+
 var AllEffects = [    
     new Effect(1, strPoison, pureEffect, effectPoison),
     new Effect(2, strVampiGraine, pureEffect, effectVampiGraine),
@@ -82,4 +89,5 @@ var AllEffects = [
     new Effect(8, strPoison, hauteChance, effectPoison),
     new Effect(9, strParalysie, faibleChance, effectIdle),
     new Effect(10, strParalysie, moyenneChance, effectIdle),
+    new Effect(11, strMort, moyenneChance, effectMort),
 ];

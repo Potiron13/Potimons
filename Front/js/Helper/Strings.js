@@ -120,7 +120,10 @@ const strCoupKarate = "coup-karate";
 const strMania = "mania";
 const strFrappeAtlas = "frappe atlas";
 const strDoublePied = "double pieds";
-const strPlaquage = "plaquage";
+const strPriseDeCatch = "prise de catch";
+const strCoupDeCorne = "coup de courne";
+const strEmpalKorn = "empal'korn";
+const strMort = "mort";
 
 // CARTES
 const strPlaine = 'plaine';
