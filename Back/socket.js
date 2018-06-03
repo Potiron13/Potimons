@@ -6,7 +6,7 @@ var init = function (tempIo) {
     io = tempIo;
 }
 
-var handleSocket = function (socket) {    
+var handleSocket = function (socket) {
     socket.on('chat message', function (msg) {
         io.emit('chat message', msg);
     });
@@ -71,6 +71,7 @@ var handleSocket = function (socket) {
         if (index !== -1) {
             allClients.splice(index, 1);
         }
+        socket.broadcast.emit('all users', allClients.filter(x => x.enDuel == false).map(x => x.user));
     });
 }
 

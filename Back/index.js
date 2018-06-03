@@ -4,7 +4,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const router = express.Router();
 const ioManager = require('./socket.js');
-const api = require('./api/routes.js')
+const api = require('./api/routes.js');
 const connection = require('./database/connection.js');
 
 app.use(express.static('../Front'));
@@ -21,6 +21,6 @@ io.on('connection', ioManager.handleSocket);
 
 const port = process.env.ALWAYSDATA_HTTPD_PORT || 3000;
 const ip = process.env.ALWAYSDATA_HTTPD_IP || '0.0.0.0';
-http.listen(port, ip, function(){
+http.listen(port, ip, function () {
     console.log('listening on *:' + port);
 });
