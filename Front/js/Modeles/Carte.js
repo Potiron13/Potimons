@@ -59,6 +59,7 @@ var plaine3 = [
     new Terrain(29, 20),
 ]
 
+
 var foret = [
     new Terrain(10, 40),
     new Terrain(13, 55),
@@ -76,6 +77,12 @@ var arenePierre = [
     new Arene(74),
     new Arene(74),
     new Arene(95),
+]
+
+var boss = [
+    new Arene(3),
+    new Arene(6),
+    new Arene(9),
 ]
 
 function generateCarte(lastCarteId, allPotimonId) {
@@ -106,6 +113,13 @@ var AllCartes = [
     new Carte(9, 3, plaine2, 16, 18, strPlaine, false),
     new Carte(10, 1, marais, 5, 5, strMarais, false),
     new Carte(11, 3, plaine3, 18, 20, strPlaine, false),
+    new Carte(12, 3, plaine3, 20, 25, strPlaine, false),
+    new Carte(13, 3, foret, 25, 30, strForet, false),
+    new Carte(14, 3, foret, 30, 35, strForet, false),
+    new Carte(15, 3, foret, 35, 40, strForet, false),
+    new Carte(16, 3, kaverneKarout, 40, 45, strKaverneKarout, false),
+    new Carte(17, 3, kaverneKarout, 45, 50, strMarais, false),
+    new Carte(18, 1, boss, 70, 70, strMarais, true),
 ]
 
 function monstreApparu(monsters) {
