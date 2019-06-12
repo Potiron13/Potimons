@@ -59,6 +59,20 @@ var plaine3 = [
     new Terrain(29, 20),
 ]
 
+var plaine4 = [
+    new Terrain(32, 20),
+    new Terrain(30, 20),
+    new Terrain(17, 20),
+    new Terrain(20, 20),
+    new Terrain(24, 20),
+]
+
+var plaine5 = [
+    new Terrain(31, 25),
+    new Terrain(34, 25),
+    new Terrain(95, 25),
+    new Terrain(57, 25),
+]
 
 var foret = [
     new Terrain(10, 40),
@@ -66,11 +80,46 @@ var foret = [
     new Terrain(25, 5),
 ]
 
+var foret2 = [
+    new Terrain(11, 25),
+    new Terrain(12, 25),
+    new Terrain(14, 25),
+    new Terrain(15, 25),    
+]
+
+var marais2 = [
+    new Terrain(20, 25),
+    new Terrain(24, 25),
+    new Terrain(28, 25),
+    new Terrain(47, 25),    
+]
+
+var marais3 = [
+    new Terrain(20, 20),
+    new Terrain(22, 20),
+    new Terrain(24, 20),
+    new Terrain(28, 20),
+    new Terrain(42, 20),        
+]
+
 var kaverneKarout = [
     new Terrain(74, 25),
     new Terrain(41, 54),
-    new Terrain(46, 21),
-    // new Terrain(35, 6),
+    new Terrain(46, 21),    
+]
+
+var kaverneKarout2 = [
+    new Terrain(18, 20),
+    new Terrain(28, 20),
+    new Terrain(42, 20),
+    new Terrain(47, 20),
+    new Terrain(57, 20),    
+]
+
+var kaverneKarout3 = [
+    new Terrain(24, 25),
+    new Terrain(42, 54),
+    new Terrain(47, 21),    
 ]
 
 var arenePierre = [
@@ -79,10 +128,14 @@ var arenePierre = [
     new Arene(95),
 ]
 
-var boss = [
+var boss1 = [
     new Arene(3),
     new Arene(6),
     new Arene(9),
+]
+
+var boss2 = [
+    new Arene(130),    
 ]
 
 function generateCarte(lastCarteId, allPotimonId) {
@@ -113,13 +166,15 @@ var AllCartes = [
     new Carte(9, 3, plaine2, 16, 18, strPlaine, false),
     new Carte(10, 1, marais, 5, 5, strMarais, false),
     new Carte(11, 3, plaine3, 18, 20, strPlaine, false),
-    new Carte(12, 3, plaine3, 20, 25, strPlaine, false),
-    new Carte(13, 3, foret, 25, 30, strForet, false),
-    new Carte(14, 3, foret, 30, 35, strForet, false),
-    new Carte(15, 3, foret, 35, 40, strForet, false),
-    new Carte(16, 3, kaverneKarout, 40, 45, strKaverneKarout, false),
-    new Carte(17, 3, kaverneKarout, 45, 50, strMarais, false),
-    new Carte(18, 1, boss, 70, 70, strMarais, true),
+    new Carte(12, 3, plaine4, 20, 25, strPlaine, false),
+    new Carte(13, 3, foret2, 25, 30, strForet, false),
+    new Carte(14, 3, marais2, 30, 35, strMarais, false),
+    new Carte(15, 3, marais3, 35, 40, strMarais, false),
+    new Carte(16, 3, kaverneKarout2, 40, 45, strKaverneKarout, false),
+    new Carte(17, 3, kaverneKarout3, 45, 50, strKaverneKarout, false),
+    new Carte(18, 3, plaine5, 50, 55, strPlaine, false),
+    new Carte(19, 3, boss1, 70, 70, strMarais, true),
+    new Carte(20, 1, boss2, 100, 100, strMarais, true),
 ]
 
 function monstreApparu(monsters) {
