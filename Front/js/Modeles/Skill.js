@@ -102,7 +102,7 @@ var AllSkills = [
     // roucool
     new Skill(16, strTornade, 40, strCorpsACorps, animateProjectil, '', 1000, 0, false, 1, 3, 1, 1),
     new Skill(17, strCruAile, 60, strCorpsACorps, animateOverHead, '', 1000, 0, false, 2, 3, 1, 1),
-    new Debuff(18, strCyclone, 40, strMagie, animateProjectil, '', 1000, 20, true, 2, 10, 1, 1, 'evasion', 0.1),
+    new Debuff(18, strCyclone, 40, strMagie, animateProjectil, '', 1000, 20, true, 2, 3, 1, 1, 'evasion', 0.1),
     new Debuff(28, strJetDeSable, 0, strMagie, animateOverHead, '', 1000, 10, false, 2, 10, 1, 1, 'accuracy', 0.1),
     new Buff(97, strHate, 0, strMagie, animateOverHeadWithSequence, '', 1000, 20, false, 2, 10, 1, 0, 'accuracy', 0.2),
     new Buff(119, strMiroir, 0, strMagie, animateOverHead, '', 1000, 30, true, 2, 10, 1, 0, 'specialDefence', 0.2),
