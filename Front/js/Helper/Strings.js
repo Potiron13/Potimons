@@ -51,6 +51,7 @@ const strPoison = 'poison';
 const strJetDeVenin = 'jetDeVenin';
 const strBalayage = 'balayage';
 const strPotiball = 'potiball';
+const strSuperPotiball = 'superPotiball';
 const strMimiQueue = 'mimi queue';
 const strRepli = 'repli';
 const strPistoletAO = 'pistolet a eau';
