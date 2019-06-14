@@ -224,7 +224,7 @@ var AllCartes = [
     new Carte(23, 3, kaverneKarout3, 45, 50, strKaverneKarout, false),
     new Carte(24, 3, areneSol, 50, 55, strKaverneKarout, true),
     new Carte(25, 3, plaine5, 50, 55, strPlaine, false),
-    new Carte(26, 3, boss1, 70, 75, strMarais, false),
+    new Carte(26, 3, boss1, 70, 75, strMarais, true),
     new Carte(27, 1, boss2, 100, 110, strPlaine, true),
 ]
 
