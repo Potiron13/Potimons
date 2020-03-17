@@ -3,7 +3,7 @@ const connection = require('../connection.js');
 
 function insertUser(data) {
     var con = connection.getConnection();
-    var user = { username: data.userName, email: data.email, password: md5(data.password), guid_token: data.guidToken, active: 0 }    
+    var user = { username: data.userName, email: data.email, password: md5(data.password), guid_token: data.guidToken, active: 1 }    
     
     return con.query('INSERT INTO users SET ?', user);
 }

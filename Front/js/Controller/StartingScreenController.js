@@ -218,7 +218,7 @@ StartingScreenController.prototype = {
                 alert(XMLHttpRequest.responseText);
             },
             success: function (data) {
-                alert('Veuillez consulter vos emails pour valider votre compte.')
+                alert('Veuillez vous identifier après avoir rechargé la page.')
                 $('#' + idModal).modal('hide');
             }
         });
